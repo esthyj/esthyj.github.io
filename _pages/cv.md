@@ -11,35 +11,29 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+* B.S. in Data Science, Hanyang University, 2025
+* High School Diploma, Incheon Haneul Academy, 2019
 
 Work experience
 ======
-* Spring 2024: Academic Pages Collaborator
-  * GitHub University
+* Data Science Intern (2024.03 ~ 2024.06)
+  * @ Samsung Electronics - MES Team
   * Duties includes: Updates and improvements to template
   * Supervisor: The Users
 
-* Fall 2015: Research Assistant
-  * GitHub University
+* AI Intern (2025.01 ~ 2025.02)
+  * @ Hanwha General Insurance - Digital AI Center
   * Duties included: Merging pull requests
   * Supervisor: Professor Hub
 
-* Summer 2015: Research Assistant
-  * GitHub University
+* AI Intern (2025.03 ~ 2025.05)
+  * @ Samsung Electronices - Data Intelligence Team
   * Duties included: Tagging issues
   * Supervisor: Professor Git
   
 Skills
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* Python
 
 Publications
 ======
