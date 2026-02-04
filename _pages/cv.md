@@ -18,24 +18,26 @@ Work experience
 ======
 * Data Science Intern (2024.03 ~ 2024.06)
   * @ Samsung Electronics - MES Team
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
+  * Algorithm-based Optimal Parking Location Selection for AMR Robots
+  * OHT Robot Traffic Prediction
 
 * AI Intern (2025.01 ~ 2025.02)
   * @ Hanwha General Insurance - Digital AI Center
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+  * Built RAG-based Chatbot
 
 * AI Intern (2025.03 ~ 2025.05)
   * @ Samsung Electronices - Data Intelligence Team
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+  * Implemented Query Rewrite Module for In-house Generative AI Service
+
+* AI Engineer (2025.06)
+  * @ Hanwha General Insurance - AI Research Center
+  * Automated AI Weekly Report Generation
   
 Skills
 ======
-* Python
+* Python, SQL
 
-Publications
+<!-- Publications
 ======
   <ul>{% for post in site.publications reversed %}
     {% include archive-single-cv.html %}
@@ -55,4 +57,4 @@ Teaching
   
 Service and leadership
 ======
-* Currently signed in to 43 different slack teams
+* Currently signed in to 43 different slack teams -->
