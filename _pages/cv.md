@@ -49,9 +49,9 @@ Talks
     {% include archive-single-talk-cv.html  %}
   {% endfor %}</ul>
   
-Teaching
+work
 ======
-  <ul>{% for post in site.teaching reversed %}
+  <ul>{% for post in site.work reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
