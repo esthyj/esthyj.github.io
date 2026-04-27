@@ -581,6 +581,80 @@
     html[lang="ko"] [data-lang-ko] { display: revert; }
     html[lang="en"] span[data-lang-en],
     html[lang="ko"] span[data-lang-ko] { display: inline; }
+
+    /* ------- Side TOC ------- */
+    .toc {
+      position: fixed;
+      top: 50%;
+      left: 24px;
+      transform: translateY(-50%);
+      z-index: 90;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      padding: 14px 8px;
+      box-shadow: 0 10px 30px -16px rgba(15, 58, 85, 0.25);
+      max-width: 200px;
+    }
+    .toc ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .toc a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-family: var(--font-text);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -0.12px;
+      color: var(--muted-80);
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease;
+      white-space: nowrap;
+    }
+    .toc a::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--beluga-shadow);
+      flex-shrink: 0;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+    .toc a:hover {
+      background: rgba(143, 208, 234, 0.18);
+      color: var(--action-blue);
+      text-decoration: none;
+    }
+    .toc a:hover::before { background: var(--sky-water); }
+    .toc a.active {
+      background: linear-gradient(90deg, rgba(31, 116, 168, 0.12), rgba(143, 208, 234, 0.08));
+      color: var(--action-blue);
+      font-weight: 600;
+    }
+    .toc a.active::before {
+      background: var(--action-blue);
+      transform: scale(1.4);
+      box-shadow: 0 0 0 3px rgba(31, 116, 168, 0.18);
+    }
+    .toc a:focus-visible {
+      outline: 2px solid var(--focus-blue);
+      outline-offset: 2px;
+    }
+
+    /* Hide TOC when content area would overlap (narrower viewports) */
+    @media (max-width: 1180px) {
+      .toc { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -654,8 +728,35 @@
     </div>
   </nav>
 
+  <!-- Side Table of Contents -->
+  <aside class="toc" aria-label="Table of contents">
+    <ol>
+      <li><a href="#hero" data-toc>
+        <span data-lang-ko>홈</span><span data-lang-en>Home</span>
+      </a></li>
+      <li><a href="#education" data-toc>
+        <span data-lang-ko>학력</span><span data-lang-en>Education</span>
+      </a></li>
+      <li><a href="#experience" data-toc>
+        <span data-lang-ko>경력</span><span data-lang-en>Experience</span>
+      </a></li>
+      <li><a href="#awards" data-toc>
+        <span data-lang-ko>수상</span><span data-lang-en>Awards</span>
+      </a></li>
+      <li><a href="#publications" data-toc>
+        <span data-lang-ko>논문</span><span data-lang-en>Publications</span>
+      </a></li>
+      <li><a href="#certifications" data-toc>
+        <span data-lang-ko>자격증</span><span data-lang-en>Certifications</span>
+      </a></li>
+      <li><a href="#contact" data-toc>
+        <span data-lang-ko>연락처</span><span data-lang-en>Contact</span>
+      </a></li>
+    </ol>
+  </aside>
+
   <!-- HERO -->
-  <section class="tile tile-light">
+  <section class="tile tile-light" id="hero">
     <div class="bubbles" aria-hidden="true">
       <span class="bubble" style="left:8%; width:14px; height:14px; animation-duration:14s; animation-delay:0s;"></span>
       <span class="bubble" style="left:18%; width:8px; height:8px; animation-duration:11s; animation-delay:3s;"></span>
@@ -697,7 +798,7 @@
   </div>
 
   <!-- EDUCATION -->
-  <section class="tile tile-parchment">
+  <section class="tile tile-parchment" id="education">
     <div class="tile-inner">
       <p class="eyebrow">
         <span data-lang-ko>학력</span>
@@ -862,7 +963,7 @@
   </div>
 
   <!-- AWARDS (dark tile) -->
-  <section class="tile tile-dark">
+  <section class="tile tile-dark" id="awards">
     <div class="tile-inner">
       <p class="eyebrow">
         <span data-lang-ko>수상</span>
@@ -888,7 +989,7 @@
   </div>
 
   <!-- PUBLICATION -->
-  <section class="tile tile-parchment">
+  <section class="tile tile-parchment" id="publications">
     <div class="tile-inner">
       <p class="eyebrow">
         <span data-lang-ko>논문</span>
@@ -915,7 +1016,7 @@
   </div>
 
   <!-- CERTIFICATIONS -->
-  <section class="tile tile-light">
+  <section class="tile tile-light" id="certifications">
     <div class="tile-inner">
       <p class="eyebrow">
         <span data-lang-ko>자격증</span>
@@ -1031,6 +1132,41 @@
         initial = nav.startsWith('ko') ? 'ko' : 'en';
       }
       setLang(initial);
+    })();
+
+    // Active section highlighting for the side TOC
+    (function () {
+      const links = document.querySelectorAll('.toc a[data-toc]');
+      if (!links.length) return;
+
+      const linkById = new Map();
+      const sections = [];
+      links.forEach(link => {
+        const id = link.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) {
+          linkById.set(id, link);
+          sections.push(el);
+        }
+      });
+
+      function setActive(id) {
+        linkById.forEach((link, key) => {
+          link.classList.toggle('active', key === id);
+        });
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length) setActive(visible[0].target.id);
+      }, {
+        rootMargin: '-40% 0px -50% 0px',
+        threshold: [0, 0.25, 0.5, 0.75, 1]
+      });
+
+      sections.forEach(s => observer.observe(s));
     })();
   </script>
 </body>
