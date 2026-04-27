@@ -1,1173 +1,650 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yeeun Jeon — esthyj · Beluga</title>
-  <style>
-    :root {
-      /* Beluga / Arctic Ocean palette */
-      --ice-white: #f4f9fc;
-      --frost: #e6f0f6;
-      --foam: #d3e6ef;
-      --beluga-skin: #cdd8de;
-      --beluga-shadow: #9ab2bf;
-      --sky-water: #5ea9cf;
-      --action-blue: #1f74a8;
-      --focus-blue: #2a8fc7;
-      --arctic-glow: #8fd0ea;
-      --deep-ocean: #0f3a55;
-      --midnight-sea: #082336;
-      --abyss: #051722;
-      --ink: #0a2434;
-      --paper: var(--ice-white);
-      --parchment: var(--frost);
-      --hairline: rgba(15, 58, 85, 0.12);
-      --muted-80: rgba(10, 36, 52, 0.82);
-      --muted-48: rgba(10, 36, 52, 0.52);
-      --shadow-product: 0 18px 40px -18px rgba(15, 58, 85, 0.35);
-      --font-display: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-      --font-text: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yeeun Jeon — AI Engineer Portfolio</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+<style>
+  :root{
+    --bg:#ffffff;
+    --title:#0066cc;
+    --sub:#BFBFBF;
+    --text:#1d1d1f;
+    --line:rgba(29,29,31,.08);
+    --card:#fafafa;
+    --shadow:0 10px 40px rgba(0,102,204,.08);
+  }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
 
-    html { scroll-behavior: smooth; }
+  /* Floating background blobs */
+  .blob{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.35;
+    z-index:-1;
+    pointer-events:none;
+  }
+  .blob-1{width:520px;height:520px;background:#0066cc;top:-180px;right:-160px;animation:float1 18s ease-in-out infinite}
+  .blob-2{width:420px;height:420px;background:#7ab8ff;bottom:-160px;left:-120px;animation:float2 22s ease-in-out infinite}
+  .blob-3{width:300px;height:300px;background:#cce4ff;top:40%;left:50%;animation:float3 26s ease-in-out infinite}
+  @keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,80px) scale(1.1)}}
+  @keyframes float2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,-60px) scale(1.15)}}
+  @keyframes float3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-30%,-70%) scale(1.2)}}
 
-    body {
-      font-family: var(--font-text);
-      font-size: 17px;
-      font-weight: 400;
-      line-height: 1.47;
-      letter-spacing: -0.374px;
-      color: var(--ink);
-      background: var(--paper);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+  /* Navigation */
+  nav{
+    position:fixed;top:0;left:0;right:0;
+    z-index:100;
+    backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    background:rgba(255,255,255,.7);
+    border-bottom:1px solid var(--line);
+    transition:transform .4s ease;
+  }
+  nav.hidden{transform:translateY(-100%)}
+  .nav-inner{
+    max-width:1100px;margin:0 auto;
+    padding:14px 32px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .logo{font-weight:800;font-size:18px;color:var(--title);letter-spacing:-.5px}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{
+    color:var(--text);text-decoration:none;font-size:14px;font-weight:500;
+    position:relative;transition:color .2s;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;left:0;bottom:-6px;
+    width:0;height:2px;background:var(--title);
+    transition:width .3s ease;
+  }
+  .nav-links a:hover{color:var(--title)}
+  .nav-links a:hover::after{width:100%}
 
-    a { color: var(--action-blue); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+  /* Scroll progress bar */
+  .progress{
+    position:fixed;top:0;left:0;height:3px;
+    background:linear-gradient(90deg,#0066cc,#7ab8ff);
+    z-index:101;width:0%;
+    transition:width .1s linear;
+  }
 
-    /* ------- Global Nav ------- */
-    .global-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: linear-gradient(90deg, var(--abyss), var(--midnight-sea) 50%, var(--deep-ocean));
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      border-bottom: 1px solid rgba(143, 208, 234, 0.15);
-    }
-    .global-nav .brand {
-      color: #fff;
-      font-family: var(--font-text);
-      font-size: 13px;
-      letter-spacing: -0.12px;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .brand-mark {
-      width: 22px;
-      height: 14px;
-      flex-shrink: 0;
-    }
-    .lang-switch {
-      display: flex;
-      gap: 0;
-      background: rgba(143, 208, 234, 0.10);
-      border-radius: 8px;
-      padding: 2px;
-    }
-    .lang-switch button {
-      background: transparent;
-      color: #fff;
-      border: none;
-      font-family: var(--font-text);
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: -0.12px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.15s ease, transform 0.1s ease;
-    }
-    .lang-switch button:hover { background: rgba(143, 208, 234, 0.15); }
-    .lang-switch button.active { background: rgba(143, 208, 234, 0.28); }
-    .lang-switch button:active { transform: scale(0.95); }
-    .lang-switch button:focus-visible { outline: 2px solid var(--arctic-glow); outline-offset: 2px; }
+  /* Hero */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;padding:120px 24px 80px;
+    position:relative;
+  }
+  .hero-sub{
+    color:var(--sub);font-size:14px;font-weight:600;
+    letter-spacing:4px;text-transform:uppercase;
+    margin-bottom:20px;opacity:0;animation:fadeUp .8s .2s forwards;
+  }
+  .hero-title{
+    font-size:clamp(48px, 8vw, 96px);
+    font-weight:800;letter-spacing:-2.5px;line-height:1.05;
+    margin-bottom:24px;color:var(--text);
+    opacity:0;animation:fadeUp .9s .4s forwards;
+  }
+  .hero-title .accent{
+    background:linear-gradient(120deg,#0066cc 0%,#3a8eff 50%,#0066cc 100%);
+    background-size:200% auto;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;
+    animation:shine 4s linear infinite;
+  }
+  @keyframes shine{to{background-position:200% center}}
+  .hero-desc{
+    font-size:20px;color:#555;max-width:600px;
+    opacity:0;animation:fadeUp 1s .6s forwards;
+  }
+  .typed{display:inline-block;color:var(--title);font-weight:700;min-width:180px;text-align:left}
+  .typed::after{content:'|';margin-left:2px;animation:blink 1s step-end infinite}
+  @keyframes blink{50%{opacity:0}}
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px)}
+    to{opacity:1;transform:translateY(0)}
+  }
 
-    /* ------- Tile base ------- */
-    .tile {
-      width: 100%;
-      padding: 96px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      position: relative;
-    }
-    .tile-light {
-      background: linear-gradient(180deg, #ffffff 0%, var(--ice-white) 100%);
-      color: var(--ink);
-    }
-    .tile-parchment {
-      background: linear-gradient(180deg, var(--frost) 0%, var(--foam) 100%);
-      color: var(--ink);
-    }
-    .tile-dark {
-      background: linear-gradient(180deg, var(--deep-ocean) 0%, var(--midnight-sea) 100%);
-      color: #fff;
-    }
-    .tile-dark-2 {
-      background: linear-gradient(180deg, var(--midnight-sea) 0%, var(--abyss) 100%);
-      color: #fff;
-    }
-    .tile-dark-3 {
-      background: radial-gradient(ellipse at top, var(--deep-ocean) 0%, var(--abyss) 80%);
-      color: #fff;
-    }
+  .scroll-hint{
+    position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+    color:var(--sub);font-size:12px;letter-spacing:2px;
+    opacity:0;animation:fadeUp 1s 1.2s forwards;
+  }
+  .scroll-hint .dot{
+    width:6px;height:6px;border-radius:50%;background:var(--title);
+    margin:8px auto 0;animation:bounce 1.6s infinite;
+  }
+  @keyframes bounce{
+    0%,100%{transform:translateY(0);opacity:1}
+    50%{transform:translateY(10px);opacity:.4}
+  }
 
-    .tile-inner {
-      width: 100%;
-      max-width: 980px;
-      position: relative;
-      z-index: 2;
-    }
+  /* Sections */
+  section{padding:120px 24px;max-width:1100px;margin:0 auto}
+  .section-tag{
+    color:var(--sub);font-size:13px;font-weight:600;
+    letter-spacing:3px;text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .section-title{
+    font-size:clamp(32px,5vw,56px);
+    font-weight:800;letter-spacing:-1.5px;line-height:1.1;
+    color:var(--title);margin-bottom:48px;
+  }
 
-    /* ------- Wave dividers ------- */
-    .wave-divider {
-      width: 100%;
-      display: block;
-      line-height: 0;
-      margin: 0;
-    }
-    .wave-divider svg {
-      width: 100%;
-      height: 64px;
-      display: block;
-    }
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease, transform .8s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
 
-    /* ------- Typography ------- */
-    .eyebrow {
-      font-family: var(--font-display);
-      font-size: 21px;
-      font-weight: 600;
-      line-height: 1.19;
-      letter-spacing: 0.231px;
-      color: var(--action-blue);
-      margin-bottom: 12px;
-    }
-    .tile-dark .eyebrow,
-    .tile-dark-2 .eyebrow,
-    .tile-dark-3 .eyebrow { color: var(--arctic-glow); }
+  /* About */
+  .about-grid{
+    display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:center;
+  }
+  .about-img{
+    position:relative;border-radius:28px;overflow:hidden;
+    box-shadow:var(--shadow);aspect-ratio:1/1;
+  }
+  .about-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+  .about-img:hover img{transform:scale(1.05)}
+  .about-text{font-size:22px;line-height:1.7;color:var(--text)}
+  .about-text strong{color:var(--title);font-weight:700}
 
-    h1.hero {
-      font-family: var(--font-display);
-      font-size: 56px;
-      font-weight: 600;
-      line-height: 1.07;
-      letter-spacing: -0.28px;
-      margin-bottom: 16px;
-      background: linear-gradient(180deg, var(--deep-ocean), var(--action-blue));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    h2.tile-headline {
-      font-family: var(--font-display);
-      font-size: 40px;
-      font-weight: 600;
-      line-height: 1.10;
-      letter-spacing: -0.28px;
-      margin-bottom: 20px;
-    }
-    h3.section-title {
-      font-family: var(--font-display);
-      font-size: 28px;
-      font-weight: 600;
-      line-height: 1.14;
-      letter-spacing: 0.196px;
-      margin-bottom: 8px;
-    }
-    .lead {
-      font-family: var(--font-display);
-      font-size: 28px;
-      font-weight: 400;
-      line-height: 1.30;
-      letter-spacing: 0.196px;
-      margin-bottom: 28px;
-    }
-    .meta {
-      font-family: var(--font-text);
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.29;
-      letter-spacing: -0.224px;
-      color: var(--muted-48);
-      margin-bottom: 16px;
-    }
-    .tile-dark .meta,
-    .tile-dark-2 .meta,
-    .tile-dark-3 .meta { color: rgba(255,255,255,0.55); }
+  /* Stats */
+  .stats{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:24px;margin-top:48px;
+  }
+  .stat{
+    background:var(--card);border-radius:20px;padding:28px;
+    border:1px solid var(--line);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .stat:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+  .stat-num{
+    font-size:42px;font-weight:800;color:var(--title);
+    letter-spacing:-1px;line-height:1;
+  }
+  .stat-label{color:var(--sub);font-size:13px;margin-top:8px;font-weight:600;letter-spacing:1px}
 
-    /* ------- CTA pills ------- */
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      justify-content: center;
-      margin-top: 8px;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-text);
-      font-size: 17px;
-      font-weight: 500;
-      line-height: 1.0;
-      letter-spacing: -0.374px;
-      padding: 12px 22px;
-      border-radius: 980px;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: transform 0.1s ease, background 0.15s ease, box-shadow 0.2s ease;
-      min-height: 44px;
-    }
-    .pill-primary {
-      background: linear-gradient(180deg, var(--sky-water), var(--action-blue));
-      color: #fff;
-      box-shadow: 0 6px 16px -6px rgba(31, 116, 168, 0.6);
-    }
-    .pill-primary:hover {
-      background: linear-gradient(180deg, #6fb6d8, #2384b8);
-      text-decoration: none;
-      box-shadow: 0 10px 24px -8px rgba(31, 116, 168, 0.7);
-    }
-    .pill-ghost {
-      background: transparent;
-      color: var(--action-blue);
-      border-color: var(--action-blue);
-    }
-    .pill-ghost:hover { background: rgba(31, 116, 168, 0.08); text-decoration: none; }
-    .pill:active { transform: scale(0.95); }
-    .pill:focus-visible { outline: 2px solid var(--focus-blue); outline-offset: 2px; }
-    .tile-dark .pill-ghost,
-    .tile-dark-2 .pill-ghost,
-    .tile-dark-3 .pill-ghost {
-      color: var(--arctic-glow);
-      border-color: var(--arctic-glow);
-    }
-    .tile-dark .pill-ghost:hover,
-    .tile-dark-2 .pill-ghost:hover,
-    .tile-dark-3 .pill-ghost:hover { background: rgba(143, 208, 234, 0.12); }
+  /* Education */
+  .edu-card{
+    display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:center;
+    background:var(--card);border-radius:28px;padding:48px;
+    border:1px solid var(--line);
+  }
+  .edu-card h3{font-size:32px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-.8px}
+  .edu-card .meta{color:var(--sub);font-size:14px;font-weight:600;letter-spacing:1px;margin-bottom:20px}
+  .edu-card p{color:#555;font-size:15px;line-height:1.7}
+  .edu-img{border-radius:20px;overflow:hidden;aspect-ratio:4/3;box-shadow:var(--shadow)}
+  .edu-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+  .edu-img:hover img{transform:scale(1.06)}
 
-    /* ------- Beluga hero illustration ------- */
-    .beluga-stage {
-      position: relative;
-      width: 220px;
-      height: 220px;
-      margin: 0 auto 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .beluga-pool {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 35%, #ffffff 0%, var(--foam) 55%, var(--beluga-skin) 100%);
-      box-shadow: var(--shadow-product), inset 0 -20px 40px rgba(15, 58, 85, 0.12);
-    }
-    .beluga-svg {
-      position: relative;
-      width: 170px;
-      height: 170px;
-      animation: belugaFloat 6s ease-in-out infinite;
-      transform-origin: center;
-    }
-    @keyframes belugaFloat {
-      0%, 100% { transform: translateY(0) rotate(-2deg); }
-      50% { transform: translateY(-6px) rotate(2deg); }
-    }
-    .hero-name-tag {
-      display: inline-block;
-      font-family: var(--font-text);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--action-blue);
-      background: rgba(143, 208, 234, 0.18);
-      padding: 6px 14px;
-      border-radius: 999px;
-      margin-bottom: 16px;
-    }
+  /* Experience timeline */
+  .timeline{position:relative;padding-left:0}
+  .exp{
+    display:grid;grid-template-columns:1fr 1.2fr;gap:48px;
+    margin-bottom:80px;align-items:center;
+  }
+  .exp.reverse{grid-template-columns:1.2fr 1fr}
+  .exp-img{
+    border-radius:24px;overflow:hidden;
+    box-shadow:var(--shadow);aspect-ratio:4/3;
+    position:relative;
+  }
+  .exp-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+  .exp-img:hover img{transform:scale(1.06)}
+  .exp-img::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(0,102,204,0) 0%,rgba(0,102,204,.1) 100%);
+    pointer-events:none;
+  }
+  .exp-content .role{
+    color:var(--title);font-size:13px;font-weight:700;
+    letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;
+  }
+  .exp-content h3{font-size:28px;font-weight:800;letter-spacing:-.8px;margin-bottom:6px;color:var(--text)}
+  .exp-content .date{color:var(--sub);font-size:13px;font-weight:600;margin-bottom:20px;letter-spacing:1px}
+  .exp-content ul{list-style:none;padding:0}
+  .exp-content li{
+    padding:10px 0;color:#444;font-size:15px;line-height:1.7;
+    border-bottom:1px solid var(--line);
+    display:flex;gap:12px;
+  }
+  .exp-content li::before{
+    content:'';display:block;width:6px;height:6px;border-radius:50%;
+    background:var(--title);margin-top:10px;flex-shrink:0;
+  }
+  .exp-content li:last-child{border-bottom:none}
+  .highlight{
+    margin-top:20px;padding:14px 18px;
+    background:linear-gradient(135deg,rgba(0,102,204,.08),rgba(0,102,204,.02));
+    border-left:3px solid var(--title);border-radius:8px;
+    font-size:14px;color:var(--text);font-weight:600;
+  }
 
-    /* ------- Bubbles ------- */
-    .bubbles {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 1;
-    }
-    .bubble {
-      position: absolute;
-      bottom: -40px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(143, 208, 234, 0.35) 70%, rgba(143, 208, 234, 0));
-      animation: bubbleRise linear infinite;
-      opacity: 0.55;
-    }
-    @keyframes bubbleRise {
-      0% { transform: translateY(0) translateX(0); opacity: 0; }
-      10% { opacity: 0.6; }
-      90% { opacity: 0.4; }
-      100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
-    }
+  /* RAG accuracy bar */
+  .acc-bar{margin-top:20px;background:var(--card);padding:18px;border-radius:14px;border:1px solid var(--line)}
+  .acc-row{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
+  .acc-track{height:8px;background:#e8e8e8;border-radius:4px;overflow:hidden;margin-bottom:14px}
+  .acc-fill{height:100%;background:linear-gradient(90deg,#7ab8ff,#0066cc);border-radius:4px;width:0;transition:width 1.5s ease}
 
-    /* ------- Card grids ------- */
-    .card-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      margin-top: 40px;
-      text-align: left;
-    }
-    .util-card {
-      background: rgba(255,255,255,0.92);
-      border: 1px solid var(--hairline);
-      border-radius: 18px;
-      padding: 32px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 14px -8px rgba(15, 58, 85, 0.18);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .util-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px -10px rgba(15, 58, 85, 0.22);
-    }
-    .tile-dark .util-card,
-    .tile-dark-2 .util-card,
-    .tile-dark-3 .util-card {
-      background: rgba(143, 208, 234, 0.06);
-      border-color: rgba(143, 208, 234, 0.16);
-      backdrop-filter: blur(8px);
-    }
-    .util-card .role {
-      font-family: var(--font-display);
-      font-size: 24px;
-      font-weight: 600;
-      line-height: 1.2;
-      letter-spacing: -0.28px;
-      margin-bottom: 4px;
-    }
-    .util-card .org {
-      font-family: var(--font-text);
-      font-size: 17px;
-      font-weight: 600;
-      letter-spacing: -0.374px;
-      color: var(--muted-80);
-      margin-bottom: 4px;
-    }
-    .tile-dark .util-card .org,
-    .tile-dark-2 .util-card .org,
-    .tile-dark-3 .util-card .org { color: rgba(255,255,255,0.78); }
-    .util-card .period {
-      font-family: var(--font-text);
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.43;
-      letter-spacing: -0.224px;
-      color: var(--muted-48);
-      margin-bottom: 16px;
-    }
-    .tile-dark .util-card .period,
-    .tile-dark-2 .util-card .period,
-    .tile-dark-3 .util-card .period { color: rgba(255,255,255,0.5); }
-    .util-card ul {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .util-card ul li {
-      font-family: var(--font-text);
-      font-size: 17px;
-      font-weight: 400;
-      line-height: 1.47;
-      letter-spacing: -0.374px;
-      padding-left: 22px;
-      position: relative;
-    }
-    .util-card ul li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 9px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #ffffff, var(--sky-water) 70%);
-      box-shadow: 0 0 0 1px rgba(31,116,168,0.15);
-    }
-    .tile-dark .util-card ul li::before,
-    .tile-dark-2 .util-card ul li::before,
-    .tile-dark-3 .util-card ul li::before {
-      background: radial-gradient(circle at 30% 30%, #ffffff, var(--arctic-glow) 70%);
-    }
-    .util-card ul li.sub {
-      padding-left: 40px;
-      font-size: 16px;
-      color: var(--muted-80);
-    }
-    .util-card ul li.sub::before {
-      left: 22px;
-      width: 6px;
-      height: 6px;
-      top: 11px;
-      background: radial-gradient(circle at 30% 30%, #ffffff, var(--beluga-shadow) 70%);
-    }
-    .tile-dark .util-card ul li.sub,
-    .tile-dark-2 .util-card ul li.sub,
-    .tile-dark-3 .util-card ul li.sub { color: rgba(255,255,255,0.72); }
-    .tile-dark .util-card ul li.sub::before,
-    .tile-dark-2 .util-card ul li.sub::before,
-    .tile-dark-3 .util-card ul li.sub::before {
-      background: radial-gradient(circle at 30% 30%, #ffffff, rgba(143, 208, 234, 0.6) 70%);
-    }
-    .highlight-note {
-      margin-top: 16px;
-      padding: 12px 16px;
-      background: linear-gradient(90deg, rgba(143, 208, 234, 0.22), rgba(94, 169, 207, 0.12));
-      border-left: 3px solid var(--sky-water);
-      border-radius: 11px;
-      font-family: var(--font-text);
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: -0.224px;
-      color: var(--action-blue);
-    }
-    .tile-dark .highlight-note,
-    .tile-dark-2 .highlight-note,
-    .tile-dark-3 .highlight-note {
-      background: linear-gradient(90deg, rgba(143, 208, 234, 0.18), rgba(143, 208, 234, 0.06));
-      border-left-color: var(--arctic-glow);
-      color: var(--arctic-glow);
-    }
+  /* Publications */
+  .pub-card{
+    background:var(--card);border-radius:24px;padding:36px;
+    border:1px solid var(--line);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .pub-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .pub-card .meta{color:var(--sub);font-size:13px;font-weight:600;letter-spacing:1px;margin-bottom:8px}
+  .pub-card h3{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-.4px;line-height:1.4}
+  .pub-card a{color:var(--title);font-size:14px;font-weight:600;text-decoration:none}
+  .pub-card a:hover{text-decoration:underline}
+  .pub-card p{margin-top:16px;color:#444;font-size:15px;line-height:1.7}
+  .pub-card p strong{color:var(--title)}
 
-    /* ------- 2-column grid for short cards ------- */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-top: 40px;
-      text-align: left;
-    }
-    .grid-2 .util-card { padding: 24px; }
-    .grid-2 .util-card .role { font-size: 21px; }
+  /* Awards & Certs */
+  .two-col{display:grid;grid-template-columns:1fr 1.4fr;gap:32px}
+  .award-card, .cert-card{
+    background:var(--card);border-radius:24px;padding:32px;
+    border:1px solid var(--line);
+  }
+  .award-card{
+    background:linear-gradient(135deg,#0066cc,#3a8eff);
+    color:#fff;border:none;
+    display:flex;flex-direction:column;justify-content:center;
+    transition:transform .3s ease;
+  }
+  .award-card:hover{transform:translateY(-6px) rotate(-1deg)}
+  .award-card .label{font-size:12px;font-weight:700;letter-spacing:2px;opacity:.85;margin-bottom:12px}
+  .award-card h3{font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3;margin-bottom:8px}
+  .award-card .date{font-size:13px;opacity:.85}
 
-    /* ------- Contact tile ------- */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-top: 40px;
-      max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .contact-grid a {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 20px 24px;
-      background: rgba(143, 208, 234, 0.06);
-      border: 1px solid rgba(143, 208, 234, 0.16);
-      border-radius: 18px;
-      text-decoration: none;
-      transition: background 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
-      text-align: left;
-    }
-    .contact-grid a:hover {
-      background: rgba(143, 208, 234, 0.12);
-      border-color: rgba(143, 208, 234, 0.32);
-      text-decoration: none;
-      transform: translateY(-1px);
-    }
-    .contact-grid .label {
-      font-family: var(--font-text);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 6px;
-    }
-    .contact-grid .value {
-      font-family: var(--font-text);
-      font-size: 17px;
-      font-weight: 400;
-      letter-spacing: -0.374px;
-      color: var(--arctic-glow);
-      word-break: break-all;
-    }
+  .cert-table{width:100%;border-collapse:collapse}
+  .cert-table th, .cert-table td{
+    text-align:left;padding:14px 8px;font-size:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .cert-table th{color:var(--sub);font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:12px}
+  .cert-table td:first-child{font-weight:700;color:var(--text)}
+  .cert-table td:nth-child(2){color:var(--title);font-weight:600}
+  .cert-table tr:last-child td{border-bottom:none}
 
-    /* ------- Footer ------- */
-    footer.site-footer {
-      background: linear-gradient(180deg, var(--foam), var(--frost));
-      padding: 28px 24px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    footer.site-footer p {
-      font-family: var(--font-text);
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 1.30;
-      letter-spacing: -0.12px;
-      color: var(--muted-48);
-    }
-    .footer-mark {
-      width: 28px;
-      height: 18px;
-      opacity: 0.6;
-    }
+  /* Contact */
+  .contact{
+    text-align:center;padding:120px 24px;
+    background:linear-gradient(180deg,transparent 0%,#f4f9ff 100%);
+  }
+  .contact h2{font-size:clamp(40px,6vw,72px);font-weight:800;letter-spacing:-2px;color:var(--text);margin-bottom:16px}
+  .contact h2 .accent{color:var(--title)}
+  .contact p{color:var(--sub);font-size:16px;margin-bottom:48px}
+  .contact-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px;max-width:900px;margin:0 auto;
+  }
+  .contact-card{
+    background:#fff;border:1px solid var(--line);
+    padding:24px;border-radius:20px;
+    text-decoration:none;color:var(--text);
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s;
+    display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+  }
+  .contact-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--shadow);
+    border-color:var(--title);
+  }
+  .contact-card .label{font-size:12px;color:var(--sub);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
+  .contact-card .value{font-size:16px;font-weight:600}
 
-    /* ------- Responsive ------- */
-    @media (max-width: 833px) {
-      .tile { padding: 72px 20px; }
-      h1.hero { font-size: 40px; letter-spacing: -0.2px; }
-      h2.tile-headline { font-size: 32px; }
-      h3.section-title { font-size: 24px; }
-      .lead { font-size: 21px; }
-      .grid-2 { grid-template-columns: 1fr; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .beluga-stage { width: 180px; height: 180px; }
-      .beluga-svg { width: 140px; height: 140px; }
-      .wave-divider svg { height: 44px; }
-    }
-    @media (max-width: 480px) {
-      .tile { padding: 56px 18px; }
-      h1.hero { font-size: 34px; }
-      h2.tile-headline { font-size: 28px; }
-      .util-card { padding: 24px; }
-      .global-nav { padding: 0 14px; }
-    }
+  footer{
+    text-align:center;padding:40px 24px;
+    color:var(--sub);font-size:13px;
+    border-top:1px solid var(--line);
+  }
 
-    @media (prefers-reduced-motion: reduce) {
-      .beluga-svg { animation: none; }
-      .bubble { animation: none; display: none; }
-    }
-
-    [data-lang-en], [data-lang-ko] { display: none; }
-    html[lang="en"] [data-lang-en] { display: revert; }
-    html[lang="ko"] [data-lang-ko] { display: revert; }
-    html[lang="en"] span[data-lang-en],
-    html[lang="ko"] span[data-lang-ko] { display: inline; }
-
-    /* ------- Side TOC ------- */
-    .toc {
-      position: fixed;
-      top: 50%;
-      left: 24px;
-      transform: translateY(-50%);
-      z-index: 90;
-      background: rgba(255, 255, 255, 0.78);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--hairline);
-      border-radius: 16px;
-      padding: 14px 8px;
-      box-shadow: 0 10px 30px -16px rgba(15, 58, 85, 0.25);
-      max-width: 200px;
-    }
-    .toc ol {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .toc a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-family: var(--font-text);
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: -0.12px;
-      color: var(--muted-80);
-      text-decoration: none;
-      transition: background 0.15s ease, color 0.15s ease;
-      white-space: nowrap;
-    }
-    .toc a::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--beluga-shadow);
-      flex-shrink: 0;
-      transition: background 0.15s ease, transform 0.15s ease;
-    }
-    .toc a:hover {
-      background: rgba(143, 208, 234, 0.18);
-      color: var(--action-blue);
-      text-decoration: none;
-    }
-    .toc a:hover::before { background: var(--sky-water); }
-    .toc a.active {
-      background: linear-gradient(90deg, rgba(31, 116, 168, 0.12), rgba(143, 208, 234, 0.08));
-      color: var(--action-blue);
-      font-weight: 600;
-    }
-    .toc a.active::before {
-      background: var(--action-blue);
-      transform: scale(1.4);
-      box-shadow: 0 0 0 3px rgba(31, 116, 168, 0.18);
-    }
-    .toc a:focus-visible {
-      outline: 2px solid var(--focus-blue);
-      outline-offset: 2px;
-    }
-
-    /* Hide TOC when content area would overlap (narrower viewports) */
-    @media (max-width: 1180px) {
-      .toc { display: none; }
-    }
-  </style>
+  /* Responsive */
+  @media (max-width: 860px){
+    .nav-links{display:none}
+    .about-grid, .edu-card, .exp, .exp.reverse, .two-col{grid-template-columns:1fr;gap:32px}
+    .stats{grid-template-columns:1fr}
+    section{padding:80px 20px}
+    .edu-card{padding:28px}
+  }
+</style>
 </head>
 <body>
 
-  <!-- Reusable beluga SVG symbol -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <linearGradient id="belugaBody" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#ffffff"/>
-        <stop offset="55%" stop-color="#e6eef3"/>
-        <stop offset="100%" stop-color="#b9cad4"/>
-      </linearGradient>
-      <radialGradient id="belugaMelon" cx="0.4" cy="0.35" r="0.7">
-        <stop offset="0%" stop-color="#ffffff"/>
-        <stop offset="100%" stop-color="#cdd8de"/>
-      </radialGradient>
-      <linearGradient id="belugaFin" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#cdd8de"/>
-        <stop offset="100%" stop-color="#9ab2bf"/>
-      </linearGradient>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
 
-      <symbol id="beluga" viewBox="0 0 220 160">
-        <!-- tail flukes -->
-        <path d="M198 80 C 215 60, 220 70, 215 88 C 220 100, 212 108, 198 92 Z"
-              fill="url(#belugaFin)"/>
-        <!-- body -->
-        <path d="M40 95
-                 C 45 60, 110 50, 165 65
-                 C 195 72, 205 82, 198 92
-                 C 205 100, 190 118, 160 122
-                 C 110 130, 55 128, 38 110 Z"
-              fill="url(#belugaBody)"/>
-        <!-- melon (forehead bump) -->
-        <path d="M40 95
-                 C 28 86, 28 70, 42 64
-                 C 58 58, 70 66, 70 78
-                 C 70 90, 60 100, 50 100 Z"
-              fill="url(#belugaMelon)"/>
-        <!-- dorsal ridge (belugas have a ridge, no fin) -->
-        <path d="M95 55 Q 115 48 140 55 Q 118 62 95 60 Z"
-              fill="#b9cad4" opacity="0.7"/>
-        <!-- pectoral fin -->
-        <path d="M95 110 Q 110 130 130 128 Q 115 118 100 108 Z"
-              fill="url(#belugaFin)" opacity="0.85"/>
-        <!-- mouth (smile) -->
-        <path d="M30 90 Q 38 96 50 92"
-              stroke="#0a2434" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.7"/>
-        <!-- eye -->
-        <circle cx="48" cy="80" r="2.2" fill="#0a2434"/>
-        <circle cx="48.7" cy="79.4" r="0.7" fill="#ffffff"/>
-        <!-- blowhole -->
-        <ellipse cx="58" cy="65" rx="2" ry="1" fill="#9ab2bf" opacity="0.7"/>
-      </symbol>
+<div class="progress" id="progress"></div>
 
-      <symbol id="beluga-mark" viewBox="0 0 60 36">
-        <path d="M6 22 C 8 10, 30 6, 46 12 C 56 14, 58 20, 54 24 C 56 28, 48 32, 36 32 C 18 33, 8 30, 4 25 Z"
-              fill="#ffffff"/>
-        <circle cx="14" cy="20" r="1.4" fill="#0a2434"/>
-      </symbol>
-    </defs>
-  </svg>
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="logo">Yeeun Jeon.</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 
-  <nav class="global-nav" aria-label="Global">
-    <span class="brand">
-      <svg class="brand-mark" aria-hidden="true"><use href="#beluga-mark"/></svg>
-      Yeeun Jeon · esthyj
-    </span>
-    <div class="lang-switch" role="group" aria-label="Language">
-      <button type="button" data-set-lang="ko" class="active" aria-pressed="true">한국어</button>
-      <button type="button" data-set-lang="en" aria-pressed="false">English</button>
+<header class="hero">
+  <div class="hero-sub">AI ENGINEER · DATA SCIENCE</div>
+  <h1 class="hero-title">
+    Building <span class="accent">intelligent</span><br />
+    systems that <span class="accent">reason</span>.
+  </h1>
+  <p class="hero-desc">
+    I research and build <span class="typed" id="typed"></span>
+  </p>
+  <div class="scroll-hint">
+    SCROLL
+    <div class="dot"></div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="reveal">
+    <div class="section-tag">01 — ABOUT</div>
+    <h2 class="section-title">데이터로<br />문제를 푸는 사람.</h2>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-img">
+      <img src="images/about.jpg" alt="About Yeeun Jeon" loading="lazy" />
     </div>
-  </nav>
-
-  <!-- Side Table of Contents -->
-  <aside class="toc" aria-label="Table of contents">
-    <ol>
-      <li><a href="#hero" data-toc>
-        <span data-lang-ko>홈</span><span data-lang-en>Home</span>
-      </a></li>
-      <li><a href="#education" data-toc>
-        <span data-lang-ko>학력</span><span data-lang-en>Education</span>
-      </a></li>
-      <li><a href="#experience" data-toc>
-        <span data-lang-ko>경력</span><span data-lang-en>Experience</span>
-      </a></li>
-      <li><a href="#awards" data-toc>
-        <span data-lang-ko>수상</span><span data-lang-en>Awards</span>
-      </a></li>
-      <li><a href="#publications" data-toc>
-        <span data-lang-ko>논문</span><span data-lang-en>Publications</span>
-      </a></li>
-      <li><a href="#certifications" data-toc>
-        <span data-lang-ko>자격증</span><span data-lang-en>Certifications</span>
-      </a></li>
-      <li><a href="#contact" data-toc>
-        <span data-lang-ko>연락처</span><span data-lang-en>Contact</span>
-      </a></li>
-    </ol>
-  </aside>
-
-  <!-- HERO -->
-  <section class="tile tile-light" id="hero">
-    <div class="bubbles" aria-hidden="true">
-      <span class="bubble" style="left:8%; width:14px; height:14px; animation-duration:14s; animation-delay:0s;"></span>
-      <span class="bubble" style="left:18%; width:8px; height:8px; animation-duration:11s; animation-delay:3s;"></span>
-      <span class="bubble" style="left:30%; width:18px; height:18px; animation-duration:17s; animation-delay:1s;"></span>
-      <span class="bubble" style="left:48%; width:10px; height:10px; animation-duration:13s; animation-delay:5s;"></span>
-      <span class="bubble" style="left:62%; width:16px; height:16px; animation-duration:15s; animation-delay:2s;"></span>
-      <span class="bubble" style="left:74%; width:9px; height:9px; animation-duration:12s; animation-delay:6s;"></span>
-      <span class="bubble" style="left:88%; width:13px; height:13px; animation-duration:18s; animation-delay:4s;"></span>
-    </div>
-    <div class="tile-inner">
-      <div class="beluga-stage" aria-hidden="true">
-        <div class="beluga-pool"></div>
-        <svg class="beluga-svg"><use href="#beluga"/></svg>
-      </div>
-      <span class="hero-name-tag">Beluga · 흰고래</span>
-      <h1 class="hero">Yeeun Jeon</h1>
-      <p class="lead">
-        <span data-lang-ko>데이터 사이언스 전공 · AI 엔지니어</span>
-        <span data-lang-en>B.S. in Data Science · AI Engineer</span>
+    <div>
+      <p class="about-text">
+        데이터사이언스 전공의 <strong>AI 엔지니어</strong>입니다.
+        <strong>RAG</strong>, <strong>LLM Agent</strong>, <strong>시계열 예측</strong>을
+        주력으로 연구하며, 실제 산업 도메인의 문제를 해결하는 일에 가장 큰 흥미를 느낍니다.
       </p>
-      <div class="cta-row">
-        <a class="pill pill-primary" href="#contact">
-          <span data-lang-ko>연락하기</span>
-          <span data-lang-en>Get in touch</span>
-        </a>
-        <a class="pill pill-ghost" href="#experience">
-          <span data-lang-ko>경력 보기</span>
-          <span data-lang-en>See experience</span>
-        </a>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num" data-count="4">0</div>
+          <div class="stat-label">YEARS OF STUDY</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-count="4">0</div>
+          <div class="stat-label">INDUSTRY ROLES</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-count="96" data-suffix="%">0</div>
+          <div class="stat-label">RAG ACCURACY</div>
+        </div>
       </div>
     </div>
-  </section>
-
-  <!-- wave: light -> parchment -->
-  <div class="wave-divider" aria-hidden="true">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
-      <path d="M0,32 C240,64 480,0 720,24 C960,48 1200,16 1440,40 L1440,64 L0,64 Z" fill="#e6f0f6"/>
-    </svg>
   </div>
+</section>
 
-  <!-- EDUCATION -->
-  <section class="tile tile-parchment" id="education">
-    <div class="tile-inner">
-      <p class="eyebrow">
-        <span data-lang-ko>학력</span>
-        <span data-lang-en>Education</span>
+<section id="education">
+  <div class="reveal">
+    <div class="section-tag">02 — EDUCATION</div>
+    <h2 class="section-title">Education.</h2>
+  </div>
+  <div class="edu-card reveal">
+    <div>
+      <h3>Hanyang University</h3>
+      <div class="meta">B.S. in Data Science · 2021.03 – 2025.08</div>
+      <p>
+        주요 과목: 확률통계론, 자료구조론, 머신러닝1·2, 알고리즘및문제해결기법,
+        지능형로보틱스, 인간컴퓨터상호작용, 인공지능, 데이터사이언스, 컴퓨터비전
       </p>
-      <h2 class="tile-headline">
-        <span data-lang-ko>한양대학교 데이터사이언스학과</span>
-        <span data-lang-en>Hanyang University, B.S. in Data Science</span>
-      </h2>
-      <p class="meta">2021.03 — 2025.08</p>
     </div>
-  </section>
+    <div class="edu-img">
+      <img src="images/university_data_science.JPG" alt="Hanyang Data Science" loading="lazy" />
+    </div>
+  </div>
+</section>
 
-  <!-- wave: parchment -> light -->
-  <div class="wave-divider" aria-hidden="true">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
-      <path d="M0,24 C240,0 480,56 720,32 C960,8 1200,48 1440,20 L1440,0 L0,0 Z" fill="#d3e6ef"/>
-      <path d="M0,40 C240,16 480,64 720,40 C960,16 1200,56 1440,32 L1440,64 L0,64 Z" fill="#ffffff"/>
-    </svg>
+<section id="experience">
+  <div class="reveal">
+    <div class="section-tag">03 — EXPERIENCE</div>
+    <h2 class="section-title">Experience.</h2>
   </div>
 
-  <!-- EXPERIENCE -->
-  <section class="tile tile-light" id="experience">
-    <div class="tile-inner">
-      <p class="eyebrow">
-        <span data-lang-ko>경력</span>
-        <span data-lang-en>Experience</span>
-      </p>
-      <h2 class="tile-headline">
-        <span data-lang-ko>현장에서 검증한 AI 역량</span>
-        <span data-lang-en>AI experience, validated in the field</span>
-      </h2>
+  <div class="timeline">
 
-      <div class="card-stack">
-        <!-- Samsung 2024 -->
-        <article class="util-card">
-          <div class="role">
-            <span data-lang-ko>삼성전자 장기현장실습</span>
-            <span data-lang-en>Samsung Electronics — Field Practice (Long-term)</span>
-          </div>
-          <div class="org">
-            <span data-lang-ko>혁신센터</span>
-            <span data-lang-en>Innovation Center</span>
-          </div>
-          <div class="period">2024.03.06 — 2024.06.21</div>
-          <ul>
-            <li>
-              <span data-lang-ko>AMR(Autonomous Mobile Robot) 최적 대기 위치 산정 및 분석</span>
-              <span data-lang-en>Optimal idle-position analysis for AMRs (Autonomous Mobile Robots)</span>
-            </li>
-            <li class="sub">
-              <span data-lang-ko>새로운 알고리즘을 제안 — 기존 대비 Unloading Transport Time 및 전체 반송 시간 감소</span>
-              <span data-lang-en>Proposed a new algorithm — reduced Unloading Transport Time and total transit time vs. baseline</span>
-            </li>
-            <li>
-              <span data-lang-ko>OHT(Overhead Hoist Transport) 데이터 분석 및 Section 통과 시간 예측</span>
-              <span data-lang-en>OHT (Overhead Hoist Transport) data analysis and section traversal-time prediction</span>
-            </li>
-            <li class="sub">
-              <span data-lang-ko>Temporal Fusion Transformer가 베이스라인 대비 우수한 MAE를 보여, 예측 모델 활용 가능성 제시</span>
-              <span data-lang-en>Temporal Fusion Transformer achieved superior MAE vs. baseline, demonstrating production viability</span>
-            </li>
-          </ul>
-          <div class="highlight-note">
-            <span data-lang-ko>★ 혁신센터 동기 8명 중 종합 평가 1위로 우수 인턴 선발</span>
-            <span data-lang-en>★ Selected as Top Intern (1st of 8) at the Innovation Center for overall performance</span>
-          </div>
-        </article>
-
-        <!-- Hanwha 2025 Intern -->
-        <article class="util-card">
-          <div class="role">
-            <span data-lang-ko>한화손해보험 인턴</span>
-            <span data-lang-en>Hanwha General Insurance — Intern</span>
-          </div>
-          <div class="org">
-            <span data-lang-ko>RAG 기반 챗봇 개발</span>
-            <span data-lang-en>RAG-based chatbot development</span>
-          </div>
-          <div class="period">2025.01.13 — 2025.02.28</div>
-          <ul>
-            <li>
-              <span data-lang-ko>보험설계사를 위한 RAG 기반 챗봇 개발</span>
-              <span data-lang-en>Built a RAG-based chatbot for insurance agents</span>
-            </li>
-            <li class="sub">
-              <span data-lang-ko>Document Parsing → Chunking → Retrieval → LLM Generation → RAG Evaluation 전 과정 직접 구현</span>
-              <span data-lang-en>End-to-end ownership: Document Parsing → Chunking → Retrieval → LLM Generation → RAG Evaluation</span>
-            </li>
-            <li class="sub">
-              <span data-lang-ko>Query Transformation, Ensemble Retrieval, Prompt Engineering 등 고도화 기법을 자동차 보험 문서에 최적화 적용</span>
-              <span data-lang-en>Applied Query Transformation, Ensemble Retrieval, and Prompt Engineering, tuned for auto-insurance documents</span>
-            </li>
-          </ul>
-          <div class="highlight-note">
-            <span data-lang-ko>RAG Accuracy 62.3% (Naïve) → 96.6% (Final Architecture)</span>
-            <span data-lang-en>RAG Accuracy 62.3% (Naïve) → 96.6% (Final Architecture)</span>
-          </div>
-        </article>
-
-        <!-- Samsung 2025 -->
-        <article class="util-card">
-          <div class="role">
-            <span data-lang-ko>삼성전자 장기현장실습</span>
-            <span data-lang-en>Samsung Electronics — Field Practice (Long-term)</span>
-          </div>
-          <div class="org">
-            <span data-lang-ko>DS Assistant · Query Rewrite 모듈</span>
-            <span data-lang-en>DS Assistant · Query Rewrite module</span>
-          </div>
-          <div class="period">2025.03.04 — 2025.05.30</div>
-          <ul>
-            <li>
-              <span data-lang-ko>DS Assistant 내 Query Rewrite 모듈 직접 구현</span>
-              <span data-lang-en>Implemented the Query Rewrite module inside DS Assistant</span>
-            </li>
-            <li class="sub">
-              <span data-lang-ko>과거 대화와 마지막 질문을 바탕으로 Retrieval Query(키워드형)와 Generation Query(자연문) 동시 생성 → 문서 리랭킹 → 답변 생성</span>
-              <span data-lang-en>Generated Retrieval (keyword) and Generation (natural-sentence) queries from prior turns, then re-ranked docs and produced answers</span>
-            </li>
-            <li class="sub">
-              <span data-lang-ko>모델 선정 기준: Time to First Token(TTFT)이 짧은 LLM 활용</span>
-              <span data-lang-en>Model selection criterion: low Time-to-First-Token (TTFT) LLMs</span>
-            </li>
-            <li class="sub">
-              <span data-lang-ko>사용자 데이터 기반 평가셋을 직접 구축, Retrieve/Rerank 문서 수를 변화시키며 Recall, nDCG 측정</span>
-              <span data-lang-en>Built an evaluation set from real user data; measured Recall and nDCG across varying retrieve/rerank counts</span>
-            </li>
-          </ul>
-        </article>
-
-        <!-- Hanwha AI Engineer -->
-        <article class="util-card">
-          <div class="role">
-            <span data-lang-ko>한화손해보험 AI Engineer</span>
-            <span data-lang-en>Hanwha General Insurance — AI Engineer</span>
-          </div>
-          <div class="org">
-            <span data-lang-ko>사내 리포트 작성 AI Agent 개발</span>
-            <span data-lang-en>Internal report-writing AI Agent</span>
-          </div>
-          <ul>
-            <li>
-              <span data-lang-ko>타 금융사 AI 사업 동향을 자동 수집·요약하는 AI Agent 개발</span>
-              <span data-lang-en>Built an AI agent that auto-collects and summarizes AI initiatives across peer financial firms</span>
-            </li>
-            <li class="sub">
-              <span data-lang-ko>최신 기사 검색 → LLM 기반 요약 → 보험사 관점 인사이트 도출 → 사내 리포트 템플릿에 자동 정리</span>
-              <span data-lang-en>Latest-article retrieval → LLM summarization → insurance-focused insights → auto-formatted into the internal report template</span>
-            </li>
-          </ul>
-        </article>
+    <div class="exp reveal">
+      <div class="exp-img">
+        <img src="images/samsung_amr.JPG" alt="Samsung AMR" loading="lazy" />
+      </div>
+      <div class="exp-content">
+        <div class="role">SAMSUNG ELECTRONICS · 혁신센터</div>
+        <h3>장기현장실습 — AMR & OHT 분석</h3>
+        <div class="date">2024.03.06 – 2024.06.21</div>
+        <ul>
+          <li>AMR(Autonomous Mobile Robot) 최적 대기 위치 산정 알고리즘 제안 → Unloading Transport Time 및 전체 반송 시간 감소</li>
+          <li>OHT(Overhead Hoist Transport) 데이터 분석 및 Section 통과 시간 예측 — Temporal Fusion Transformer가 베이스라인 대비 우수한 MAE 기록</li>
+        </ul>
+        <div class="highlight">★ 동기 8명 중 종합 평가 1위 — 우수 인턴 선발</div>
       </div>
     </div>
-  </section>
 
-  <!-- wave: light -> dark (deep dive) -->
-  <div class="wave-divider" aria-hidden="true">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
-      <path d="M0,32 C240,0 480,56 720,28 C960,4 1200,52 1440,24 L1440,64 L0,64 Z" fill="#0f3a55"/>
-    </svg>
-  </div>
-
-  <!-- AWARDS (dark tile) -->
-  <section class="tile tile-dark" id="awards">
-    <div class="tile-inner">
-      <p class="eyebrow">
-        <span data-lang-ko>수상</span>
-        <span data-lang-en>Awards</span>
-      </p>
-      <h2 class="tile-headline">
-        <span data-lang-ko>한국장학재단 대통령과학장학생</span>
-        <span data-lang-en>Presidential Science Scholarship</span>
-      </h2>
-      <p class="lead" style="opacity:0.85;">
-        <span data-lang-ko>Korea Student Aid Foundation · 2024.02.16</span>
-        <span data-lang-en>Korea Student Aid Foundation · Feb 16, 2024</span>
-      </p>
-    </div>
-  </section>
-
-  <!-- wave: dark -> parchment (rising) -->
-  <div class="wave-divider" aria-hidden="true">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
-      <path d="M0,24 C240,56 480,0 720,32 C960,60 1200,16 1440,40 L1440,0 L0,0 Z" fill="#082336"/>
-      <path d="M0,40 C240,12 480,60 720,40 C960,16 1200,56 1440,36 L1440,64 L0,64 Z" fill="#e6f0f6"/>
-    </svg>
-  </div>
-
-  <!-- PUBLICATION -->
-  <section class="tile tile-parchment" id="publications">
-    <div class="tile-inner">
-      <p class="eyebrow">
-        <span data-lang-ko>논문</span>
-        <span data-lang-en>Publications</span>
-      </p>
-      <h2 class="tile-headline" style="font-size:32px; line-height:1.2;">
-        Digital Health Sensor Data in Autism: Developing Few-Shot Learning Approaches for Traditional Machine Learning Classifiers
-      </h2>
-      <p class="meta">IEEE 2024</p>
-      <div class="cta-row">
-        <a class="pill pill-primary" href="https://ieeexplore.ieee.org/abstract/document/10780502/" target="_blank" rel="noopener">
-          <span data-lang-ko>IEEE에서 보기</span>
-          <span data-lang-en>Read on IEEE</span>
-        </a>
+    <div class="exp reverse reveal">
+      <div class="exp-content">
+        <div class="role">한화손해보험 · 디지털AI센터</div>
+        <h3>인턴 — RAG 챗봇 개발</h3>
+        <div class="date">2025.01.13 – 2025.02.28</div>
+        <ul>
+          <li>보험설계사를 위한 RAG 기반 챗봇 개발</li>
+          <li>Document Parsing → Chunking → Retrieval → LLM Generation → RAG Evaluation 전 과정 직접 구현</li>
+          <li>Query Transformation, Ensemble Retrieval, Prompt Engineering으로 자동차 보험 문서 도메인 최적화</li>
+        </ul>
+        <div class="acc-bar">
+          <div class="acc-row"><span>Naïve RAG</span><span>62.3%</span></div>
+          <div class="acc-track"><div class="acc-fill" data-pct="62.3"></div></div>
+          <div class="acc-row"><span>Final Architecture</span><span>96.6%</span></div>
+          <div class="acc-track"><div class="acc-fill" data-pct="96.6"></div></div>
+        </div>
+      </div>
+      <div class="exp-img">
+        <img src="images/Hanwha_insurance_rag.jpeg" alt="Hanwha RAG" loading="lazy" />
       </div>
     </div>
-  </section>
 
-  <!-- wave: parchment -> light -->
-  <div class="wave-divider" aria-hidden="true">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
-      <path d="M0,40 C240,16 480,64 720,40 C960,16 1200,56 1440,32 L1440,64 L0,64 Z" fill="#ffffff"/>
-    </svg>
-  </div>
-
-  <!-- CERTIFICATIONS -->
-  <section class="tile tile-light" id="certifications">
-    <div class="tile-inner">
-      <p class="eyebrow">
-        <span data-lang-ko>자격증</span>
-        <span data-lang-en>Certifications</span>
-      </p>
-      <h2 class="tile-headline">
-        <span data-lang-ko>검증된 데이터 · 언어 역량</span>
-        <span data-lang-en>Certified data &amp; language proficiency</span>
-      </h2>
-
-      <div class="grid-2">
-        <article class="util-card">
-          <div class="role">SQLD</div>
-          <div class="org">
-            <span data-lang-ko>SQL 개발자</span>
-            <span data-lang-en>SQL Developer</span>
-          </div>
-          <div class="period">2024.06.21 —</div>
-        </article>
-        <article class="util-card">
-          <div class="role">AdSP</div>
-          <div class="org">
-            <span data-lang-ko>데이터분석 준전문가</span>
-            <span data-lang-en>Advanced Data Analytics Semi-Professional</span>
-          </div>
-          <div class="period">2024.09.06 —</div>
-        </article>
-        <article class="util-card">
-          <div class="role">OPIc IH</div>
-          <div class="org">
-            <span data-lang-ko>영어 회화 등급 (Intermediate High)</span>
-            <span data-lang-en>English speaking — Intermediate High</span>
-          </div>
-          <div class="period">2026.02.23 — 2028.02.22</div>
-        </article>
+    <div class="exp reveal">
+      <div class="exp-img">
+        <img src="images/query_rewrite.JPG" alt="Samsung Query Rewrite" loading="lazy" />
+      </div>
+      <div class="exp-content">
+        <div class="role">SAMSUNG ELECTRONICS · AI센터</div>
+        <h3>장기현장실습 — Query Rewrite 모듈</h3>
+        <div class="date">2025.03.04 – 2025.05.30</div>
+        <ul>
+          <li>DS Assistant 내 Query Rewrite 모듈 직접 구현 — 이전 대화·마지막 질문 기반 두 종류 쿼리 동시 생성</li>
+          <li>Retrieval Query (키워드 중심) + Generation Query (자연스러운 문장형)</li>
+          <li>쿼리 → 문서 리랭킹 → Generation Query 기반 답변 생성 파이프라인 구축</li>
+          <li>TTFT(Time to First Token)가 짧은 LLM 활용으로 사용자 체감 응답 속도 우선 최적화</li>
+          <li>사용자 데이터 기반 평가셋 구축, Retrieve / Rerank 문서 수에 따른 Recall · nDCG 측정</li>
+        </ul>
       </div>
     </div>
-  </section>
 
-  <!-- wave: light -> deep ocean (final dive) -->
-  <div class="wave-divider" aria-hidden="true">
-    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
-      <path d="M0,28 C240,60 480,4 720,28 C960,52 1200,8 1440,32 L1440,64 L0,64 Z" fill="#0f3a55"/>
-    </svg>
-  </div>
-
-  <!-- CONTACT -->
-  <section class="tile tile-dark-3" id="contact">
-    <div class="tile-inner">
-      <p class="eyebrow">
-        <span data-lang-ko>연락처</span>
-        <span data-lang-en>Contact</span>
-      </p>
-      <h2 class="tile-headline">
-        <span data-lang-ko>함께 헤엄쳐 볼까요?</span>
-        <span data-lang-en>Let's swim together.</span>
-      </h2>
-
-      <div class="contact-grid">
-        <a href="mailto:esthyj@naver.com">
-          <span class="label">Email</span>
-          <span class="value">esthyj@naver.com</span>
-        </a>
-        <a href="tel:+821024687535">
-          <span class="label">
-            <span data-lang-ko>전화</span>
-            <span data-lang-en>Phone</span>
-          </span>
-          <span class="value">+82 10-2468-7535</span>
-        </a>
-        <a href="https://github.com/esthyj" target="_blank" rel="noopener">
-          <span class="label">GitHub</span>
-          <span class="value">github.com/esthyj</span>
-        </a>
-        <a href="https://www.linkedin.com/in/yeeun-jeon-belu/" target="_blank" rel="noopener">
-          <span class="label">LinkedIn</span>
-          <span class="value">linkedin.com/in/yeeun-jeon-belu</span>
-        </a>
+    <div class="exp reverse reveal">
+      <div class="exp-content">
+        <div class="role">한화손해보험 · AI리서치센터</div>
+        <h3>AI Engineer — 사내 리포트 작성 Agent</h3>
+        <div class="date">2025.06.02 – 재직 중</div>
+        <ul>
+          <li>최신 기사 검색 (타 금융사 AI 사업 동향)</li>
+          <li>LLM 기반 요약·인사이트 도출 (보험사 관점)</li>
+          <li>사내 리포트 템플릿 자동 정리 — End-to-End 파이프라인 구축</li>
+        </ul>
+        <div class="highlight">현재 진행 중 · Now</div>
+      </div>
+      <div class="exp-img" style="background:linear-gradient(135deg,#0066cc,#7ab8ff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:48px;letter-spacing:-2px;">
+        <span>Currently<br />Building.</span>
       </div>
     </div>
-  </section>
 
-  <footer class="site-footer">
-    <svg class="footer-mark" aria-hidden="true" viewBox="0 0 60 36">
-      <use href="#beluga-mark"/>
-    </svg>
-    <p>&copy; 2026 Yeeun Jeon · esthyj — swimming with belugas</p>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    (function () {
-      const root = document.documentElement;
-      const buttons = document.querySelectorAll('[data-set-lang]');
+<section id="publications">
+  <div class="reveal">
+    <div class="section-tag">04 — PUBLICATIONS</div>
+    <h2 class="section-title">Publications.</h2>
+  </div>
+  <div class="pub-card reveal">
+    <div class="meta">IEEE · 2024</div>
+    <h3>Digital Health Sensor Data in Autism: Developing Few-Shot Learning Approaches for Traditional Machine Learning Classifiers</h3>
+    <a href="https://ieeexplore.ieee.org/abstract/document/10780502/" target="_blank" rel="noopener">ieeexplore.ieee.org/document/10780502 →</a>
+    <p>
+      <strong>SMOTE_FSL</strong> — 랜덤 포레스트, SVM 등 전통적 ML 모델을 소량 데이터로도 효과적으로 학습시키기 위한 데이터 증강 알고리즘.
+      기존 SMOTE는 소수 클래스의 *분포 내부*에서만 합성 데이터를 생성하지만, 임상 데이터처럼 표본이 작으면 수집 데이터가 질병 전체 특성을 대변하기 어렵습니다.
+      SMOTE_FSL은 *padding* 파라미터의 <strong>Statistical Inversion</strong> 기법으로 합성 데이터가 원본 범위를 *초과*해 생성될 수 있도록 의도적으로 허용합니다.
+    </p>
+  </div>
+</section>
 
-      function setLang(lang) {
-        root.setAttribute('lang', lang);
-        buttons.forEach(btn => {
-          const isActive = btn.getAttribute('data-set-lang') === lang;
-          btn.classList.toggle('active', isActive);
-          btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+<section>
+  <div class="reveal">
+    <div class="section-tag">05 — AWARDS & CERTIFICATIONS</div>
+    <h2 class="section-title">Awards.</h2>
+  </div>
+  <div class="two-col reveal">
+    <div class="award-card">
+      <div class="label">PRESIDENTIAL SCIENCE</div>
+      <h3>한국장학재단<br />대통령과학장학생</h3>
+      <div class="date">2024.02.16</div>
+    </div>
+    <div class="cert-card">
+      <table class="cert-table">
+        <thead>
+          <tr><th>자격증</th><th>레벨</th><th>유효기간</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SQLD</td><td>합격</td><td>2024.06.21 –</td></tr>
+          <tr><td>AdSP</td><td>합격</td><td>2024.09.06 –</td></tr>
+          <tr><td>OPIc</td><td>Intermediate High</td><td>2026.02.23 – 2028.02.22</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="reveal">
+    <h2>Let's <span class="accent">connect.</span></h2>
+    <p>새로운 협업과 대화는 언제든 환영합니다.</p>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:esthyj@naver.com">
+        <span class="label">EMAIL</span>
+        <span class="value">esthyj@naver.com</span>
+      </a>
+      <a class="contact-card" href="tel:+821024687535">
+        <span class="label">PHONE</span>
+        <span class="value">+82 10-2468-7535</span>
+      </a>
+      <a class="contact-card" href="https://github.com/esthyj" target="_blank" rel="noopener">
+        <span class="label">GITHUB</span>
+        <span class="value">@esthyj</span>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/yeeun-jeon-belu/" target="_blank" rel="noopener">
+        <span class="label">LINKEDIN</span>
+        <span class="value">yeeun-jeon-belu</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Yeeun Jeon · Built with Pretendard
+</footer>
+
+<script>
+  /* Scroll progress + nav hide */
+  const progress = document.getElementById('progress');
+  const nav = document.getElementById('nav');
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const y = window.scrollY;
+    progress.style.width = (y / h * 100) + '%';
+    if (y > lastY && y > 200) nav.classList.add('hidden');
+    else nav.classList.remove('hidden');
+    lastY = y;
+  });
+
+  /* Reveal on scroll */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        // animate stat counters
+        e.target.querySelectorAll('.stat-num').forEach(animateCount);
+        // animate accuracy bars
+        e.target.querySelectorAll('.acc-fill').forEach(el => {
+          el.style.width = el.dataset.pct + '%';
         });
-        try { localStorage.setItem('preferredLang', lang); } catch (e) {}
+        io.unobserve(e.target);
       }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => setLang(btn.getAttribute('data-set-lang')));
-      });
+  function animateCount(el){
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const dur = 1500;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const v = (target * eased);
+      el.textContent = (target % 1 === 0 ? Math.floor(v) : v.toFixed(1)) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
 
-      let initial = null;
-      try { initial = localStorage.getItem('preferredLang'); } catch (e) {}
-      if (!initial) {
-        const nav = (navigator.language || 'ko').toLowerCase();
-        initial = nav.startsWith('ko') ? 'ko' : 'en';
-      }
-      setLang(initial);
-    })();
+  /* Hero typing effect */
+  const phrases = ['RAG systems.', 'LLM Agents.', 'Time-series forecasting.', 'AI that reasons.'];
+  const typed = document.getElementById('typed');
+  let pi = 0, ci = 0, deleting = false;
+  function type(){
+    const cur = phrases[pi];
+    if (!deleting){
+      typed.textContent = cur.slice(0, ++ci);
+      if (ci === cur.length){ deleting = true; setTimeout(type, 1600); return; }
+    } else {
+      typed.textContent = cur.slice(0, --ci);
+      if (ci === 0){ deleting = false; pi = (pi + 1) % phrases.length; }
+    }
+    setTimeout(type, deleting ? 40 : 80);
+  }
+  setTimeout(type, 1200);
 
-    // Active section highlighting for the side TOC
-    (function () {
-      const links = document.querySelectorAll('.toc a[data-toc]');
-      if (!links.length) return;
+  /* Subtle parallax for blobs based on mouse */
+  const blobs = document.querySelectorAll('.blob');
+  window.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5);
+    const y = (e.clientY / window.innerHeight - 0.5);
+    blobs.forEach((b, i) => {
+      const f = (i + 1) * 18;
+      b.style.transform = `translate(${x * f}px, ${y * f}px)`;
+    });
+  });
+</script>
 
-      const linkById = new Map();
-      const sections = [];
-      links.forEach(link => {
-        const id = link.getAttribute('href').slice(1);
-        const el = document.getElementById(id);
-        if (el) {
-          linkById.set(id, link);
-          sections.push(el);
-        }
-      });
-
-      function setActive(id) {
-        linkById.forEach((link, key) => {
-          link.classList.toggle('active', key === id);
-        });
-      }
-
-      const observer = new IntersectionObserver((entries) => {
-        const visible = entries
-          .filter(e => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length) setActive(visible[0].target.id);
-      }, {
-        rootMargin: '-40% 0px -50% 0px',
-        threshold: [0, 0.25, 0.5, 0.75, 1]
-      });
-
-      sections.forEach(s => observer.observe(s));
-    })();
-  </script>
 </body>
 </html>
