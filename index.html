@@ -3,124 +3,777 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>esthyj - Profile</title>
+  <title>Yeeun Jeon — esthyj</title>
   <style>
+    :root {
+      --action-blue: #0066cc;
+      --focus-blue: #0071e3;
+      --sky-link: #2997ff;
+      --ink: #1d1d1f;
+      --paper: #ffffff;
+      --parchment: #f5f5f7;
+      --tile-1: #272729;
+      --tile-2: #2a2a2c;
+      --tile-3: #252527;
+      --hairline: rgba(0, 0, 0, 0.08);
+      --muted-80: rgba(0, 0, 0, 0.8);
+      --muted-48: rgba(0, 0, 0, 0.48);
+      --shadow-product: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
+      --font-display: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --font-text: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #0f0f1a;
-      color: #e0e0e0;
-      min-height: 100vh;
+      font-family: var(--font-text);
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+      color: var(--ink);
+      background: var(--paper);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: var(--action-blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ------- Global Nav ------- */
+    .global-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #000;
+      height: 44px;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
     }
+    .global-nav .brand {
+      color: #fff;
+      font-family: var(--font-text);
+      font-size: 12px;
+      letter-spacing: -0.12px;
+      font-weight: 400;
+    }
+    .lang-switch {
+      display: flex;
+      gap: 0;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 2px;
+    }
+    .lang-switch button {
+      background: transparent;
+      color: #fff;
+      border: none;
+      font-family: var(--font-text);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .lang-switch button:hover { background: rgba(255,255,255,0.06); }
+    .lang-switch button.active { background: rgba(255,255,255,0.18); }
+    .lang-switch button:active { transform: scale(0.95); }
+    .lang-switch button:focus-visible { outline: 2px solid var(--focus-blue); outline-offset: 2px; }
 
-    .container {
+    /* ------- Tile base ------- */
+    .tile {
+      width: 100%;
+      padding: 96px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      max-width: 560px;
-      padding: 40px 24px;
+    }
+    .tile-light { background: var(--paper); color: var(--ink); }
+    .tile-parchment { background: var(--parchment); color: var(--ink); }
+    .tile-dark { background: var(--tile-1); color: #fff; }
+    .tile-dark-2 { background: var(--tile-2); color: #fff; }
+    .tile-dark-3 { background: var(--tile-3); color: #fff; }
+
+    .tile-inner {
+      width: 100%;
+      max-width: 980px;
     }
 
+    /* ------- Typography ------- */
+    .eyebrow {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 600;
+      line-height: 1.19;
+      letter-spacing: 0.231px;
+      color: var(--action-blue);
+      margin-bottom: 12px;
+    }
+    .tile-dark .eyebrow,
+    .tile-dark-2 .eyebrow,
+    .tile-dark-3 .eyebrow { color: var(--sky-link); }
+
+    h1.hero {
+      font-family: var(--font-display);
+      font-size: 56px;
+      font-weight: 600;
+      line-height: 1.07;
+      letter-spacing: -0.28px;
+      margin-bottom: 16px;
+    }
+    h2.tile-headline {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 1.10;
+      letter-spacing: -0.28px;
+      margin-bottom: 20px;
+    }
+    h3.section-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.14;
+      letter-spacing: 0.196px;
+      margin-bottom: 8px;
+    }
+    .lead {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.30;
+      letter-spacing: 0.196px;
+      margin-bottom: 28px;
+    }
+    .meta {
+      font-family: var(--font-text);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.29;
+      letter-spacing: -0.224px;
+      color: var(--muted-48);
+      margin-bottom: 16px;
+    }
+    .tile-dark .meta,
+    .tile-dark-2 .meta,
+    .tile-dark-3 .meta { color: rgba(255,255,255,0.55); }
+
+    /* ------- CTA pills ------- */
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-text);
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.0;
+      letter-spacing: -0.374px;
+      padding: 12px 22px;
+      border-radius: 980px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.1s ease, background 0.15s ease;
+      min-height: 44px;
+    }
+    .pill-primary {
+      background: var(--action-blue);
+      color: #fff;
+    }
+    .pill-primary:hover { background: #0077ed; text-decoration: none; }
+    .pill-ghost {
+      background: transparent;
+      color: var(--action-blue);
+      border-color: var(--action-blue);
+    }
+    .pill-ghost:hover { background: rgba(0,102,204,0.06); text-decoration: none; }
+    .pill:active { transform: scale(0.95); }
+    .pill:focus-visible { outline: 2px solid var(--focus-blue); outline-offset: 2px; }
+    .tile-dark .pill-ghost,
+    .tile-dark-2 .pill-ghost,
+    .tile-dark-3 .pill-ghost {
+      color: var(--sky-link);
+      border-color: var(--sky-link);
+    }
+    .tile-dark .pill-ghost:hover,
+    .tile-dark-2 .pill-ghost:hover,
+    .tile-dark-3 .pill-ghost:hover { background: rgba(41,151,255,0.08); }
+
+    /* ------- Avatar ------- */
     .avatar {
-      width: 120px;
-      height: 120px;
+      width: 132px;
+      height: 132px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+      background: linear-gradient(180deg, #f5f5f7, #e8e8ec);
       margin: 0 auto 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 48px;
-      font-weight: 700;
-      color: #fff;
-      box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+      font-family: var(--font-display);
+      font-size: 56px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+      box-shadow: var(--shadow-product);
     }
 
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #fff;
-    }
-
-    .tagline {
-      font-size: 1.05rem;
-      color: #a0a0b8;
-      margin-bottom: 32px;
-      line-height: 1.6;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 36px;
-    }
-
-    .tag {
-      background: rgba(99, 102, 241, 0.12);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      color: #a5b4fc;
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-    }
-
-    .links {
+    /* ------- Card grids ------- */
+    .card-stack {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 24px;
+      margin-top: 40px;
+      text-align: left;
+    }
+    .util-card {
+      background: var(--paper);
+      border: 1px solid var(--hairline);
+      border-radius: 18px;
+      padding: 32px;
+    }
+    .tile-dark .util-card,
+    .tile-dark-2 .util-card,
+    .tile-dark-3 .util-card {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .util-card .role {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.28px;
+      margin-bottom: 4px;
+    }
+    .util-card .org {
+      font-family: var(--font-text);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.374px;
+      color: var(--muted-80);
+      margin-bottom: 4px;
+    }
+    .tile-dark .util-card .org,
+    .tile-dark-2 .util-card .org,
+    .tile-dark-3 .util-card .org { color: rgba(255,255,255,0.7); }
+    .util-card .period {
+      font-family: var(--font-text);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: -0.224px;
+      color: var(--muted-48);
+      margin-bottom: 16px;
+    }
+    .tile-dark .util-card .period,
+    .tile-dark-2 .util-card .period,
+    .tile-dark-3 .util-card .period { color: rgba(255,255,255,0.5); }
+    .util-card ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .util-card ul li {
+      font-family: var(--font-text);
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+      padding-left: 18px;
+      position: relative;
+    }
+    .util-card ul li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--action-blue);
+    }
+    .tile-dark .util-card ul li::before,
+    .tile-dark-2 .util-card ul li::before,
+    .tile-dark-3 .util-card ul li::before { background: var(--sky-link); }
+    .util-card ul li.sub {
+      padding-left: 36px;
+      font-size: 16px;
+      color: var(--muted-80);
+    }
+    .util-card ul li.sub::before {
+      left: 18px;
+      width: 4px;
+      height: 4px;
+      background: var(--muted-48);
+    }
+    .tile-dark .util-card ul li.sub,
+    .tile-dark-2 .util-card ul li.sub,
+    .tile-dark-3 .util-card ul li.sub { color: rgba(255,255,255,0.7); }
+    .tile-dark .util-card ul li.sub::before,
+    .tile-dark-2 .util-card ul li.sub::before,
+    .tile-dark-3 .util-card ul li.sub::before { background: rgba(255,255,255,0.4); }
+    .highlight-note {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: rgba(0,102,204,0.08);
+      border-radius: 11px;
+      font-family: var(--font-text);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.224px;
+      color: var(--action-blue);
+    }
+    .tile-dark .highlight-note,
+    .tile-dark-2 .highlight-note,
+    .tile-dark-3 .highlight-note {
+      background: rgba(41,151,255,0.12);
+      color: var(--sky-link);
     }
 
-    .links a {
-      display: block;
-      padding: 14px 20px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #e0e0e0;
+    /* ------- 2-column grid for short cards ------- */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+      text-align: left;
+    }
+    .grid-2 .util-card { padding: 24px; }
+    .grid-2 .util-card .role { font-size: 21px; }
+
+    /* ------- Contact tile ------- */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .contact-grid a {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px 24px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
       text-decoration: none;
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
+      transition: background 0.15s ease, transform 0.1s ease;
+      text-align: left;
+    }
+    .contact-grid a:hover {
+      background: rgba(255,255,255,0.07);
+      text-decoration: none;
+    }
+    .contact-grid .label {
+      font-family: var(--font-text);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 6px;
+    }
+    .contact-grid .value {
+      font-family: var(--font-text);
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: -0.374px;
+      color: var(--sky-link);
+      word-break: break-all;
     }
 
-    .links a:hover {
-      background: rgba(99, 102, 241, 0.15);
-      border-color: rgba(99, 102, 241, 0.3);
-      transform: translateY(-2px);
+    /* ------- Footer ------- */
+    footer.site-footer {
+      background: var(--parchment);
+      padding: 28px 24px;
+      text-align: center;
+    }
+    footer.site-footer p {
+      font-family: var(--font-text);
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.30;
+      letter-spacing: -0.12px;
+      color: var(--muted-48);
     }
 
-    footer {
-      margin-top: 48px;
-      font-size: 0.8rem;
-      color: #555;
+    /* ------- Responsive ------- */
+    @media (max-width: 833px) {
+      .tile { padding: 72px 20px; }
+      h1.hero { font-size: 40px; letter-spacing: -0.2px; }
+      h2.tile-headline { font-size: 32px; }
+      h3.section-title { font-size: 24px; }
+      .lead { font-size: 21px; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
     }
+    @media (max-width: 480px) {
+      .tile { padding: 56px 18px; }
+      h1.hero { font-size: 34px; }
+      h2.tile-headline { font-size: 28px; }
+      .util-card { padding: 24px; }
+      .global-nav { padding: 0 14px; }
+    }
+
+    [data-lang-en], [data-lang-ko] { display: none; }
+    html[lang="en"] [data-lang-en] { display: revert; }
+    html[lang="ko"] [data-lang-ko] { display: revert; }
+    /* Inline elements that need to retain inline */
+    html[lang="en"] span[data-lang-en],
+    html[lang="ko"] span[data-lang-ko] { display: inline; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="avatar">E</div>
-    <h1>esthyj</h1>
-    <p class="tagline">Hello! Welcome to my page.</p>
 
-    <div class="tags">
-      <span class="tag">Developer</span>
-      <span class="tag">Student</span>
-      <span class="tag">Creative</span>
+  <nav class="global-nav" aria-label="Global">
+    <span class="brand">Yeeun Jeon · esthyj</span>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-set-lang="ko" class="active" aria-pressed="true">한국어</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">English</button>
     </div>
+  </nav>
 
-    <div class="links">
-      <a href="https://github.com/esthyj" target="_blank">GitHub</a>
+  <!-- HERO -->
+  <section class="tile tile-light">
+    <div class="tile-inner">
+      <div class="avatar">YJ</div>
+      <h1 class="hero">Yeeun Jeon</h1>
+      <p class="lead">
+        <span data-lang-ko>데이터 사이언스 전공 · AI 엔지니어</span>
+        <span data-lang-en>B.S. in Data Science · AI Engineer</span>
+      </p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="#contact">
+          <span data-lang-ko>연락하기</span>
+          <span data-lang-en>Get in touch</span>
+        </a>
+        <a class="pill pill-ghost" href="#experience">
+          <span data-lang-ko>경력 보기</span>
+          <span data-lang-en>See experience</span>
+        </a>
+      </div>
     </div>
+  </section>
 
-    <footer>&copy; 2026 esthyj</footer>
-  </div>
+  <!-- EDUCATION -->
+  <section class="tile tile-parchment">
+    <div class="tile-inner">
+      <p class="eyebrow">
+        <span data-lang-ko>학력</span>
+        <span data-lang-en>Education</span>
+      </p>
+      <h2 class="tile-headline">
+        <span data-lang-ko>한양대학교 데이터사이언스학과</span>
+        <span data-lang-en>Hanyang University, B.S. in Data Science</span>
+      </h2>
+      <p class="meta">2021.03 — 2025.08</p>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="tile tile-light" id="experience">
+    <div class="tile-inner">
+      <p class="eyebrow">
+        <span data-lang-ko>경력</span>
+        <span data-lang-en>Experience</span>
+      </p>
+      <h2 class="tile-headline">
+        <span data-lang-ko>현장에서 검증한 AI 역량</span>
+        <span data-lang-en>AI experience, validated in the field</span>
+      </h2>
+
+      <div class="card-stack">
+        <!-- Samsung 2024 -->
+        <article class="util-card">
+          <div class="role">
+            <span data-lang-ko>삼성전자 장기현장실습</span>
+            <span data-lang-en>Samsung Electronics — Field Practice (Long-term)</span>
+          </div>
+          <div class="org">
+            <span data-lang-ko>혁신센터</span>
+            <span data-lang-en>Innovation Center</span>
+          </div>
+          <div class="period">2024.03.06 — 2024.06.21</div>
+          <ul>
+            <li>
+              <span data-lang-ko>AMR(Autonomous Mobile Robot) 최적 대기 위치 산정 및 분석</span>
+              <span data-lang-en>Optimal idle-position analysis for AMRs (Autonomous Mobile Robots)</span>
+            </li>
+            <li class="sub">
+              <span data-lang-ko>새로운 알고리즘을 제안 — 기존 대비 Unloading Transport Time 및 전체 반송 시간 감소</span>
+              <span data-lang-en>Proposed a new algorithm — reduced Unloading Transport Time and total transit time vs. baseline</span>
+            </li>
+            <li>
+              <span data-lang-ko>OHT(Overhead Hoist Transport) 데이터 분석 및 Section 통과 시간 예측</span>
+              <span data-lang-en>OHT (Overhead Hoist Transport) data analysis and section traversal-time prediction</span>
+            </li>
+            <li class="sub">
+              <span data-lang-ko>Temporal Fusion Transformer가 베이스라인 대비 우수한 MAE를 보여, 예측 모델 활용 가능성 제시</span>
+              <span data-lang-en>Temporal Fusion Transformer achieved superior MAE vs. baseline, demonstrating production viability</span>
+            </li>
+          </ul>
+          <div class="highlight-note">
+            <span data-lang-ko>★ 혁신센터 동기 8명 중 종합 평가 1위로 우수 인턴 선발</span>
+            <span data-lang-en>★ Selected as Top Intern (1st of 8) at the Innovation Center for overall performance</span>
+          </div>
+        </article>
+
+        <!-- Hanwha 2025 Intern -->
+        <article class="util-card">
+          <div class="role">
+            <span data-lang-ko>한화손해보험 인턴</span>
+            <span data-lang-en>Hanwha General Insurance — Intern</span>
+          </div>
+          <div class="org">
+            <span data-lang-ko>RAG 기반 챗봇 개발</span>
+            <span data-lang-en>RAG-based chatbot development</span>
+          </div>
+          <div class="period">2025.01.13 — 2025.02.28</div>
+          <ul>
+            <li>
+              <span data-lang-ko>보험설계사를 위한 RAG 기반 챗봇 개발</span>
+              <span data-lang-en>Built a RAG-based chatbot for insurance agents</span>
+            </li>
+            <li class="sub">
+              <span data-lang-ko>Document Parsing → Chunking → Retrieval → LLM Generation → RAG Evaluation 전 과정 직접 구현</span>
+              <span data-lang-en>End-to-end ownership: Document Parsing → Chunking → Retrieval → LLM Generation → RAG Evaluation</span>
+            </li>
+            <li class="sub">
+              <span data-lang-ko>Query Transformation, Ensemble Retrieval, Prompt Engineering 등 고도화 기법을 자동차 보험 문서에 최적화 적용</span>
+              <span data-lang-en>Applied Query Transformation, Ensemble Retrieval, and Prompt Engineering, tuned for auto-insurance documents</span>
+            </li>
+          </ul>
+          <div class="highlight-note">
+            <span data-lang-ko>RAG Accuracy 62.3% (Naïve) → 96.6% (Final Architecture)</span>
+            <span data-lang-en>RAG Accuracy 62.3% (Naïve) → 96.6% (Final Architecture)</span>
+          </div>
+        </article>
+
+        <!-- Samsung 2025 -->
+        <article class="util-card">
+          <div class="role">
+            <span data-lang-ko>삼성전자 장기현장실습</span>
+            <span data-lang-en>Samsung Electronics — Field Practice (Long-term)</span>
+          </div>
+          <div class="org">
+            <span data-lang-ko>DS Assistant · Query Rewrite 모듈</span>
+            <span data-lang-en>DS Assistant · Query Rewrite module</span>
+          </div>
+          <div class="period">2025.03.04 — 2025.05.30</div>
+          <ul>
+            <li>
+              <span data-lang-ko>DS Assistant 내 Query Rewrite 모듈 직접 구현</span>
+              <span data-lang-en>Implemented the Query Rewrite module inside DS Assistant</span>
+            </li>
+            <li class="sub">
+              <span data-lang-ko>과거 대화와 마지막 질문을 바탕으로 Retrieval Query(키워드형)와 Generation Query(자연문) 동시 생성 → 문서 리랭킹 → 답변 생성</span>
+              <span data-lang-en>Generated Retrieval (keyword) and Generation (natural-sentence) queries from prior turns, then re-ranked docs and produced answers</span>
+            </li>
+            <li class="sub">
+              <span data-lang-ko>모델 선정 기준: Time to First Token(TTFT)이 짧은 LLM 활용</span>
+              <span data-lang-en>Model selection criterion: low Time-to-First-Token (TTFT) LLMs</span>
+            </li>
+            <li class="sub">
+              <span data-lang-ko>사용자 데이터 기반 평가셋을 직접 구축, Retrieve/Rerank 문서 수를 변화시키며 Recall, nDCG 측정</span>
+              <span data-lang-en>Built an evaluation set from real user data; measured Recall and nDCG across varying retrieve/rerank counts</span>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Hanwha AI Engineer -->
+        <article class="util-card">
+          <div class="role">
+            <span data-lang-ko>한화손해보험 AI Engineer</span>
+            <span data-lang-en>Hanwha General Insurance — AI Engineer</span>
+          </div>
+          <div class="org">
+            <span data-lang-ko>사내 리포트 작성 AI Agent 개발</span>
+            <span data-lang-en>Internal report-writing AI Agent</span>
+          </div>
+          <ul>
+            <li>
+              <span data-lang-ko>타 금융사 AI 사업 동향을 자동 수집·요약하는 AI Agent 개발</span>
+              <span data-lang-en>Built an AI agent that auto-collects and summarizes AI initiatives across peer financial firms</span>
+            </li>
+            <li class="sub">
+              <span data-lang-ko>최신 기사 검색 → LLM 기반 요약 → 보험사 관점 인사이트 도출 → 사내 리포트 템플릿에 자동 정리</span>
+              <span data-lang-en>Latest-article retrieval → LLM summarization → insurance-focused insights → auto-formatted into the internal report template</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARDS (dark tile) -->
+  <section class="tile tile-dark">
+    <div class="tile-inner">
+      <p class="eyebrow">
+        <span data-lang-ko>수상</span>
+        <span data-lang-en>Awards</span>
+      </p>
+      <h2 class="tile-headline">
+        <span data-lang-ko>한국장학재단 대통령과학장학생</span>
+        <span data-lang-en>Presidential Science Scholarship</span>
+      </h2>
+      <p class="lead" style="opacity:0.85;">
+        <span data-lang-ko>Korea Student Aid Foundation · 2024.02.16</span>
+        <span data-lang-en>Korea Student Aid Foundation · Feb 16, 2024</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- PUBLICATION -->
+  <section class="tile tile-parchment">
+    <div class="tile-inner">
+      <p class="eyebrow">
+        <span data-lang-ko>논문</span>
+        <span data-lang-en>Publications</span>
+      </p>
+      <h2 class="tile-headline" style="font-size:32px; line-height:1.2;">
+        Digital Health Sensor Data in Autism: Developing Few-Shot Learning Approaches for Traditional Machine Learning Classifiers
+      </h2>
+      <p class="meta">IEEE 2024</p>
+      <div class="cta-row">
+        <a class="pill pill-primary" href="https://ieeexplore.ieee.org/abstract/document/10780502/" target="_blank" rel="noopener">
+          <span data-lang-ko>IEEE에서 보기</span>
+          <span data-lang-en>Read on IEEE</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section class="tile tile-light">
+    <div class="tile-inner">
+      <p class="eyebrow">
+        <span data-lang-ko>자격증</span>
+        <span data-lang-en>Certifications</span>
+      </p>
+      <h2 class="tile-headline">
+        <span data-lang-ko>검증된 데이터 · 언어 역량</span>
+        <span data-lang-en>Certified data &amp; language proficiency</span>
+      </h2>
+
+      <div class="grid-2">
+        <article class="util-card">
+          <div class="role">SQLD</div>
+          <div class="org">
+            <span data-lang-ko>SQL 개발자</span>
+            <span data-lang-en>SQL Developer</span>
+          </div>
+          <div class="period">2024.06.21 —</div>
+        </article>
+        <article class="util-card">
+          <div class="role">AdSP</div>
+          <div class="org">
+            <span data-lang-ko>데이터분석 준전문가</span>
+            <span data-lang-en>Advanced Data Analytics Semi-Professional</span>
+          </div>
+          <div class="period">2024.09.06 —</div>
+        </article>
+        <article class="util-card">
+          <div class="role">OPIc IH</div>
+          <div class="org">
+            <span data-lang-ko>영어 회화 등급 (Intermediate High)</span>
+            <span data-lang-en>English speaking — Intermediate High</span>
+          </div>
+          <div class="period">2026.02.23 — 2028.02.22</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="tile tile-dark-3" id="contact">
+    <div class="tile-inner">
+      <p class="eyebrow">
+        <span data-lang-ko>연락처</span>
+        <span data-lang-en>Contact</span>
+      </p>
+      <h2 class="tile-headline">
+        <span data-lang-ko>함께 일해 보고 싶다면 언제든지.</span>
+        <span data-lang-en>Let's build something together.</span>
+      </h2>
+
+      <div class="contact-grid">
+        <a href="mailto:esthyj@naver.com">
+          <span class="label">Email</span>
+          <span class="value">esthyj@naver.com</span>
+        </a>
+        <a href="tel:+821024687535">
+          <span class="label">
+            <span data-lang-ko>전화</span>
+            <span data-lang-en>Phone</span>
+          </span>
+          <span class="value">+82 10-2468-7535</span>
+        </a>
+        <a href="https://github.com/esthyj" target="_blank" rel="noopener">
+          <span class="label">GitHub</span>
+          <span class="value">github.com/esthyj</span>
+        </a>
+        <a href="https://www.linkedin.com/in/yeeun-jeon-belu/" target="_blank" rel="noopener">
+          <span class="label">LinkedIn</span>
+          <span class="value">linkedin.com/in/yeeun-jeon-belu</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Yeeun Jeon · esthyj</p>
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const buttons = document.querySelectorAll('[data-set-lang]');
+
+      function setLang(lang) {
+        root.setAttribute('lang', lang);
+        buttons.forEach(btn => {
+          const isActive = btn.getAttribute('data-set-lang') === lang;
+          btn.classList.toggle('active', isActive);
+          btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+        try { localStorage.setItem('preferredLang', lang); } catch (e) {}
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => setLang(btn.getAttribute('data-set-lang')));
+      });
+
+      let initial = null;
+      try { initial = localStorage.getItem('preferredLang'); } catch (e) {}
+      if (!initial) {
+        const nav = (navigator.language || 'ko').toLowerCase();
+        initial = nav.startsWith('ko') ? 'ko' : 'en';
+      }
+      setLang(initial);
+    })();
+  </script>
 </body>
 </html>
