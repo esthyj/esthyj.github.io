@@ -311,10 +311,15 @@
   .award-card{
     background:linear-gradient(135deg,#0066cc,#3a8eff);
     color:#fff;border:none;
-    display:flex;flex-direction:column;justify-content:center;
+    padding:0;overflow:hidden;
+    display:flex;flex-direction:column;
     transition:transform .3s ease;
   }
   .award-card:hover{transform:translateY(-6px) rotate(-1deg)}
+  .award-card .award-photo{aspect-ratio:4/3;overflow:hidden}
+  .award-card .award-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+  .award-card:hover .award-photo img{transform:scale(1.06)}
+  .award-card .award-body{padding:24px 28px}
   .award-card .label{font-size:12px;font-weight:700;letter-spacing:2px;opacity:.85;margin-bottom:12px}
   .award-card h3{font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3;margin-bottom:8px}
   .award-card .date{font-size:13px;opacity:.85}
@@ -548,8 +553,8 @@
         </ul>
         <div class="highlight">현재 진행 중 · Now</div>
       </div>
-      <div class="exp-img" style="background:linear-gradient(135deg,#0066cc,#7ab8ff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:48px;letter-spacing:-2px;">
-        <span>Currently<br />Building.</span>
+      <div class="exp-img">
+        <img src="images/hanwha_insurance_report.jpeg" alt="Hanwha Insurance Report Agent" loading="lazy" />
       </div>
     </div>
 
@@ -580,9 +585,14 @@
   </div>
   <div class="two-col reveal">
     <div class="award-card">
-      <div class="label">PRESIDENTIAL SCIENCE</div>
-      <h3>한국장학재단<br />대통령과학장학생</h3>
-      <div class="date">2024.02.16</div>
+      <div class="award-photo">
+        <img src="images/president_award.jpeg" alt="대통령과학장학생 시상" loading="lazy" />
+      </div>
+      <div class="award-body">
+        <div class="label">PRESIDENTIAL SCIENCE</div>
+        <h3>한국장학재단<br />대통령과학장학생</h3>
+        <div class="date">2024.02.16</div>
+      </div>
     </div>
     <div class="cert-card">
       <table class="cert-table">
