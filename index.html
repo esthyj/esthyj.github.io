@@ -3,22 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yeeun Jeon — esthyj</title>
+  <title>Yeeun Jeon — esthyj · Beluga</title>
   <style>
     :root {
-      --action-blue: #0066cc;
-      --focus-blue: #0071e3;
-      --sky-link: #2997ff;
-      --ink: #1d1d1f;
-      --paper: #ffffff;
-      --parchment: #f5f5f7;
-      --tile-1: #272729;
-      --tile-2: #2a2a2c;
-      --tile-3: #252527;
-      --hairline: rgba(0, 0, 0, 0.08);
-      --muted-80: rgba(0, 0, 0, 0.8);
-      --muted-48: rgba(0, 0, 0, 0.48);
-      --shadow-product: rgba(0, 0, 0, 0.22) 3px 5px 30px 0;
+      /* Beluga / Arctic Ocean palette */
+      --ice-white: #f4f9fc;
+      --frost: #e6f0f6;
+      --foam: #d3e6ef;
+      --beluga-skin: #cdd8de;
+      --beluga-shadow: #9ab2bf;
+      --sky-water: #5ea9cf;
+      --action-blue: #1f74a8;
+      --focus-blue: #2a8fc7;
+      --arctic-glow: #8fd0ea;
+      --deep-ocean: #0f3a55;
+      --midnight-sea: #082336;
+      --abyss: #051722;
+      --ink: #0a2434;
+      --paper: var(--ice-white);
+      --parchment: var(--frost);
+      --hairline: rgba(15, 58, 85, 0.12);
+      --muted-80: rgba(10, 36, 52, 0.82);
+      --muted-48: rgba(10, 36, 52, 0.52);
+      --shadow-product: 0 18px 40px -18px rgba(15, 58, 85, 0.35);
       --font-display: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
       --font-text: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
@@ -51,24 +58,33 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: #000;
-      height: 44px;
+      background: linear-gradient(90deg, var(--abyss), var(--midnight-sea) 50%, var(--deep-ocean));
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 22px;
+      border-bottom: 1px solid rgba(143, 208, 234, 0.15);
     }
     .global-nav .brand {
       color: #fff;
       font-family: var(--font-text);
-      font-size: 12px;
+      font-size: 13px;
       letter-spacing: -0.12px;
-      font-weight: 400;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-mark {
+      width: 22px;
+      height: 14px;
+      flex-shrink: 0;
     }
     .lang-switch {
       display: flex;
       gap: 0;
-      background: rgba(255,255,255,0.08);
+      background: rgba(143, 208, 234, 0.10);
       border-radius: 8px;
       padding: 2px;
     }
@@ -85,10 +101,10 @@
       cursor: pointer;
       transition: background 0.15s ease, transform 0.1s ease;
     }
-    .lang-switch button:hover { background: rgba(255,255,255,0.06); }
-    .lang-switch button.active { background: rgba(255,255,255,0.18); }
+    .lang-switch button:hover { background: rgba(143, 208, 234, 0.15); }
+    .lang-switch button.active { background: rgba(143, 208, 234, 0.28); }
     .lang-switch button:active { transform: scale(0.95); }
-    .lang-switch button:focus-visible { outline: 2px solid var(--focus-blue); outline-offset: 2px; }
+    .lang-switch button:focus-visible { outline: 2px solid var(--arctic-glow); outline-offset: 2px; }
 
     /* ------- Tile base ------- */
     .tile {
@@ -99,16 +115,47 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      position: relative;
     }
-    .tile-light { background: var(--paper); color: var(--ink); }
-    .tile-parchment { background: var(--parchment); color: var(--ink); }
-    .tile-dark { background: var(--tile-1); color: #fff; }
-    .tile-dark-2 { background: var(--tile-2); color: #fff; }
-    .tile-dark-3 { background: var(--tile-3); color: #fff; }
+    .tile-light {
+      background: linear-gradient(180deg, #ffffff 0%, var(--ice-white) 100%);
+      color: var(--ink);
+    }
+    .tile-parchment {
+      background: linear-gradient(180deg, var(--frost) 0%, var(--foam) 100%);
+      color: var(--ink);
+    }
+    .tile-dark {
+      background: linear-gradient(180deg, var(--deep-ocean) 0%, var(--midnight-sea) 100%);
+      color: #fff;
+    }
+    .tile-dark-2 {
+      background: linear-gradient(180deg, var(--midnight-sea) 0%, var(--abyss) 100%);
+      color: #fff;
+    }
+    .tile-dark-3 {
+      background: radial-gradient(ellipse at top, var(--deep-ocean) 0%, var(--abyss) 80%);
+      color: #fff;
+    }
 
     .tile-inner {
       width: 100%;
       max-width: 980px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ------- Wave dividers ------- */
+    .wave-divider {
+      width: 100%;
+      display: block;
+      line-height: 0;
+      margin: 0;
+    }
+    .wave-divider svg {
+      width: 100%;
+      height: 64px;
+      display: block;
     }
 
     /* ------- Typography ------- */
@@ -123,7 +170,7 @@
     }
     .tile-dark .eyebrow,
     .tile-dark-2 .eyebrow,
-    .tile-dark-3 .eyebrow { color: var(--sky-link); }
+    .tile-dark-3 .eyebrow { color: var(--arctic-glow); }
 
     h1.hero {
       font-family: var(--font-display);
@@ -132,6 +179,10 @@
       line-height: 1.07;
       letter-spacing: -0.28px;
       margin-bottom: 16px;
+      background: linear-gradient(180deg, var(--deep-ocean), var(--action-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     h2.tile-headline {
       font-family: var(--font-display);
@@ -184,55 +235,107 @@
       justify-content: center;
       font-family: var(--font-text);
       font-size: 17px;
-      font-weight: 400;
+      font-weight: 500;
       line-height: 1.0;
       letter-spacing: -0.374px;
       padding: 12px 22px;
       border-radius: 980px;
       cursor: pointer;
       border: 1px solid transparent;
-      transition: transform 0.1s ease, background 0.15s ease;
+      transition: transform 0.1s ease, background 0.15s ease, box-shadow 0.2s ease;
       min-height: 44px;
     }
     .pill-primary {
-      background: var(--action-blue);
+      background: linear-gradient(180deg, var(--sky-water), var(--action-blue));
       color: #fff;
+      box-shadow: 0 6px 16px -6px rgba(31, 116, 168, 0.6);
     }
-    .pill-primary:hover { background: #0077ed; text-decoration: none; }
+    .pill-primary:hover {
+      background: linear-gradient(180deg, #6fb6d8, #2384b8);
+      text-decoration: none;
+      box-shadow: 0 10px 24px -8px rgba(31, 116, 168, 0.7);
+    }
     .pill-ghost {
       background: transparent;
       color: var(--action-blue);
       border-color: var(--action-blue);
     }
-    .pill-ghost:hover { background: rgba(0,102,204,0.06); text-decoration: none; }
+    .pill-ghost:hover { background: rgba(31, 116, 168, 0.08); text-decoration: none; }
     .pill:active { transform: scale(0.95); }
     .pill:focus-visible { outline: 2px solid var(--focus-blue); outline-offset: 2px; }
     .tile-dark .pill-ghost,
     .tile-dark-2 .pill-ghost,
     .tile-dark-3 .pill-ghost {
-      color: var(--sky-link);
-      border-color: var(--sky-link);
+      color: var(--arctic-glow);
+      border-color: var(--arctic-glow);
     }
     .tile-dark .pill-ghost:hover,
     .tile-dark-2 .pill-ghost:hover,
-    .tile-dark-3 .pill-ghost:hover { background: rgba(41,151,255,0.08); }
+    .tile-dark-3 .pill-ghost:hover { background: rgba(143, 208, 234, 0.12); }
 
-    /* ------- Avatar ------- */
-    .avatar {
-      width: 132px;
-      height: 132px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #f5f5f7, #e8e8ec);
+    /* ------- Beluga hero illustration ------- */
+    .beluga-stage {
+      position: relative;
+      width: 220px;
+      height: 220px;
       margin: 0 auto 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-display);
-      font-size: 56px;
+    }
+    .beluga-pool {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 35%, #ffffff 0%, var(--foam) 55%, var(--beluga-skin) 100%);
+      box-shadow: var(--shadow-product), inset 0 -20px 40px rgba(15, 58, 85, 0.12);
+    }
+    .beluga-svg {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      animation: belugaFloat 6s ease-in-out infinite;
+      transform-origin: center;
+    }
+    @keyframes belugaFloat {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-6px) rotate(2deg); }
+    }
+    .hero-name-tag {
+      display: inline-block;
+      font-family: var(--font-text);
+      font-size: 13px;
       font-weight: 600;
-      color: var(--ink);
-      letter-spacing: -0.5px;
-      box-shadow: var(--shadow-product);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--action-blue);
+      background: rgba(143, 208, 234, 0.18);
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+
+    /* ------- Bubbles ------- */
+    .bubbles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .bubble {
+      position: absolute;
+      bottom: -40px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(143, 208, 234, 0.35) 70%, rgba(143, 208, 234, 0));
+      animation: bubbleRise linear infinite;
+      opacity: 0.55;
+    }
+    @keyframes bubbleRise {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.4; }
+      100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
     }
 
     /* ------- Card grids ------- */
@@ -244,16 +347,24 @@
       text-align: left;
     }
     .util-card {
-      background: var(--paper);
+      background: rgba(255,255,255,0.92);
       border: 1px solid var(--hairline);
       border-radius: 18px;
       padding: 32px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 14px -8px rgba(15, 58, 85, 0.18);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .util-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -10px rgba(15, 58, 85, 0.22);
     }
     .tile-dark .util-card,
     .tile-dark-2 .util-card,
     .tile-dark-3 .util-card {
-      background: rgba(255,255,255,0.04);
-      border-color: rgba(255,255,255,0.08);
+      background: rgba(143, 208, 234, 0.06);
+      border-color: rgba(143, 208, 234, 0.16);
+      backdrop-filter: blur(8px);
     }
     .util-card .role {
       font-family: var(--font-display);
@@ -273,7 +384,7 @@
     }
     .tile-dark .util-card .org,
     .tile-dark-2 .util-card .org,
-    .tile-dark-3 .util-card .org { color: rgba(255,255,255,0.7); }
+    .tile-dark-3 .util-card .org { color: rgba(255,255,255,0.78); }
     .util-card .period {
       font-family: var(--font-text);
       font-size: 14px;
@@ -299,43 +410,50 @@
       font-weight: 400;
       line-height: 1.47;
       letter-spacing: -0.374px;
-      padding-left: 18px;
+      padding-left: 22px;
       position: relative;
     }
     .util-card ul li::before {
       content: "";
       position: absolute;
       left: 0;
-      top: 11px;
-      width: 6px;
-      height: 6px;
+      top: 9px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: var(--action-blue);
+      background: radial-gradient(circle at 30% 30%, #ffffff, var(--sky-water) 70%);
+      box-shadow: 0 0 0 1px rgba(31,116,168,0.15);
     }
     .tile-dark .util-card ul li::before,
     .tile-dark-2 .util-card ul li::before,
-    .tile-dark-3 .util-card ul li::before { background: var(--sky-link); }
+    .tile-dark-3 .util-card ul li::before {
+      background: radial-gradient(circle at 30% 30%, #ffffff, var(--arctic-glow) 70%);
+    }
     .util-card ul li.sub {
-      padding-left: 36px;
+      padding-left: 40px;
       font-size: 16px;
       color: var(--muted-80);
     }
     .util-card ul li.sub::before {
-      left: 18px;
-      width: 4px;
-      height: 4px;
-      background: var(--muted-48);
+      left: 22px;
+      width: 6px;
+      height: 6px;
+      top: 11px;
+      background: radial-gradient(circle at 30% 30%, #ffffff, var(--beluga-shadow) 70%);
     }
     .tile-dark .util-card ul li.sub,
     .tile-dark-2 .util-card ul li.sub,
-    .tile-dark-3 .util-card ul li.sub { color: rgba(255,255,255,0.7); }
+    .tile-dark-3 .util-card ul li.sub { color: rgba(255,255,255,0.72); }
     .tile-dark .util-card ul li.sub::before,
     .tile-dark-2 .util-card ul li.sub::before,
-    .tile-dark-3 .util-card ul li.sub::before { background: rgba(255,255,255,0.4); }
+    .tile-dark-3 .util-card ul li.sub::before {
+      background: radial-gradient(circle at 30% 30%, #ffffff, rgba(143, 208, 234, 0.6) 70%);
+    }
     .highlight-note {
       margin-top: 16px;
       padding: 12px 16px;
-      background: rgba(0,102,204,0.08);
+      background: linear-gradient(90deg, rgba(143, 208, 234, 0.22), rgba(94, 169, 207, 0.12));
+      border-left: 3px solid var(--sky-water);
       border-radius: 11px;
       font-family: var(--font-text);
       font-size: 14px;
@@ -346,8 +464,9 @@
     .tile-dark .highlight-note,
     .tile-dark-2 .highlight-note,
     .tile-dark-3 .highlight-note {
-      background: rgba(41,151,255,0.12);
-      color: var(--sky-link);
+      background: linear-gradient(90deg, rgba(143, 208, 234, 0.18), rgba(143, 208, 234, 0.06));
+      border-left-color: var(--arctic-glow);
+      color: var(--arctic-glow);
     }
 
     /* ------- 2-column grid for short cards ------- */
@@ -376,16 +495,18 @@
       flex-direction: column;
       align-items: flex-start;
       padding: 20px 24px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(143, 208, 234, 0.06);
+      border: 1px solid rgba(143, 208, 234, 0.16);
       border-radius: 18px;
       text-decoration: none;
-      transition: background 0.15s ease, transform 0.1s ease;
+      transition: background 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
       text-align: left;
     }
     .contact-grid a:hover {
-      background: rgba(255,255,255,0.07);
+      background: rgba(143, 208, 234, 0.12);
+      border-color: rgba(143, 208, 234, 0.32);
       text-decoration: none;
+      transform: translateY(-1px);
     }
     .contact-grid .label {
       font-family: var(--font-text);
@@ -393,7 +514,7 @@
       font-weight: 600;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.55);
       margin-bottom: 6px;
     }
     .contact-grid .value {
@@ -401,15 +522,19 @@
       font-size: 17px;
       font-weight: 400;
       letter-spacing: -0.374px;
-      color: var(--sky-link);
+      color: var(--arctic-glow);
       word-break: break-all;
     }
 
     /* ------- Footer ------- */
     footer.site-footer {
-      background: var(--parchment);
+      background: linear-gradient(180deg, var(--foam), var(--frost));
       padding: 28px 24px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
     footer.site-footer p {
       font-family: var(--font-text);
@@ -418,6 +543,11 @@
       line-height: 1.30;
       letter-spacing: -0.12px;
       color: var(--muted-48);
+    }
+    .footer-mark {
+      width: 28px;
+      height: 18px;
+      opacity: 0.6;
     }
 
     /* ------- Responsive ------- */
@@ -429,6 +559,9 @@
       .lead { font-size: 21px; }
       .grid-2 { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
+      .beluga-stage { width: 180px; height: 180px; }
+      .beluga-svg { width: 140px; height: 140px; }
+      .wave-divider svg { height: 44px; }
     }
     @media (max-width: 480px) {
       .tile { padding: 56px 18px; }
@@ -438,18 +571,83 @@
       .global-nav { padding: 0 14px; }
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      .beluga-svg { animation: none; }
+      .bubble { animation: none; display: none; }
+    }
+
     [data-lang-en], [data-lang-ko] { display: none; }
     html[lang="en"] [data-lang-en] { display: revert; }
     html[lang="ko"] [data-lang-ko] { display: revert; }
-    /* Inline elements that need to retain inline */
     html[lang="en"] span[data-lang-en],
     html[lang="ko"] span[data-lang-ko] { display: inline; }
   </style>
 </head>
 <body>
 
+  <!-- Reusable beluga SVG symbol -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="belugaBody" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="55%" stop-color="#e6eef3"/>
+        <stop offset="100%" stop-color="#b9cad4"/>
+      </linearGradient>
+      <radialGradient id="belugaMelon" cx="0.4" cy="0.35" r="0.7">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#cdd8de"/>
+      </radialGradient>
+      <linearGradient id="belugaFin" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#cdd8de"/>
+        <stop offset="100%" stop-color="#9ab2bf"/>
+      </linearGradient>
+
+      <symbol id="beluga" viewBox="0 0 220 160">
+        <!-- tail flukes -->
+        <path d="M198 80 C 215 60, 220 70, 215 88 C 220 100, 212 108, 198 92 Z"
+              fill="url(#belugaFin)"/>
+        <!-- body -->
+        <path d="M40 95
+                 C 45 60, 110 50, 165 65
+                 C 195 72, 205 82, 198 92
+                 C 205 100, 190 118, 160 122
+                 C 110 130, 55 128, 38 110 Z"
+              fill="url(#belugaBody)"/>
+        <!-- melon (forehead bump) -->
+        <path d="M40 95
+                 C 28 86, 28 70, 42 64
+                 C 58 58, 70 66, 70 78
+                 C 70 90, 60 100, 50 100 Z"
+              fill="url(#belugaMelon)"/>
+        <!-- dorsal ridge (belugas have a ridge, no fin) -->
+        <path d="M95 55 Q 115 48 140 55 Q 118 62 95 60 Z"
+              fill="#b9cad4" opacity="0.7"/>
+        <!-- pectoral fin -->
+        <path d="M95 110 Q 110 130 130 128 Q 115 118 100 108 Z"
+              fill="url(#belugaFin)" opacity="0.85"/>
+        <!-- mouth (smile) -->
+        <path d="M30 90 Q 38 96 50 92"
+              stroke="#0a2434" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <!-- eye -->
+        <circle cx="48" cy="80" r="2.2" fill="#0a2434"/>
+        <circle cx="48.7" cy="79.4" r="0.7" fill="#ffffff"/>
+        <!-- blowhole -->
+        <ellipse cx="58" cy="65" rx="2" ry="1" fill="#9ab2bf" opacity="0.7"/>
+      </symbol>
+
+      <symbol id="beluga-mark" viewBox="0 0 60 36">
+        <path d="M6 22 C 8 10, 30 6, 46 12 C 56 14, 58 20, 54 24 C 56 28, 48 32, 36 32 C 18 33, 8 30, 4 25 Z"
+              fill="#ffffff"/>
+        <circle cx="14" cy="20" r="1.4" fill="#0a2434"/>
+      </symbol>
+    </defs>
+  </svg>
+
   <nav class="global-nav" aria-label="Global">
-    <span class="brand">Yeeun Jeon · esthyj</span>
+    <span class="brand">
+      <svg class="brand-mark" aria-hidden="true"><use href="#beluga-mark"/></svg>
+      Yeeun Jeon · esthyj
+    </span>
     <div class="lang-switch" role="group" aria-label="Language">
       <button type="button" data-set-lang="ko" class="active" aria-pressed="true">한국어</button>
       <button type="button" data-set-lang="en" aria-pressed="false">English</button>
@@ -458,8 +656,21 @@
 
   <!-- HERO -->
   <section class="tile tile-light">
+    <div class="bubbles" aria-hidden="true">
+      <span class="bubble" style="left:8%; width:14px; height:14px; animation-duration:14s; animation-delay:0s;"></span>
+      <span class="bubble" style="left:18%; width:8px; height:8px; animation-duration:11s; animation-delay:3s;"></span>
+      <span class="bubble" style="left:30%; width:18px; height:18px; animation-duration:17s; animation-delay:1s;"></span>
+      <span class="bubble" style="left:48%; width:10px; height:10px; animation-duration:13s; animation-delay:5s;"></span>
+      <span class="bubble" style="left:62%; width:16px; height:16px; animation-duration:15s; animation-delay:2s;"></span>
+      <span class="bubble" style="left:74%; width:9px; height:9px; animation-duration:12s; animation-delay:6s;"></span>
+      <span class="bubble" style="left:88%; width:13px; height:13px; animation-duration:18s; animation-delay:4s;"></span>
+    </div>
     <div class="tile-inner">
-      <div class="avatar">YJ</div>
+      <div class="beluga-stage" aria-hidden="true">
+        <div class="beluga-pool"></div>
+        <svg class="beluga-svg"><use href="#beluga"/></svg>
+      </div>
+      <span class="hero-name-tag">Beluga · 흰고래</span>
       <h1 class="hero">Yeeun Jeon</h1>
       <p class="lead">
         <span data-lang-ko>데이터 사이언스 전공 · AI 엔지니어</span>
@@ -478,6 +689,13 @@
     </div>
   </section>
 
+  <!-- wave: light -> parchment -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
+      <path d="M0,32 C240,64 480,0 720,24 C960,48 1200,16 1440,40 L1440,64 L0,64 Z" fill="#e6f0f6"/>
+    </svg>
+  </div>
+
   <!-- EDUCATION -->
   <section class="tile tile-parchment">
     <div class="tile-inner">
@@ -492,6 +710,14 @@
       <p class="meta">2021.03 — 2025.08</p>
     </div>
   </section>
+
+  <!-- wave: parchment -> light -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
+      <path d="M0,24 C240,0 480,56 720,32 C960,8 1200,48 1440,20 L1440,0 L0,0 Z" fill="#d3e6ef"/>
+      <path d="M0,40 C240,16 480,64 720,40 C960,16 1200,56 1440,32 L1440,64 L0,64 Z" fill="#ffffff"/>
+    </svg>
+  </div>
 
   <!-- EXPERIENCE -->
   <section class="tile tile-light" id="experience">
@@ -628,6 +854,13 @@
     </div>
   </section>
 
+  <!-- wave: light -> dark (deep dive) -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
+      <path d="M0,32 C240,0 480,56 720,28 C960,4 1200,52 1440,24 L1440,64 L0,64 Z" fill="#0f3a55"/>
+    </svg>
+  </div>
+
   <!-- AWARDS (dark tile) -->
   <section class="tile tile-dark">
     <div class="tile-inner">
@@ -645,6 +878,14 @@
       </p>
     </div>
   </section>
+
+  <!-- wave: dark -> parchment (rising) -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
+      <path d="M0,24 C240,56 480,0 720,32 C960,60 1200,16 1440,40 L1440,0 L0,0 Z" fill="#082336"/>
+      <path d="M0,40 C240,12 480,60 720,40 C960,16 1200,56 1440,36 L1440,64 L0,64 Z" fill="#e6f0f6"/>
+    </svg>
+  </div>
 
   <!-- PUBLICATION -->
   <section class="tile tile-parchment">
@@ -665,6 +906,13 @@
       </div>
     </div>
   </section>
+
+  <!-- wave: parchment -> light -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
+      <path d="M0,40 C240,16 480,64 720,40 C960,16 1200,56 1440,32 L1440,64 L0,64 Z" fill="#ffffff"/>
+    </svg>
+  </div>
 
   <!-- CERTIFICATIONS -->
   <section class="tile tile-light">
@@ -707,6 +955,13 @@
     </div>
   </section>
 
+  <!-- wave: light -> deep ocean (final dive) -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 64" preserveAspectRatio="none">
+      <path d="M0,28 C240,60 480,4 720,28 C960,52 1200,8 1440,32 L1440,64 L0,64 Z" fill="#0f3a55"/>
+    </svg>
+  </div>
+
   <!-- CONTACT -->
   <section class="tile tile-dark-3" id="contact">
     <div class="tile-inner">
@@ -715,8 +970,8 @@
         <span data-lang-en>Contact</span>
       </p>
       <h2 class="tile-headline">
-        <span data-lang-ko>함께 일해 보고 싶다면 언제든지.</span>
-        <span data-lang-en>Let's build something together.</span>
+        <span data-lang-ko>함께 헤엄쳐 볼까요?</span>
+        <span data-lang-en>Let's swim together.</span>
       </h2>
 
       <div class="contact-grid">
@@ -744,7 +999,10 @@
   </section>
 
   <footer class="site-footer">
-    <p>&copy; 2026 Yeeun Jeon · esthyj</p>
+    <svg class="footer-mark" aria-hidden="true" viewBox="0 0 60 36">
+      <use href="#beluga-mark"/>
+    </svg>
+    <p>&copy; 2026 Yeeun Jeon · esthyj — swimming with belugas</p>
   </footer>
 
   <script>
