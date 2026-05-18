@@ -5,386 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yeeun Jeon — AI Engineer Portfolio</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
-<style>
-  :root{
-    --bg:#ffffff;
-    --title:#0066cc;
-    --sub:#BFBFBF;
-    --text:#1d1d1f;
-    --line:rgba(29,29,31,.08);
-    --card:#fafafa;
-    --shadow:0 10px 40px rgba(0,102,204,.08);
-  }
-
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    line-height:1.6;
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
-  }
-
-  /* Floating background blobs */
-  .blob{
-    position:fixed;
-    border-radius:50%;
-    filter:blur(80px);
-    opacity:.35;
-    z-index:-1;
-    pointer-events:none;
-  }
-  .blob-1{width:520px;height:520px;background:#0066cc;top:-180px;right:-160px;animation:float1 18s ease-in-out infinite}
-  .blob-2{width:420px;height:420px;background:#7ab8ff;bottom:-160px;left:-120px;animation:float2 22s ease-in-out infinite}
-  .blob-3{width:300px;height:300px;background:#cce4ff;top:40%;left:50%;animation:float3 26s ease-in-out infinite}
-  @keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,80px) scale(1.1)}}
-  @keyframes float2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,-60px) scale(1.15)}}
-  @keyframes float3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-30%,-70%) scale(1.2)}}
-
-  /* Navigation */
-  nav{
-    position:fixed;top:0;left:0;right:0;
-    z-index:100;
-    backdrop-filter:saturate(180%) blur(20px);
-    -webkit-backdrop-filter:saturate(180%) blur(20px);
-    background:rgba(255,255,255,.7);
-    border-bottom:1px solid var(--line);
-    transition:transform .4s ease;
-  }
-  nav.hidden{transform:translateY(-100%)}
-  .nav-inner{
-    max-width:1100px;margin:0 auto;
-    padding:14px 32px;
-    display:flex;justify-content:space-between;align-items:center;
-  }
-  .logo{font-weight:800;font-size:18px;color:var(--title);letter-spacing:-.5px}
-  .nav-links{display:flex;gap:28px;list-style:none}
-  .nav-links a{
-    color:var(--text);text-decoration:none;font-size:14px;font-weight:500;
-    position:relative;transition:color .2s;
-  }
-  .nav-links a::after{
-    content:'';position:absolute;left:0;bottom:-6px;
-    width:0;height:2px;background:var(--title);
-    transition:width .3s ease;
-  }
-  .nav-links a:hover{color:var(--title)}
-  .nav-links a:hover::after{width:100%}
-
-  /* Scroll progress bar */
-  .progress{
-    position:fixed;top:0;left:0;height:3px;
-    background:linear-gradient(90deg,#0066cc,#7ab8ff);
-    z-index:101;width:0%;
-    transition:width .1s linear;
-  }
-
-  /* Side TOC (left) */
-  .toc{
-    position:fixed;top:50%;left:24px;transform:translateY(-50%);
-    z-index:90;
-    padding:18px 14px;
-    background:rgba(255,255,255,.6);
-    backdrop-filter:saturate(180%) blur(14px);
-    -webkit-backdrop-filter:saturate(180%) blur(14px);
-    border:1px solid var(--line);
-    border-radius:16px;
-    box-shadow:0 6px 24px rgba(0,102,204,.06);
-    opacity:0;transform:translate(-12px,-50%);
-    transition:opacity .5s ease, transform .5s ease;
-  }
-  .toc.show{opacity:1;transform:translate(0,-50%)}
-  .toc ul{list-style:none;display:flex;flex-direction:column;gap:4px}
-  .toc li a{
-    display:flex;align-items:center;gap:10px;
-    padding:8px 10px;border-radius:10px;
-    text-decoration:none;color:var(--sub);
-    font-size:13px;font-weight:600;letter-spacing:.3px;
-    transition:color .25s ease, background .25s ease, padding .25s ease;
-    white-space:nowrap;
-  }
-  .toc li a::before{
-    content:'';display:block;
-    width:6px;height:6px;border-radius:50%;
-    background:#d8d8d8;flex-shrink:0;
-    transition:background .25s ease, transform .25s ease;
-  }
-  .toc li a:hover{color:var(--title);background:rgba(0,102,204,.06)}
-  .toc li a:hover::before{background:var(--title)}
-  .toc li a.active{
-    color:var(--title);
-    background:rgba(0,102,204,.08);
-    padding-left:14px;
-  }
-  .toc li a.active::before{
-    background:var(--title);
-    transform:scale(1.4);
-    box-shadow:0 0 0 4px rgba(0,102,204,.15);
-  }
-  @media (max-width: 1180px){
-    .toc{display:none}
-  }
-
-  /* Hero */
-  .hero{
-    min-height:100vh;
-    display:flex;flex-direction:column;justify-content:center;align-items:center;
-    text-align:center;padding:120px 24px 80px;
-    position:relative;
-  }
-  .hero-sub{
-    color:var(--sub);font-size:14px;font-weight:600;
-    letter-spacing:4px;text-transform:uppercase;
-    margin-bottom:20px;opacity:0;animation:fadeUp .8s .2s forwards;
-  }
-  .hero-title{
-    font-size:clamp(48px, 8vw, 96px);
-    font-weight:800;letter-spacing:-2.5px;line-height:1.05;
-    margin-bottom:24px;color:var(--text);
-    opacity:0;animation:fadeUp .9s .4s forwards;
-  }
-  .hero-title .accent{
-    background:linear-gradient(120deg,#0066cc 0%,#3a8eff 50%,#0066cc 100%);
-    background-size:200% auto;
-    -webkit-background-clip:text;background-clip:text;
-    color:transparent;
-    animation:shine 4s linear infinite;
-  }
-  @keyframes shine{to{background-position:200% center}}
-  .hero-desc{
-    font-size:20px;color:#555;max-width:600px;
-    opacity:0;animation:fadeUp 1s .6s forwards;
-  }
-  .typed{display:inline-block;color:var(--title);font-weight:700;min-width:180px;text-align:left}
-  .typed::after{content:'|';margin-left:2px;animation:blink 1s step-end infinite}
-  @keyframes blink{50%{opacity:0}}
-  @keyframes fadeUp{
-    from{opacity:0;transform:translateY(30px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-
-  .scroll-hint{
-    position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
-    color:var(--sub);font-size:12px;letter-spacing:2px;
-    opacity:0;animation:fadeUp 1s 1.2s forwards;
-  }
-  .scroll-hint .dot{
-    width:6px;height:6px;border-radius:50%;background:var(--title);
-    margin:8px auto 0;animation:bounce 1.6s infinite;
-  }
-  @keyframes bounce{
-    0%,100%{transform:translateY(0);opacity:1}
-    50%{transform:translateY(10px);opacity:.4}
-  }
-
-  /* Sections */
-  section{padding:120px 24px;max-width:1100px;margin:0 auto}
-  .section-tag{
-    color:var(--sub);font-size:13px;font-weight:600;
-    letter-spacing:3px;text-transform:uppercase;
-    margin-bottom:12px;
-  }
-  .section-title{
-    font-size:clamp(32px,5vw,56px);
-    font-weight:800;letter-spacing:-1.5px;line-height:1.1;
-    color:var(--title);margin-bottom:48px;
-  }
-
-  /* Reveal animation */
-  .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease, transform .8s ease}
-  .reveal.in{opacity:1;transform:translateY(0)}
-
-  /* About */
-  .about-grid{
-    display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:center;
-  }
-  .about-img{
-    position:relative;border-radius:28px;overflow:hidden;
-    box-shadow:var(--shadow);aspect-ratio:1/1;
-  }
-  .about-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
-  .about-img:hover img{transform:scale(1.05)}
-  .about-text{font-size:22px;line-height:1.7;color:var(--text)}
-  .about-text strong{color:var(--title);font-weight:700}
-
-  /* Stats */
-  .stats{
-    display:grid;grid-template-columns:repeat(3,1fr);
-    gap:24px;margin-top:48px;
-  }
-  .stat{
-    background:var(--card);border-radius:20px;padding:28px;
-    border:1px solid var(--line);
-    transition:transform .3s ease, box-shadow .3s ease;
-  }
-  .stat:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
-  .stat-num{
-    font-size:42px;font-weight:800;color:var(--title);
-    letter-spacing:-1px;line-height:1;
-  }
-  .stat-label{color:var(--sub);font-size:13px;margin-top:8px;font-weight:600;letter-spacing:1px}
-
-  /* Education */
-  .edu-card{
-    display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:center;
-    background:var(--card);border-radius:28px;padding:48px;
-    border:1px solid var(--line);
-  }
-  .edu-card h3{font-size:32px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-.8px}
-  .edu-card .meta{color:var(--sub);font-size:14px;font-weight:600;letter-spacing:1px;margin-bottom:20px}
-  .edu-card p{color:#555;font-size:15px;line-height:1.7}
-  .edu-img{border-radius:20px;overflow:hidden;aspect-ratio:4/3;box-shadow:var(--shadow)}
-  .edu-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
-  .edu-img:hover img{transform:scale(1.06)}
-
-  /* Experience timeline */
-  .timeline{position:relative;padding-left:0}
-  .exp{
-    display:grid;grid-template-columns:1fr 1.2fr;gap:48px;
-    margin-bottom:80px;align-items:center;
-  }
-  .exp.reverse{grid-template-columns:1.2fr 1fr}
-  .exp-img{
-    border-radius:24px;overflow:hidden;
-    box-shadow:var(--shadow);aspect-ratio:4/3;
-    position:relative;
-  }
-  .exp-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
-  .exp-img:hover img{transform:scale(1.06)}
-  .exp-img::after{
-    content:'';position:absolute;inset:0;
-    background:linear-gradient(135deg,rgba(0,102,204,0) 0%,rgba(0,102,204,.1) 100%);
-    pointer-events:none;
-  }
-  .exp-content .role{
-    color:var(--title);font-size:13px;font-weight:700;
-    letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;
-  }
-  .exp-content h3{font-size:28px;font-weight:800;letter-spacing:-.8px;margin-bottom:6px;color:var(--text)}
-  .exp-content .date{color:var(--sub);font-size:13px;font-weight:600;margin-bottom:20px;letter-spacing:1px}
-  .exp-content ul{list-style:none;padding:0}
-  .exp-content li{
-    padding:10px 0;color:#444;font-size:15px;line-height:1.7;
-    border-bottom:1px solid var(--line);
-    display:flex;gap:12px;
-  }
-  .exp-content li::before{
-    content:'';display:block;width:6px;height:6px;border-radius:50%;
-    background:var(--title);margin-top:10px;flex-shrink:0;
-  }
-  .exp-content li:last-child{border-bottom:none}
-  .highlight{
-    margin-top:20px;padding:14px 18px;
-    background:linear-gradient(135deg,rgba(0,102,204,.08),rgba(0,102,204,.02));
-    border-left:3px solid var(--title);border-radius:8px;
-    font-size:14px;color:var(--text);font-weight:600;
-  }
-
-  /* RAG accuracy bar */
-  .acc-bar{margin-top:20px;background:var(--card);padding:18px;border-radius:14px;border:1px solid var(--line)}
-  .acc-row{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
-  .acc-track{height:8px;background:#e8e8e8;border-radius:4px;overflow:hidden;margin-bottom:14px}
-  .acc-fill{height:100%;background:linear-gradient(90deg,#7ab8ff,#0066cc);border-radius:4px;width:0;transition:width 1.5s ease}
-
-  /* Publications */
-  .pub-card{
-    background:var(--card);border-radius:24px;padding:36px;
-    border:1px solid var(--line);
-    transition:transform .3s ease, box-shadow .3s ease;
-  }
-  .pub-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-  .pub-card .meta{color:var(--sub);font-size:13px;font-weight:600;letter-spacing:1px;margin-bottom:8px}
-  .pub-card h3{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-.4px;line-height:1.4}
-  .pub-card a{color:var(--title);font-size:14px;font-weight:600;text-decoration:none}
-  .pub-card a:hover{text-decoration:underline}
-  .pub-card p{margin-top:16px;color:#444;font-size:15px;line-height:1.7}
-  .pub-card p strong{color:var(--title)}
-
-  /* Awards & Certs */
-  .two-col{display:grid;grid-template-columns:1fr 1.4fr;gap:32px}
-  .award-card, .cert-card{
-    background:var(--card);border-radius:24px;padding:32px;
-    border:1px solid var(--line);
-  }
-  .award-card{
-    background:linear-gradient(135deg,#0066cc,#3a8eff);
-    color:#fff;border:none;
-    padding:0;overflow:hidden;
-    display:flex;flex-direction:column;
-    transition:transform .3s ease;
-  }
-  .award-card:hover{transform:translateY(-6px) rotate(-1deg)}
-  .award-card .award-photo{aspect-ratio:4/3;overflow:hidden}
-  .award-card .award-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
-  .award-card:hover .award-photo img{transform:scale(1.06)}
-  .award-card .award-body{padding:24px 28px}
-  .award-card .label{font-size:12px;font-weight:700;letter-spacing:2px;opacity:.85;margin-bottom:12px}
-  .award-card h3{font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3;margin-bottom:8px}
-  .award-card .date{font-size:13px;opacity:.85}
-
-  .cert-table{width:100%;border-collapse:collapse}
-  .cert-table th, .cert-table td{
-    text-align:left;padding:14px 8px;font-size:14px;
-    border-bottom:1px solid var(--line);
-  }
-  .cert-table th{color:var(--sub);font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:12px}
-  .cert-table td:first-child{font-weight:700;color:var(--text)}
-  .cert-table td:nth-child(2){color:var(--title);font-weight:600}
-  .cert-table tr:last-child td{border-bottom:none}
-
-  /* Contact */
-  .contact{
-    text-align:center;padding:120px 24px;
-    background:linear-gradient(180deg,transparent 0%,#f4f9ff 100%);
-  }
-  .contact h2{font-size:clamp(40px,6vw,72px);font-weight:800;letter-spacing:-2px;color:var(--text);margin-bottom:16px}
-  .contact h2 .accent{color:var(--title)}
-  .contact p{color:var(--sub);font-size:16px;margin-bottom:48px}
-  .contact-grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:20px;max-width:900px;margin:0 auto;
-  }
-  .contact-card{
-    background:#fff;border:1px solid var(--line);
-    padding:24px;border-radius:20px;
-    text-decoration:none;color:var(--text);
-    transition:transform .3s ease, box-shadow .3s ease, border-color .3s;
-    display:flex;flex-direction:column;align-items:flex-start;gap:6px;
-  }
-  .contact-card:hover{
-    transform:translateY(-6px);
-    box-shadow:var(--shadow);
-    border-color:var(--title);
-  }
-  .contact-card .label{font-size:12px;color:var(--sub);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
-  .contact-card .value{font-size:16px;font-weight:600}
-
-  footer{
-    text-align:center;padding:40px 24px;
-    color:var(--sub);font-size:13px;
-    border-top:1px solid var(--line);
-  }
-
-  /* Responsive */
-  @media (max-width: 860px){
-    .nav-links{display:none}
-    .about-grid, .edu-card, .exp, .exp.reverse, .two-col{grid-template-columns:1fr;gap:32px}
-    .stats{grid-template-columns:1fr}
-    section{padding:80px 20px}
-    .edu-card{padding:28px}
-  }
-</style>
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
+<!-- ===============================================================
+     포트폴리오 편집 가이드 (관리자용)
+     ───────────────────────────────────────────────────────────────
+     ◆ 콘텐츠 수정  → 이 파일(index.html)만 편집
+     ◆ 디자인/색상  → styles.css 편집
+     ◆ 이미지 추가  → images/ 폴더에 파일 추가 후 아래 <img src="..."> 경로 수정
+     ◆ 섹션 순서
+       1) HERO            — 첫 화면 (이름·타이핑 문구)
+       2) ABOUT           — 소개 + 통계 3개
+       3) EDUCATION       — 학력
+       4) EXPERIENCE      — 경력 (가장 자주 수정)
+       5) PUBLICATIONS    — 논문
+       6) AWARDS & CERTS  — 수상 / 자격증
+       7) CONTACT         — 연락처
+     ◆ 섹션 번호(01, 02, …)는 .section-tag에 직접 적혀 있음 — 섹션 추가/삭제 시 수동으로 번호 조정
+     =============================================================== -->
+
+<!-- 배경 장식 (수정 불필요) -->
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 <div class="blob blob-3"></div>
 
 <div class="progress" id="progress"></div>
 
+<!-- 좌측 목차 + 상단 네비게이션 -->
+<!-- ※ 섹션을 추가/삭제하면 아래 두 목록의 <a> 항목도 함께 수정 -->
 <aside class="toc" id="toc" aria-label="페이지 목차">
   <ul>
     <li><a href="#about" data-target="about">About</a></li>
@@ -409,6 +59,13 @@
   </div>
 </nav>
 
+
+<!-- ═══════════════════════════════════════════════════════════════
+     1) HERO — 첫 화면
+     • 메인 카피: .hero-title 수정
+     • 부제: .hero-sub 수정
+     • 타이핑되는 문구는 페이지 하단 <script>의 phrases 배열에서 편집
+     ═══════════════════════════════════════════════════════════════ -->
 <header class="hero">
   <div class="hero-sub">AI ENGINEER · DATA SCIENCE</div>
   <h1 class="hero-title">
@@ -424,6 +81,13 @@
   </div>
 </header>
 
+
+<!-- ═══════════════════════════════════════════════════════════════
+     2) ABOUT — 소개 + 통계
+     • 사진:   images/about.jpg 교체
+     • 본문:   .about-text 내용 수정
+     • 통계:   .stat 블록 안 data-count 숫자 변경 (퍼센트는 data-suffix="%")
+     ═══════════════════════════════════════════════════════════════ -->
 <section id="about">
   <div class="reveal">
     <div class="section-tag">01 — ABOUT</div>
@@ -457,6 +121,12 @@
   </div>
 </section>
 
+
+<!-- ═══════════════════════════════════════════════════════════════
+     3) EDUCATION — 학력
+     • 학교명: <h3>, 메타정보(전공·기간): .meta, 본문: <p>
+     • 사진: images/university_data_science.JPG 교체
+     ═══════════════════════════════════════════════════════════════ -->
 <section id="education">
   <div class="reveal">
     <div class="section-tag">02 — EDUCATION</div>
@@ -477,6 +147,20 @@
   </div>
 </section>
 
+
+<!-- ═══════════════════════════════════════════════════════════════
+     4) EXPERIENCE — 경력 (가장 자주 수정)
+     ───────────────────────────────────────────────────────────────
+     ◆ 새 경력 추가하는 법
+       1. 아래 "── 경력 #N ──" 블록 중 하나를 통째로 복사
+       2. 마지막 경력 뒤에 붙여넣기
+       3. 짝수 번째(2, 4, …)는 class="exp reverse reveal" 로 설정 → 이미지가 우측으로
+          홀수 번째(1, 3, …)는 class="exp reveal"
+       4. 안의 .role / h3 / .date / ul 내용 수정
+       5. 이미지: images/ 폴더에 추가 → .exp-img > img 의 src 변경
+     ◆ 강조 배너 추가: <div class="highlight">내용</div>
+     ◆ 정확도 막대 추가: <div class="acc-bar">…</div> 블록 (경력 #2 참고)
+     ═══════════════════════════════════════════════════════════════ -->
 <section id="experience">
   <div class="reveal">
     <div class="section-tag">03 — EXPERIENCE</div>
@@ -485,13 +169,14 @@
 
   <div class="timeline">
 
+    <!-- ── 경력 #1 (이미지 좌측) ── -->
     <div class="exp reveal">
       <div class="exp-img">
         <img src="images/samsung_amr.JPG" alt="Samsung AMR" loading="lazy" />
       </div>
       <div class="exp-content">
         <div class="role">SAMSUNG ELECTRONICS · 혁신센터</div>
-        <h3>장기현장실습 — AMR & OHT 분석</h3>
+        <h3>장기현장실습 — AMR &amp; OHT 분석</h3>
         <div class="date">2024.03.06 – 2024.06.21</div>
         <ul>
           <li>AMR(Autonomous Mobile Robot) 최적 대기 위치 산정 알고리즘 제안 → Unloading Transport Time 및 전체 반송 시간 감소</li>
@@ -501,6 +186,7 @@
       </div>
     </div>
 
+    <!-- ── 경력 #2 (이미지 우측, reverse) ── -->
     <div class="exp reverse reveal">
       <div class="exp-content">
         <div class="role">한화손해보험 · 디지털AI센터</div>
@@ -511,6 +197,7 @@
           <li>Document Parsing → Chunking → Retrieval → LLM Generation → RAG Evaluation 전 과정 직접 구현</li>
           <li>Query Transformation, Ensemble Retrieval, Prompt Engineering으로 자동차 보험 문서 도메인 최적화</li>
         </ul>
+        <!-- 정확도 막대 (옵션) — data-pct에 퍼센트 숫자만 적기 -->
         <div class="acc-bar">
           <div class="acc-row"><span>Naïve RAG</span><span>62.3%</span></div>
           <div class="acc-track"><div class="acc-fill" data-pct="62.3"></div></div>
@@ -523,6 +210,7 @@
       </div>
     </div>
 
+    <!-- ── 경력 #3 (이미지 좌측) ── -->
     <div class="exp reveal">
       <div class="exp-img">
         <img src="images/query_rewrite.JPG" alt="Samsung Query Rewrite" loading="lazy" />
@@ -541,6 +229,7 @@
       </div>
     </div>
 
+    <!-- ── 경력 #4 (이미지 우측, reverse) ── -->
     <div class="exp reverse reveal">
       <div class="exp-content">
         <div class="role">한화손해보험 · AI리서치센터</div>
@@ -561,6 +250,11 @@
   </div>
 </section>
 
+
+<!-- ═══════════════════════════════════════════════════════════════
+     5) PUBLICATIONS — 논문
+     • 추가 시 아래 .pub-card 블록을 통째로 복사
+     ═══════════════════════════════════════════════════════════════ -->
 <section id="publications">
   <div class="reveal">
     <div class="section-tag">04 — PUBLICATIONS</div>
@@ -578,9 +272,15 @@
   </div>
 </section>
 
+
+<!-- ═══════════════════════════════════════════════════════════════
+     6) AWARDS & CERTIFICATIONS — 수상 / 자격증
+     • 수상 사진: images/president_award.jpeg 교체
+     • 자격증 추가: <tbody> 안에 <tr><td>자격증명</td><td>레벨</td><td>유효기간</td></tr> 한 줄 추가
+     ═══════════════════════════════════════════════════════════════ -->
 <section id="awards">
   <div class="reveal">
-    <div class="section-tag">05 — AWARDS & CERTIFICATIONS</div>
+    <div class="section-tag">05 — AWARDS &amp; CERTIFICATIONS</div>
     <h2 class="section-title">Awards.</h2>
   </div>
   <div class="two-col reveal">
@@ -609,6 +309,11 @@
   </div>
 </section>
 
+
+<!-- ═══════════════════════════════════════════════════════════════
+     7) CONTACT — 연락처
+     • 카드 추가/삭제 시 .contact-card 블록만 늘리거나 줄이면 됨
+     ═══════════════════════════════════════════════════════════════ -->
 <section id="contact" class="contact">
   <div class="reveal">
     <h2>Let's <span class="accent">connect.</span></h2>
@@ -638,99 +343,9 @@
   © 2026 Yeeun Jeon · Built with Pretendard
 </footer>
 
-<script>
-  /* Scroll progress + nav hide + TOC show */
-  const progress = document.getElementById('progress');
-  const nav = document.getElementById('nav');
-  const toc = document.getElementById('toc');
-  let lastY = 0;
-  window.addEventListener('scroll', () => {
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    const y = window.scrollY;
-    progress.style.width = (y / h * 100) + '%';
-    if (y > lastY && y > 200) nav.classList.add('hidden');
-    else nav.classList.remove('hidden');
-    if (y > window.innerHeight * 0.4) toc.classList.add('show');
-    else toc.classList.remove('show');
-    lastY = y;
-  });
 
-  /* TOC active section highlight */
-  const tocLinks = document.querySelectorAll('.toc a[data-target]');
-  const tocSections = Array.from(tocLinks)
-    .map(a => document.getElementById(a.dataset.target))
-    .filter(Boolean);
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting){
-        tocLinks.forEach(a => a.classList.toggle(
-          'active', a.dataset.target === e.target.id
-        ));
-      }
-    });
-  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-  tocSections.forEach(s => sectionObserver.observe(s));
-
-  /* Reveal on scroll */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        // animate stat counters
-        e.target.querySelectorAll('.stat-num').forEach(animateCount);
-        // animate accuracy bars
-        e.target.querySelectorAll('.acc-fill').forEach(el => {
-          el.style.width = el.dataset.pct + '%';
-        });
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  function animateCount(el){
-    const target = parseFloat(el.dataset.count);
-    const suffix = el.dataset.suffix || '';
-    const dur = 1500;
-    const start = performance.now();
-    function tick(now){
-      const p = Math.min((now - start) / dur, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      const v = (target * eased);
-      el.textContent = (target % 1 === 0 ? Math.floor(v) : v.toFixed(1)) + suffix;
-      if (p < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  /* Hero typing effect */
-  const phrases = ['RAG systems.', 'LLM Agents.', 'Time-series forecasting.', 'AI that reasons.'];
-  const typed = document.getElementById('typed');
-  let pi = 0, ci = 0, deleting = false;
-  function type(){
-    const cur = phrases[pi];
-    if (!deleting){
-      typed.textContent = cur.slice(0, ++ci);
-      if (ci === cur.length){ deleting = true; setTimeout(type, 1600); return; }
-    } else {
-      typed.textContent = cur.slice(0, --ci);
-      if (ci === 0){ deleting = false; pi = (pi + 1) % phrases.length; }
-    }
-    setTimeout(type, deleting ? 40 : 80);
-  }
-  setTimeout(type, 1200);
-
-  /* Subtle parallax for blobs based on mouse */
-  const blobs = document.querySelectorAll('.blob');
-  window.addEventListener('mousemove', (e) => {
-    const x = (e.clientX / window.innerWidth - 0.5);
-    const y = (e.clientY / window.innerHeight - 0.5);
-    blobs.forEach((b, i) => {
-      const f = (i + 1) * 18;
-      b.style.transform = `translate(${x * f}px, ${y * f}px)`;
-    });
-  });
-</script>
+<!-- 인터랙션 스크립트 (스크롤·타이핑·카운트 등) — 수정은 script.js 에서 -->
+<script src="script.js"></script>
 
 </body>
 </html>
