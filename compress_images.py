@@ -1,5 +1,4 @@
 """One-shot image compressor for portfolio site.
-
 Resizes images so the longer side is <= MAX_DIM, re-encodes JPEGs at
 quality=QUALITY, strips metadata, and overwrites the original file.
 Originals are recoverable via `git checkout images/` since they are
