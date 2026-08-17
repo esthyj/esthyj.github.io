@@ -1,46 +1,67 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Yeeun Jeon — AI Engineer Portfolio</title>
+
+<!-- ── SEO / 링크 공유 미리보기 (수정 시 아래 4곳 함께 변경) ── -->
+<meta name="description" content="Yeeun Jeon — AI Engineer building RAG pipelines and LLM agents. Experience at Samsung Electronics and Hanwha General Insurance, IEEE publication, Presidential Science Scholar." />
+<link rel="canonical" href="https://esthyj.github.io/" />
+<meta name="theme-color" content="#0B0F14" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://esthyj.github.io/" />
+<meta property="og:title" content="Yeeun Jeon — AI Engineer" />
+<meta property="og:description" content="AI Engineer building RAG pipelines and LLM agents. Experience at Samsung Electronics and Hanwha General Insurance." />
+<meta property="og:image" content="https://esthyj.github.io/images/about.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- ── 파비콘 (브라우저 탭 아이콘) — 교체하려면 images/ 에 넣고 아래 경로만 수정 ── -->
+<link rel="icon" type="image/png" href="images/free-icon-beluga.png" />
+<link rel="apple-touch-icon" href="images/free-icon-beluga.png" />
+
+<!-- ── 글꼴: JetBrains Mono = 본문 기본(--mono), Pretendard = 큰 제목(--sans) + 한글 대체 ── -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <!-- ===============================================================
      포트폴리오 편집 가이드 (관리자용)
+     ※ 사이트에 보이는 글은 전부 영어입니다. 이 주석들만 한국어로 남겨둡니다.
      ───────────────────────────────────────────────────────────────
      ◆ 콘텐츠 수정  → 이 파일(index.html)만 편집
-     ◆ 디자인/색상  → styles.css 편집
+     ◆ 디자인/색상  → styles.css 편집 (색상은 맨 위 :root 변수)
      ◆ 이미지 추가  → images/ 폴더에 파일 추가 후 아래 <img src="..."> 경로 수정
+                      ※ 큰 사진을 넣었다면 `python compress_images.py` 로 압축
      ◆ 섹션 순서
-       1) HERO            — 첫 화면 (이름·타이핑 문구)
-       2) ABOUT           — 소개 + 통계 3개
-       3) EDUCATION       — 학력
-       4) EXPERIENCE      — 경력 (가장 자주 수정)
-       5) PUBLICATIONS    — 논문
-       6) AWARDS & CERTS  — 수상 / 자격증
-       7) CONTACT         — 연락처
-     ◆ 섹션 번호(01, 02, …)는 .section-tag에 직접 적혀 있음 — 섹션 추가/삭제 시 수동으로 번호 조정
+       ABOUT         — 첫 화면 · 소개 + 기술 스택
+       EXPERIENCE    — 경력 (가장 자주 수정)
+       PUBLICATIONS  — 논문
+       EDUCATION     — 학력
+       AWARDS & CERTS— 수상 / 자격증
+       CONTACT       — 연락처
+     ◆ 섹션 말머리($ 01, $ contact --list 같은 터미널 태그)는 전부 삭제됨 — 다시 넣지 말 것
+       각 섹션은 <h2 class="section-title"> 로 바로 시작한다 (.section-tag 클래스도 CSS에서 제거됨)
+     ◆ 섹션 추가/삭제 시 ① <section id> ② 상단 nav ③ 좌측 TOC 를 모두 수동으로 맞출 것
+       (상단 nav 는 About / Contact 만 두기로 했으므로 대개 좌측 TOC 만 손대면 됨)
      =============================================================== -->
-
-<!-- 배경 장식 (수정 불필요) -->
-<div class="blob blob-1"></div>
-<div class="blob blob-2"></div>
-<div class="blob blob-3"></div>
 
 <div class="progress" id="progress"></div>
 
 <!-- 좌측 목차 + 상단 네비게이션 -->
 <!-- ※ 섹션을 추가/삭제하면 아래 두 목록의 <a> 항목도 함께 수정 -->
-<aside class="toc" id="toc" aria-label="페이지 목차">
+<!-- ※ data-target 값 = <section id="..."> 값. script.js 가 이걸 보고 현재 섹션에 색을 칠한다 -->
+<!-- ※ 목차 글자가 길어지면 본문과 겹칠 수 있음 — styles.css 의 .toc { left: … } 주석 참고 -->
+<aside class="toc" id="toc" aria-label="Table of contents">
   <ul>
     <li><a href="#about" data-target="about">About</a></li>
-    <li><a href="#education" data-target="education">Education</a></li>
     <li><a href="#experience" data-target="experience">Experience</a></li>
     <li><a href="#publications" data-target="publications">Publications</a></li>
+    <li><a href="#education" data-target="education">Education</a></li>
     <li><a href="#awards" data-target="awards">Awards</a></li>
     <li><a href="#contact" data-target="contact">Contact</a></li>
   </ul>
@@ -48,12 +69,20 @@
 
 <nav id="nav">
   <div class="nav-inner">
-    <div class="logo">Yeeun Jeon.</div>
-    <ul class="nav-links">
+    <a class="logo" href="#top">
+      <img class="logo-mark" src="images/free-icon-beluga.png" alt="" width="512" height="512" />
+      <span>Yeeun Jeon</span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- 상단 nav 는 About / Contact 두 개만 (사용자 요청).
+         나머지 섹션 이동은 좌측 목차(.toc) 담당 — 단, 목차는 1360px 이상에서만 보인다 -->
+    <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#publications">Publications</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -61,61 +90,77 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     1) HERO — 첫 화면
-     • 메인 카피: .hero-title 수정
-     • 부제: .hero-sub 수정
-     • 타이핑되는 문구는 페이지 하단 <script>의 phrases 배열에서 편집
-     ═══════════════════════════════════════════════════════════════ -->
-<header class="hero">
-  <div class="hero-sub">AI ENGINEER · DATA SCIENCE</div>
-  <h1 class="hero-title">
-    Building <span class="accent">intelligent</span><br />
-    systems that <span class="accent">reason</span>.
-  </h1>
-  <p class="hero-desc">
-    I research and build <span class="typed" id="typed"></span>
-  </p>
-  <div class="scroll-hint">
-    SCROLL
-    <div class="dot"></div>
-  </div>
-</header>
-
-
-<!-- ═══════════════════════════════════════════════════════════════
-     2) ABOUT — 소개 + 통계
+     ABOUT — 첫 화면 · 소개 + 기술 스택
      • 사진:   images/about.jpg 교체
      • 본문:   .about-text 내용 수정
-     • 통계:   .stat 블록 안 data-count 숫자 변경 (퍼센트는 data-suffix="%")
+     • 기술:   .skills-grid 안의 .chip 추가/삭제
      ═══════════════════════════════════════════════════════════════ -->
 <section id="about">
-  <div class="reveal">
-    <div class="section-tag">01 — ABOUT</div>
-    <h2 class="section-title">데이터로<br />문제를 푸는 사람.</h2>
-  </div>
   <div class="about-grid reveal">
-    <div class="about-img">
-      <img src="images/about.jpg" alt="About Yeeun Jeon" loading="lazy" />
+    <!-- 사진 + 이름/직함 (이름이 이 페이지의 대표 제목 h1 역할) -->
+    <div class="about-card">
+      <div class="about-img">
+        <img src="images/about.jpg" alt="Yeeun Jeon" width="1194" height="1535" fetchpriority="high" />
+      </div>
+      <h1 class="about-name">Yeeun Jeon</h1>
+      <p class="about-role">AI Engineer</p>
     </div>
     <div>
       <p class="about-text">
-        데이터사이언스 전공의 <strong>AI 엔지니어</strong>입니다.
-        <strong>RAG</strong>, <strong>LLM Agent</strong>를
-        주력으로 연구하며, 실제 산업 도메인의 문제를 해결하는 일에 가장 큰 흥미를 느낍니다.
+        I'm an <strong>AI engineer</strong> with a Data Science background.
+        My focus is <strong>RAG</strong> and <strong>LLM Agents</strong> — and what
+        interests me most is solving problems inside real industrial domains.
+        Right now I'm working my way toward being a <strong>full-stack engineer</strong> —
+        so that I can own an AI product end to end, from model to interface.
       </p>
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-num" data-count="4">0</div>
-          <div class="stat-label">YEARS OF STUDY</div>
+
+      <!-- 기술 스택
+           ⚠ 실제로 사용해 본 적 없는 항목은 반드시 삭제할 것 (면접에서 그대로 물어봄)
+           ◆ 항목 추가/삭제 = <span class="chip">…</span> 한 줄
+           ◆ 그룹 추가     = .skill-group 블록을 통째로 복사
+           ◆ 아이콘        = icons/ 폴더의 SVG. alt=""는 옆에 이름이 있으니 일부러 비워둠 -->
+      <div class="skills-grid">
+
+        <!-- 그룹 순서 = 읽는 순서. AI 를 맨 위에 둔 건 의도된 것 —
+             본문에서 말한 "AI engineer / RAG" 를 스택으로 바로 증명하기 위함 -->
+        <div class="skill-group">
+          <div class="skill-label">AI / LLM</div>
+          <div class="chips">
+            <span class="chip"><img class="chip-icon" src="icons/langchain.svg" alt="" width="16" height="16" loading="lazy" />LangChain</span>
+            <span class="chip"><img class="chip-icon" src="icons/llm-api.svg" alt="" width="16" height="16" loading="lazy" />LLM APIs</span>
+            <span class="chip"><img class="chip-icon" src="icons/pytorch.svg" alt="" width="16" height="16" loading="lazy" />PyTorch</span>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-num" data-count="4">0</div>
-          <div class="stat-label">INDUSTRY ROLES</div>
+
+        <div class="skill-group">
+          <div class="skill-label">LANGUAGES</div>
+          <div class="chips">
+            <span class="chip"><img class="chip-icon" src="icons/python.svg" alt="" width="16" height="16" loading="lazy" />Python</span>
+            <span class="chip"><img class="chip-icon" src="icons/typescript.svg" alt="" width="16" height="16" loading="lazy" />TypeScript</span>
+            <span class="chip"><img class="chip-icon" src="icons/javascript.svg" alt="" width="16" height="16" loading="lazy" />JavaScript</span>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-num" data-count="96" data-suffix="%">0</div>
-          <div class="stat-label">RAG ACCURACY</div>
+
+        <!-- 프론트·백을 한 그룹으로 둔 이유: React 하나로 FRONTEND 그룹을 따로 세우면
+             칩 1개짜리 빈 칸처럼 보임. 프론트 스택이 늘면 두 그룹으로 쪼갤 것 -->
+        <div class="skill-group">
+          <div class="skill-label">FRONTEND &amp; BACKEND</div>
+          <div class="chips">
+            <span class="chip"><img class="chip-icon" src="icons/react.svg" alt="" width="16" height="16" loading="lazy" />React</span>
+            <span class="chip"><img class="chip-icon" src="icons/nodejs.svg" alt="" width="16" height="16" loading="lazy" />Node.js</span>
+            <span class="chip"><img class="chip-icon" src="icons/fastapi.svg" alt="" width="16" height="16" loading="lazy" />FastAPI</span>
+          </div>
         </div>
+
+        <div class="skill-group">
+          <div class="skill-label">DATA &amp; INFRA</div>
+          <div class="chips">
+            <span class="chip"><img class="chip-icon" src="icons/postgresql.svg" alt="" width="16" height="16" loading="lazy" />PostgreSQL</span>
+            <span class="chip"><img class="chip-icon" src="icons/docker.svg" alt="" width="16" height="16" loading="lazy" />Docker</span>
+            <span class="chip"><img class="chip-icon" src="icons/git.svg" alt="" width="16" height="16" loading="lazy" />Git / GitHub</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -123,47 +168,26 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     3) EDUCATION — 학력
-     • 학교명: <h3>, 메타정보(전공·기간): .meta, 본문: <p>
-     • 사진: images/university_data_science.JPG 교체
-     ═══════════════════════════════════════════════════════════════ -->
-<section id="education">
-  <div class="reveal">
-    <div class="section-tag">02 — EDUCATION</div>
-    <h2 class="section-title">Education.</h2>
-  </div>
-  <div class="edu-card reveal">
-    <div>
-      <h3>Hanyang University</h3>
-      <div class="meta">B.S. in Data Science · 2021.03 – 2025.08</div>
-      <p>
-        주요 과목: 확률통계론, 자료구조론, 머신러닝1·2, 알고리즘및문제해결기법,
-        지능형로보틱스, 인간컴퓨터상호작용, 인공지능, 데이터사이언스, 컴퓨터비전
-      </p>
-    </div>
-    <div class="edu-img">
-      <img src="images/university_data_science.JPG" alt="Hanyang Data Science" loading="lazy" />
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════════════
-     4) EXPERIENCE — 경력 (가장 자주 수정)
+     EXPERIENCE — 경력 (가장 자주 수정)
      ───────────────────────────────────────────────────────────────
+     ◆ 접었다 펴는 구조(아코디언)
+       - 처음엔 .exp-head(회사 · 직함 · 기간)만 보이고, 클릭하면 .exp-panel 이 펼쳐짐
+       - 펼침/접힘 동작은 script.js 가 .exp 에 .open 클래스를 붙였다 떼며 처리
      ◆ 새 경력 추가하는 법
        1. 아래 "── 경력 #N ──" 블록 중 하나를 통째로 복사
        2. 마지막 경력 뒤에 붙여넣기
        3. 짝수 번째(2, 4, …)는 class="exp reverse reveal" 로 설정 → 이미지가 우측으로
           홀수 번째(1, 3, …)는 class="exp reveal"
-       4. 안의 .role / h3 / .date / ul 내용 수정
-       5. 이미지: images/ 폴더에 추가 → .exp-img > img 의 src 변경
-     ◆ 강조 배너 추가: <div class="highlight">내용</div>
+       4. 안의 .role / .exp-name / .date / ul 내용 수정
+       5. ⚠ id 를 반드시 새 번호로 바꿀 것 — 버튼의 aria-controls 와
+          패널의 id 가 짝이 맞아야 함 (exp-1 ↔ exp-1)
+       6. 이미지: images/ 폴더에 추가 → .exp-img > img 의 src 변경
+     ◆ 강조 배너 추가:  <div class="highlight">내용</div>
      ◆ 정확도 막대 추가: <div class="acc-bar">…</div> 블록 (경력 #2 참고)
+     ◆ 재직 중이면 날짜를 "… – Present" 로 적으면 됨 (별도 NOW 배지는 삭제했음)
      ═══════════════════════════════════════════════════════════════ -->
 <section id="experience">
   <div class="reveal">
-    <div class="section-tag">03 — EXPERIENCE</div>
     <h2 class="section-title">Experience.</h2>
   </div>
 
@@ -171,79 +195,138 @@
 
     <!-- ── 경력 #1 (이미지 좌측) ── -->
     <div class="exp reveal">
-      <div class="exp-img">
-        <img src="images/samsung_amr.JPG" alt="Samsung AMR" loading="lazy" />
-      </div>
-      <div class="exp-content">
-        <div class="role">SAMSUNG ELECTRONICS · 혁신센터</div>
-        <h3>장기현장실습 — AMR &amp; OHT 분석</h3>
-        <div class="date">2024.03.06 – 2024.06.21</div>
-        <ul>
-          <li>AMR(Autonomous Mobile Robot) 최적 대기 위치 산정 알고리즘 제안 → Unloading Transport Time 및 전체 반송 시간 감소</li>
-          <li>OHT(Overhead Hoist Transport) 데이터 분석 및 Section 통과 시간 예측 — Temporal Fusion Transformer가 베이스라인 대비 우수한 MAE 기록</li>
-        </ul>
-        <div class="highlight">★ 동기 8명 중 종합 평가 1위 — 우수 인턴 선발</div>
+      <!-- 접힌 상태에서 보이는 줄. <button>은 자식으로 텍스트 요소(span)만 둘 수 있어
+           제목은 <h3>으로 버튼을 감싸는 형태로 넣었다 (문서 구조 + 스크린리더용) -->
+      <h3 class="exp-title">
+        <button class="exp-head" type="button" aria-expanded="false" aria-controls="exp-1">
+          <img class="exp-logo" src="icons/samsung.svg" alt="" width="96" height="36" loading="lazy" />
+          <span class="exp-head-text">
+            <span class="role">SAMSUNG ELECTRONICS · INNOVATION CENTER</span>
+            <span class="exp-name">Co-op Internship — AMR &amp; OHT Analysis</span>
+            <span class="date">Mar 2024 – Jun 2024</span>
+          </span>
+          <span class="exp-chevron" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="exp-panel" id="exp-1">
+        <div class="exp-body">
+          <div class="exp-grid">
+            <div class="exp-img">
+              <img src="images/samsung_amr.JPG" alt="Samsung AMR" width="1200" height="1600" loading="lazy" />
+            </div>
+            <div class="exp-detail">
+              <ul>
+                <li>Proposed an algorithm for computing optimal standby positions for AMRs (Autonomous Mobile Robots), reducing unloading transport time and total transfer time</li>
+                <li>Analyzed OHT (Overhead Hoist Transport) data and predicted section traversal time — a Temporal Fusion Transformer beat the baseline on MAE</li>
+              </ul>
+              <div class="highlight">★ Ranked 1st of 8 interns in overall evaluation — selected as Top Intern</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- ── 경력 #2 (이미지 우측, reverse) ── -->
     <div class="exp reverse reveal">
-      <div class="exp-content">
-        <div class="role">한화손해보험 · 디지털AI센터</div>
-        <h3>인턴 — RAG 챗봇 개발</h3>
-        <div class="date">2025.01.13 – 2025.02.28</div>
-        <ul>
-          <li>보험설계사를 위한 RAG 기반 챗봇 개발</li>
-          <li>Document Parsing → Chunking → Retrieval → LLM Generation → RAG Evaluation 전 과정 직접 구현</li>
-          <li>Query Transformation, Ensemble Retrieval, Prompt Engineering으로 자동차 보험 문서 도메인 최적화</li>
-        </ul>
-        <!-- 정확도 막대 (옵션) — data-pct에 퍼센트 숫자만 적기 -->
-        <div class="acc-bar">
-          <div class="acc-row"><span>Naïve RAG</span><span>62.3%</span></div>
-          <div class="acc-track"><div class="acc-fill" data-pct="62.3"></div></div>
-          <div class="acc-row"><span>Final Architecture</span><span>96.6%</span></div>
-          <div class="acc-track"><div class="acc-fill" data-pct="96.6"></div></div>
+      <h3 class="exp-title">
+        <button class="exp-head" type="button" aria-expanded="false" aria-controls="exp-2">
+          <img class="exp-logo" src="icons/hanwha.svg" alt="" width="96" height="36" loading="lazy" />
+          <span class="exp-head-text">
+            <span class="role">HANWHA GENERAL INSURANCE · DIGITAL AI CENTER</span>
+            <span class="exp-name">Intern — RAG Chatbot Development</span>
+            <span class="date">Jan 2025 – Feb 2025</span>
+          </span>
+          <span class="exp-chevron" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="exp-panel" id="exp-2">
+        <div class="exp-body">
+          <div class="exp-grid">
+            <div class="exp-detail">
+              <ul>
+                <li>Built a RAG-based chatbot for insurance planners</li>
+                <li>Implemented the whole pipeline end to end: document parsing → chunking → retrieval → LLM generation → RAG evaluation</li>
+                <li>Tuned it for the auto-insurance document domain with query transformation, ensemble retrieval, and prompt engineering</li>
+              </ul>
+              <!-- 정확도 막대 (옵션) — data-pct에 퍼센트 숫자만 적기.
+                   접힌 채로는 애니메이션이 안 보이므로 script.js 가 펼칠 때 채운다 -->
+              <div class="acc-bar">
+                <div class="acc-row"><span>Naïve RAG</span><span>62.3%</span></div>
+                <div class="acc-track"><div class="acc-fill" data-pct="62.3"></div></div>
+                <div class="acc-row"><span>Final Architecture</span><span>96.6%</span></div>
+                <div class="acc-track"><div class="acc-fill" data-pct="96.6"></div></div>
+              </div>
+            </div>
+            <div class="exp-img">
+              <img src="images/Hanwha_insurance_rag.jpeg" alt="Hanwha RAG" width="1200" height="1600" loading="lazy" />
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="exp-img">
-        <img src="images/Hanwha_insurance_rag.jpeg" alt="Hanwha RAG" loading="lazy" />
       </div>
     </div>
 
     <!-- ── 경력 #3 (이미지 좌측) ── -->
     <div class="exp reveal">
-      <div class="exp-img">
-        <img src="images/query_rewrite.JPG" alt="Samsung Query Rewrite" loading="lazy" />
-      </div>
-      <div class="exp-content">
-        <div class="role">SAMSUNG ELECTRONICS · AI센터</div>
-        <h3>장기현장실습 — Query Rewrite 모듈</h3>
-        <div class="date">2025.03.04 – 2025.05.30</div>
-        <ul>
-          <li>DS Assistant 내 Query Rewrite 모듈 직접 구현 — 이전 대화·마지막 질문 기반 두 종류 쿼리 동시 생성</li>
-          <li>Retrieval Query (키워드 중심) + Generation Query (자연스러운 문장형)</li>
-          <li>쿼리 → 문서 리랭킹 → Generation Query 기반 답변 생성 파이프라인 구축</li>
-          <li>TTFT(Time to First Token)가 짧은 LLM 활용으로 사용자 체감 응답 속도 우선 최적화</li>
-          <li>사용자 데이터 기반 평가셋 구축, Retrieve / Rerank 문서 수에 따른 Recall · nDCG 측정</li>
-        </ul>
+      <h3 class="exp-title">
+        <button class="exp-head" type="button" aria-expanded="false" aria-controls="exp-3">
+          <img class="exp-logo" src="icons/samsung.svg" alt="" width="96" height="36" loading="lazy" />
+          <span class="exp-head-text">
+            <span class="role">SAMSUNG ELECTRONICS · AI CENTER</span>
+            <span class="exp-name">Co-op Internship — Query Rewrite Module</span>
+            <span class="date">Mar 2025 – May 2025</span>
+          </span>
+          <span class="exp-chevron" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="exp-panel" id="exp-3">
+        <div class="exp-body">
+          <div class="exp-grid">
+            <div class="exp-img">
+              <img src="images/query_rewrite.JPG" alt="Samsung Query Rewrite" width="1600" height="1200" loading="lazy" />
+            </div>
+            <div class="exp-detail">
+              <ul>
+                <li>Implemented the Query Rewrite module inside DS Assistant — generates two query types at once from the prior conversation and the latest question</li>
+                <li>Retrieval Query (keyword-oriented) + Generation Query (natural sentence form)</li>
+                <li>Built the pipeline: query → document reranking → answer generation driven by the Generation Query</li>
+                <li>Optimized for perceived response speed by using an LLM with low TTFT (Time to First Token)</li>
+                <li>Built an evaluation set from real user data; measured Recall and nDCG against the number of retrieved / reranked documents</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- ── 경력 #4 (이미지 우측, reverse) ── -->
     <div class="exp reverse reveal">
-      <div class="exp-content">
-        <div class="role">한화손해보험 · AI리서치센터</div>
-        <h3>AI Engineer — 사내 리포트 작성 Agent</h3>
-        <div class="date">2025.06.02 – 재직 중</div>
-        <ul>
-          <li>최신 기사 검색 (타 금융사 AI 사업 동향)</li>
-          <li>LLM 기반 요약·인사이트 도출 (보험사 관점)</li>
-          <li>사내 리포트 템플릿 자동 정리 — End-to-End 파이프라인 구축</li>
-        </ul>
-        <div class="highlight">현재 진행 중 · Now</div>
-      </div>
-      <div class="exp-img">
-        <img src="images/hanwha_insurance_report.jpeg" alt="Hanwha Insurance Report Agent" loading="lazy" />
+      <h3 class="exp-title">
+        <button class="exp-head" type="button" aria-expanded="false" aria-controls="exp-4">
+          <img class="exp-logo" src="icons/hanwha.svg" alt="" width="96" height="36" loading="lazy" />
+          <span class="exp-head-text">
+            <span class="role">HANWHA GENERAL INSURANCE · AI RESEARCH CENTER</span>
+            <span class="exp-name">AI Engineer — Internal Report Writing Agent</span>
+            <span class="date">Jun 2025 – Present</span>
+          </span>
+          <span class="exp-chevron" aria-hidden="true"></span>
+        </button>
+      </h3>
+      <div class="exp-panel" id="exp-4">
+        <div class="exp-body">
+          <div class="exp-grid">
+            <div class="exp-detail">
+              <ul>
+                <li>Retrieves recent articles on AI initiatives across other financial firms</li>
+                <li>LLM-based summarization and insight extraction from an insurer's point of view</li>
+                <li>Formats everything into the internal report template — built as an end-to-end pipeline</li>
+              </ul>
+              <div class="highlight">Related code → <a href="https://github.com/esthyj/ai-weekly-report" target="_blank" rel="noopener">github.com/esthyj/ai-weekly-report</a></div>
+            </div>
+            <div class="exp-img">
+              <img src="images/hanwha_insurance_report.jpeg" alt="Hanwha Insurance Report Agent" width="1200" height="1600" loading="lazy" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -252,95 +335,184 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     5) PUBLICATIONS — 논문
+     PUBLICATIONS — 논문
      • 추가 시 아래 .pub-card 블록을 통째로 복사
      ═══════════════════════════════════════════════════════════════ -->
 <section id="publications">
   <div class="reveal">
-    <div class="section-tag">04 — PUBLICATIONS</div>
     <h2 class="section-title">Publications.</h2>
   </div>
   <div class="pub-card reveal">
     <div class="meta">IEEE · 2024</div>
     <h3>Digital Health Sensor Data in Autism: Developing Few-Shot Learning Approaches for Traditional Machine Learning Classifiers</h3>
-    <a href="https://ieeexplore.ieee.org/abstract/document/10780502/" target="_blank" rel="noopener">ieeexplore.ieee.org/document/10780502 →</a>
+    <a class="pub-link" href="https://ieeexplore.ieee.org/abstract/document/10780502/" target="_blank" rel="noopener">ieeexplore.ieee.org/document/10780502 →</a>
     <p>
-      <strong>SMOTE_FSL</strong> — 랜덤 포레스트, SVM 등 전통적 ML 모델을 소량 데이터로도 효과적으로 학습시키기 위한 데이터 증강 알고리즘.
-      기존 SMOTE는 소수 클래스의 *분포 내부*에서만 합성 데이터를 생성하지만, 임상 데이터처럼 표본이 작으면 수집 데이터가 질병 전체 특성을 대변하기 어렵습니다.
-      SMOTE_FSL은 *padding* 파라미터의 <strong>Statistical Inversion</strong> 기법으로 합성 데이터가 원본 범위를 *초과*해 생성될 수 있도록 의도적으로 허용합니다.
+      <strong>SMOTE_FSL</strong> — a data augmentation algorithm that lets traditional ML models such as
+      Random Forest and SVM train effectively even on very small datasets.
+      Standard SMOTE only synthesizes samples <em>inside</em> the minority class distribution, but when the
+      sample is small — as clinical data usually is — the collected data rarely represents the full
+      characteristics of a disease.
+      SMOTE_FSL applies <strong>Statistical Inversion</strong> to the <em>padding</em> parameter, deliberately
+      allowing synthetic samples to be generated <em>beyond</em> the range of the original data.
     </p>
   </div>
 </section>
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     6) AWARDS & CERTIFICATIONS — 수상 / 자격증
-     • 수상 사진: images/president_award.jpeg 교체
-     • 자격증 추가: <tbody> 안에 <tr><td>자격증명</td><td>레벨</td><td>유효기간</td></tr> 한 줄 추가
+     EDUCATION — 학력
+     • 학교명: <h3>, 메타정보(전공·기간): .meta
+     • 과목 추가/삭제 = <span class="chip">과목명</span> 한 줄
+     • 사진: images/university_data_science.JPG 교체
      ═══════════════════════════════════════════════════════════════ -->
-<section id="awards">
+<section id="education">
   <div class="reveal">
-    <div class="section-tag">05 — AWARDS &amp; CERTIFICATIONS</div>
-    <h2 class="section-title">Awards.</h2>
+    <h2 class="section-title">Education.</h2>
   </div>
-  <div class="two-col reveal">
-    <div class="award-card">
-      <div class="award-photo">
-        <img src="images/president_award.jpeg" alt="대통령과학장학생 시상" loading="lazy" />
+  <div class="edu-card reveal">
+    <div>
+      <!-- 학교 교표(원형) + 학교명·학위를 한 줄로 묶는다.
+           옆의 <h3>이 학교명을 말하므로 alt=""(장식용).
+           ※ icons/hanyang-emblem.png 는 100×100 원본이라 이보다 크게 키우면 흐려진다.
+             더 크게 쓰려면 한양대 UI 페이지에서 고해상도 파일을 받아 교체할 것.
+           ※ 가로형 워드마크 icons/hanyang.svg 도 남아 있다 (교체하려면 src 만 변경) -->
+      <div class="edu-head">
+        <img class="edu-logo" src="icons/hanyang-emblem.png" alt="" width="58" height="58" loading="lazy" />
+        <div>
+          <h3>Hanyang University</h3>
+          <div class="meta">
+            <span>B.S. in Data Science · Mar 2021 – Aug 2025</span>
+            <!-- aria-hidden = 스크린리더가 "트로피"를 먼저 읽지 않도록 (장식용) -->
+            <span class="badge-honor"><span class="badge-emoji" aria-hidden="true">🏆</span>SUMMA CUM LAUDE</span>
+          </div>
+        </div>
       </div>
-      <div class="award-body">
-        <div class="label">PRESIDENTIAL SCIENCE</div>
-        <h3>한국장학재단<br />대통령과학장학생</h3>
-        <div class="date">2024.02.16</div>
+      <div class="chips">
+        <span class="chip">Probability &amp; Statistics</span>
+        <span class="chip">Data Structures</span>
+        <span class="chip">Machine Learning I · II</span>
+        <span class="chip">Algorithms &amp; Problem Solving</span>
+        <span class="chip">Intelligent Robotics</span>
+        <span class="chip">Human-Computer Interaction</span>
+        <span class="chip">Artificial Intelligence</span>
+        <span class="chip">Data Science</span>
+        <span class="chip">Computer Vision</span>
       </div>
     </div>
-    <div class="cert-card">
-      <table class="cert-table">
-        <thead>
-          <tr><th>자격증</th><th>레벨</th><th>유효기간</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>SQLD</td><td>합격</td><td>2024.06.21 –</td></tr>
-          <tr><td>AdSP</td><td>합격</td><td>2024.09.06 –</td></tr>
-          <tr><td>OPIc</td><td>Intermediate High</td><td>2026.02.23 – 2028.02.22</td></tr>
-        </tbody>
-      </table>
+    <div class="edu-img">
+      <img src="images/university_data_science.JPG" alt="Hanyang Data Science" width="900" height="1600" loading="lazy" />
     </div>
   </div>
 </section>
 
 
 <!-- ═══════════════════════════════════════════════════════════════
-     7) CONTACT — 연락처
-     • 카드 추가/삭제 시 .contact-card 블록만 늘리거나 줄이면 됨
+     AWARDS & CERTIFICATIONS — 수상 / 자격증
+     • 수상 사진: images/president_award.jpeg 교체
+     • 자격증 추가: <tbody> 안에 <tr><td>자격증명</td><td>레벨</td><td>유효기간</td></tr> 한 줄 추가
+     • 두 블록은 각각 .label(AWARD / CERTIFICATIONS)로 구분한다 — 라벨을 지우면
+       카드 두 개가 한 덩어리처럼 보이므로 새 블록을 만들 때도 라벨을 꼭 달 것
+     ═══════════════════════════════════════════════════════════════ -->
+<section id="awards">
+  <div class="reveal">
+    <h2 class="section-title">Awards &amp; Certifications.</h2>
+  </div>
+  <!-- 배치: 왼쪽 칼럼에 수상(위) + 자격증(아래), 오른쪽에 사진 한 장.
+       사진은 왼쪽 칼럼 전체 높이에 맞춰 늘어난다 (.award-photo 의 height:100%) -->
+  <div class="award-grid reveal">
+    <div class="award-col">
+      <!-- 왼쪽 위: 수상 -->
+      <div class="award-card">
+        <div class="label">AWARD</div>
+        <h3>Presidential Science Scholar</h3>
+        <div class="date">Korea Student Aid Foundation · Feb 2024</div>
+      </div>
+      <!-- 왼쪽 아래: 자격증 -->
+      <div class="cert-card">
+        <div class="label">CERTIFICATIONS</div>
+        <table class="cert-table">
+          <thead>
+            <tr><th>Certification</th><th>Level</th><th>Valid</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>SQLD</td><td>Passed</td><td>Jun 2024 –</td></tr>
+            <tr><td>AdSP</td><td>Passed</td><td>Sep 2024 –</td></tr>
+            <tr><td>OPIc</td><td>Intermediate High</td><td>Feb 2026 – Feb 2028</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- 오른쪽: 수상 사진 -->
+    <div class="award-photo">
+      <img src="images/president_award.jpeg" alt="Presidential Science Scholarship award ceremony" width="1200" height="1600" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CONTACT — 연락처
+     ⚠ 한 줄(.contact-row)은 반드시 자식 4개여야 한다 — 아이콘 / 라벨 / 값 / 오른쪽칸.
+       .contact-row 가 CSS 에서 display:contents 라서, 자식 수가 4개가 아니면
+       그 아래 줄들이 통째로 옆으로 밀려버린다. 오른쪽칸이 비는 줄도
+       <span class="action-none"></span> 를 반드시 넣을 것 (GITHUB 줄 참고)
+     • GITHUB 만 링크(<a>)이고 나머지는 복사 버튼이다 (사용자 요청)
+     • 복사되는 값은 화면에 보이는 글자가 아니라 button 의 data-copy 속성 값이다
+       — LINKEDIN 은 화면엔 아이디만 보이지만 복사하면 전체 주소가 들어간다
+     • 아이콘 색은 각 <svg> 의 class(.i-mail / .i-phone / .i-github / .i-linkedin)로
+       styles.css 에서 지정. 항목을 추가하면 클래스도 같이 만들 것
+     • aria-hidden="true" = 아이콘은 장식이므로 스크린리더가 읽지 않게 함
      ═══════════════════════════════════════════════════════════════ -->
 <section id="contact" class="contact">
   <div class="reveal">
-    <h2>Let's <span class="accent">connect.</span></h2>
-    <p>새로운 협업과 대화는 언제든 환영합니다.</p>
-    <div class="contact-grid">
-      <a class="contact-card" href="mailto:esthyj@naver.com">
+    <h2>Let's <span class="accent">Connect!</span></h2>
+    <p>Always open to new collaborations and conversations.</p>
+
+    <div class="contact-list">
+
+      <div class="contact-row">
+        <svg class="contact-icon i-mail" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4-8 5-8-5V6l8 5 8-5z"/></svg>
         <span class="label">EMAIL</span>
         <span class="value">esthyj@naver.com</span>
-      </a>
-      <a class="contact-card" href="tel:+821024687535">
+        <button class="copy-btn" type="button" data-copy="esthyj@naver.com" aria-label="Copy email address">
+          <svg class="ic-copy" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="ic-check" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </button>
+      </div>
+
+      <div class="contact-row">
+        <svg class="contact-icon i-phone" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02z"/></svg>
         <span class="label">PHONE</span>
         <span class="value">+82 10-2468-7535</span>
-      </a>
-      <a class="contact-card" href="https://github.com/esthyj" target="_blank" rel="noopener">
+        <button class="copy-btn" type="button" data-copy="+82 10-2468-7535" aria-label="Copy phone number">
+          <svg class="ic-copy" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="ic-check" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </button>
+      </div>
+
+      <div class="contact-row">
+        <svg class="contact-icon i-github" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
         <span class="label">GITHUB</span>
-        <span class="value">@esthyj</span>
-      </a>
-      <a class="contact-card" href="https://www.linkedin.com/in/yeeun-jeon-belu/" target="_blank" rel="noopener">
+        <a class="value value-link" href="https://github.com/esthyj" target="_blank" rel="noopener">github.com/esthyj</a>
+        <span class="action-none"></span>
+      </div>
+
+      <div class="contact-row">
+        <svg class="contact-icon i-linkedin" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.454C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
         <span class="label">LINKEDIN</span>
         <span class="value">yeeun-jeon-belu</span>
-      </a>
+        <button class="copy-btn" type="button" data-copy="https://www.linkedin.com/in/yeeun-jeon-belu/" aria-label="Copy LinkedIn profile URL">
+          <svg class="ic-copy" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="ic-check" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </button>
+      </div>
+
     </div>
   </div>
 </section>
 
 <footer>
-  © 2026 Yeeun Jeon · Built with Pretendard
+  © 2026 Yeeun Jeon
 </footer>
 
 

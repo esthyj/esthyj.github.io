@@ -1,369 +1,630 @@
+/* ═══════════════════════════════════════════════════════════════
+   색상·폰트는 아래 :root 변수만 바꾸면 사이트 전체에 반영됩니다.
+   (디자인 스펙 원본: desing-beluga.md)
+   ═══════════════════════════════════════════════════════════════ */
 :root{
-  --bg:#ffffff;
-  --title:#0066cc;
-  --sub:#BFBFBF;
-  --text:#1d1d1f;
-  --line:rgba(29,29,31,.08);
-  --card:#fafafa;
-  --shadow:0 10px 40px rgba(0,102,204,.08);
+  --bg:#0B0F14;          /* 페이지 배경 */
+  --bg-elev:#11161D;     /* 카드 · 패널 */
+  --bg-term:#0E141B;     /* 터미널 본문 */
+  --line:rgba(230,237,243,.10);
+  --text:#E6EDF3;        /* 본문 */
+  --muted:#8B949E;       /* 보조 텍스트 */
+  --accent:#58A6FF;      /* 주 강조 (링크 · 하이라이트) */
+  --accent-2:#56D4FF;    /* 보조 강조 — 하늘색 (프롬프트 · 진행 중 상태) */
+  --radius:12px;
+  --shadow:0 12px 40px rgba(0,0,0,.45);
+  /* 본문 기본 글꼴 = 고정폭(JetBrains Mono). 한글 글리프가 없어 한글은 Pretendard 로 자동 대체된다. */
+  --mono:'JetBrains Mono','Pretendard Variable',Pretendard,ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* 큰 제목 전용 비례폭 글꼴 — 본문이 전부 고정폭이라 제목만 이걸로 대비를 준다 */
+  --sans:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+/* 본문 전체가 고정폭 — 코드 에디터 톤을 위해 의도한 것.
+   고정폭은 같은 px 에서도 더 크고 넓게 보여서, 아래 본문 요소들의 font-size 를
+   Pretendard 시절보다 1px 안팎 줄이고 line-height 를 키워 균형을 맞춰 두었다. */
 body{
-  font-family:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family:var(--mono);
   background:var(--bg);
   color:var(--text);
   line-height:1.6;
+  letter-spacing:-.2px;
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
+/* 큰 제목만 비례폭으로 남겨 본문과 대비를 준다 */
+.section-title,
+.about-name,
+.exp-name,
+.pub-card h3,
+.edu-card h3,
+.award-card h3,
+.contact h2{font-family:var(--sans)}
 
-/* Floating background blobs */
-.blob{
-  position:fixed;
-  border-radius:50%;
-  filter:blur(80px);
-  opacity:.35;
-  z-index:-1;
-  pointer-events:none;
+/* 배경 그리드 도트 */
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(rgba(88,166,255,.12) 1px, transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%);
 }
-.blob-1{width:520px;height:520px;background:#0066cc;top:-180px;right:-160px;animation:float1 18s ease-in-out infinite}
-.blob-2{width:420px;height:420px;background:#7ab8ff;bottom:-160px;left:-120px;animation:float2 22s ease-in-out infinite}
-.blob-3{width:300px;height:300px;background:#cce4ff;top:40%;left:50%;animation:float3 26s ease-in-out infinite}
-@keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,80px) scale(1.1)}}
-@keyframes float2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,-60px) scale(1.15)}}
-@keyframes float3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-30%,-70%) scale(1.2)}}
 
-/* Navigation */
+a{color:var(--accent)}
+::selection{background:rgba(88,166,255,.28)}
+
+/* 키보드 포커스 링 */
+a:focus-visible, button:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+/* ─────────────────────────────── Navigation */
 nav{
   position:fixed;top:0;left:0;right:0;
   z-index:100;
-  backdrop-filter:saturate(180%) blur(20px);
-  -webkit-backdrop-filter:saturate(180%) blur(20px);
-  background:rgba(255,255,255,.7);
+  backdrop-filter:saturate(140%) blur(14px);
+  -webkit-backdrop-filter:saturate(140%) blur(14px);
+  background:rgba(11,15,20,.78);
   border-bottom:1px solid var(--line);
-  transition:transform .4s ease;
 }
-nav.hidden{transform:translateY(-100%)}
 .nav-inner{
   max-width:1100px;margin:0 auto;
   padding:14px 32px;
   display:flex;justify-content:space-between;align-items:center;
 }
-.logo{font-weight:800;font-size:18px;color:var(--title);letter-spacing:-.5px}
-.nav-links{display:flex;gap:28px;list-style:none}
+.logo{
+  font-family:var(--mono);font-weight:700;font-size:16px;
+  color:var(--text);letter-spacing:-.5px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:9px;
+}
+/* 로고 옆 아이콘 — 교체는 index.html 의 <img class="logo-mark"> 경로 */
+.logo-mark{
+  width:24px;height:24px;
+  object-fit:contain;display:block;
+  transition:transform .25s ease;
+}
+.logo:hover .logo-mark{transform:translateY(-2px) rotate(-6deg)}
+.nav-links{display:flex;gap:26px;list-style:none}
 .nav-links a{
-  color:var(--text);text-decoration:none;font-size:14px;font-weight:500;
+  font-family:var(--mono);
+  color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;
   position:relative;transition:color .2s;
 }
 .nav-links a::after{
   content:'';position:absolute;left:0;bottom:-6px;
-  width:0;height:2px;background:var(--title);
+  width:0;height:1px;background:var(--accent);
   transition:width .3s ease;
 }
-.nav-links a:hover{color:var(--title)}
+.nav-links a:hover{color:var(--text)}
 .nav-links a:hover::after{width:100%}
 
-/* Scroll progress bar */
+/* 모바일 햄버거 버튼 (860px 이하에서만 노출) */
+.nav-toggle{
+  display:none;
+  flex-direction:column;justify-content:center;gap:5px;
+  width:40px;height:36px;padding:8px;
+  background:transparent;border:1px solid var(--line);border-radius:8px;
+  cursor:pointer;
+}
+.nav-toggle span{
+  display:block;height:2px;width:100%;
+  background:var(--text);border-radius:2px;
+  transition:transform .3s ease, opacity .2s ease;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* 상단 스크롤 진행바 */
 .progress{
-  position:fixed;top:0;left:0;height:3px;
-  background:linear-gradient(90deg,#0066cc,#7ab8ff);
+  position:fixed;top:0;left:0;height:2px;
+  background:linear-gradient(90deg,var(--accent-2),var(--accent));
   z-index:101;width:0%;
   transition:width .1s linear;
 }
 
-/* Side TOC (left) */
+/* ─────────────────────────────── 좌측 목차(TOC)
+   화면 왼쪽 세로 중앙에 글씨만 고정. 배경·테두리·점 표식은 의도적으로 전부 없앴고,
+   지금 보고 있는 섹션만 --accent 색으로 칠해서 구분한다.
+   ※ 첫 화면(About)부터 바로 보인다 — 예전엔 40%쯤 스크롤해야 나타났지만
+     사용자 요청으로 스크롤 조건을 없애고, 대신 로드 시 한 번만 부드럽게 나타나게 했다.
+   ※ left 계산식과 맨 아래 숨김 breakpoint 는 한 쌍이다.
+     본문 폭(1100px)이나 글자 크기를 바꾸면 둘 다 다시 계산할 것 —
+     배경이 없어서 본문에 조금만 닿아도 글자끼리 겹쳐 보인다. */
 .toc{
-  position:fixed;top:50%;left:24px;transform:translateY(-50%);
+  position:fixed;
+  top:50%;transform:translateY(-50%);   /* 세로 중앙 */
+  left:max(24px, calc(50% - 710px));    /* 550(본문 절반) + 약 120(목록 폭) + 여백 40 */
   z-index:90;
-  padding:18px 14px;
-  background:rgba(255,255,255,.6);
-  backdrop-filter:saturate(180%) blur(14px);
-  -webkit-backdrop-filter:saturate(180%) blur(14px);
-  border:1px solid var(--line);
-  border-radius:16px;
-  box-shadow:0 6px 24px rgba(0,102,204,.06);
-  opacity:0;transform:translate(-12px,-50%);
-  transition:opacity .5s ease, transform .5s ease;
+  animation:tocIn .6s ease both;
 }
-.toc.show{opacity:1;transform:translate(0,-50%)}
-.toc ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+/* transform 에 translateY(-50%) 가 들어 있으므로 등장 애니메이션에서도 계속 유지할 것 —
+   빼먹으면 나타나는 순간 목록이 아래로 툭 떨어진다 */
+@keyframes tocIn{
+  from{opacity:0;transform:translate(-10px,-50%)}
+  to  {opacity:1;transform:translate(0,-50%)}
+}
+.toc ul{list-style:none;display:flex;flex-direction:column;gap:9px}
 .toc li a{
-  display:flex;align-items:center;gap:10px;
-  padding:8px 10px;border-radius:10px;
-  text-decoration:none;color:var(--sub);
-  font-size:13px;font-weight:600;letter-spacing:.3px;
-  transition:color .25s ease, background .25s ease, padding .25s ease;
+  display:block;
+  text-decoration:none;color:var(--muted);
+  font-family:var(--mono);
+  font-size:12px;font-weight:500;letter-spacing:.2px;
   white-space:nowrap;
+  transition:color .25s ease;
 }
-.toc li a::before{
-  content:'';display:block;
-  width:6px;height:6px;border-radius:50%;
-  background:#d8d8d8;flex-shrink:0;
-  transition:background .25s ease, transform .25s ease;
-}
-.toc li a:hover{color:var(--title);background:rgba(0,102,204,.06)}
-.toc li a:hover::before{background:var(--title)}
-.toc li a.active{
-  color:var(--title);
-  background:rgba(0,102,204,.08);
-  padding-left:14px;
-}
-.toc li a.active::before{
-  background:var(--title);
-  transform:scale(1.4);
-  box-shadow:0 0 0 4px rgba(0,102,204,.15);
-}
-@media (max-width: 1180px){
+.toc li a:hover{color:var(--text)}
+/* 현재 섹션 — 색으로 구분. 고정폭 글꼴이라 굵어져도 글자 너비가 밀리지 않는다 */
+.toc li a.active{color:var(--accent);font-weight:700}
+/* 본문 옆에 글자가 들어갈 자리가 없어지는 폭부터는 숨김 (상단 nav가 대신함) */
+@media (max-width: 1360px){
   .toc{display:none}
 }
 
-/* Hero */
-.hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  text-align:center;padding:120px 24px 80px;
-  position:relative;
-}
-.hero-sub{
-  color:var(--sub);font-size:14px;font-weight:600;
-  letter-spacing:4px;text-transform:uppercase;
-  margin-bottom:20px;opacity:0;animation:fadeUp .8s .2s forwards;
-}
-.hero-title{
-  font-size:clamp(48px, 8vw, 96px);
-  font-weight:800;letter-spacing:-2.5px;line-height:1.05;
-  margin-bottom:24px;color:var(--text);
-  opacity:0;animation:fadeUp .9s .4s forwards;
-}
-.hero-title .accent{
-  background:linear-gradient(120deg,#0066cc 0%,#3a8eff 50%,#0066cc 100%);
-  background-size:200% auto;
-  -webkit-background-clip:text;background-clip:text;
-  color:transparent;
-  animation:shine 4s linear infinite;
-}
-@keyframes shine{to{background-position:200% center}}
-.hero-desc{
-  font-size:20px;color:#555;max-width:600px;
-  opacity:0;animation:fadeUp 1s .6s forwards;
-}
-.typed{display:inline-block;color:var(--title);font-weight:700;min-width:180px;text-align:left}
-.typed::after{content:'|';margin-left:2px;animation:blink 1s step-end infinite}
-@keyframes blink{50%{opacity:0}}
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-.scroll-hint{
-  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
-  color:var(--sub);font-size:12px;letter-spacing:2px;
-  opacity:0;animation:fadeUp 1s 1.2s forwards;
-}
-.scroll-hint .dot{
-  width:6px;height:6px;border-radius:50%;background:var(--title);
-  margin:8px auto 0;animation:bounce 1.6s infinite;
-}
-@keyframes bounce{
-  0%,100%{transform:translateY(0);opacity:1}
-  50%{transform:translateY(10px);opacity:.4}
-}
-
-/* Sections */
-section{padding:120px 24px;max-width:1100px;margin:0 auto}
-.section-tag{
-  color:var(--sub);font-size:13px;font-weight:600;
-  letter-spacing:3px;text-transform:uppercase;
-  margin-bottom:12px;
-}
+/* ─────────────────────────────── 섹션 공통 */
+section{padding:110px 24px;max-width:1100px;margin:0 auto}
+/* ※ .section-tag ($ 01 · $ contact --list 같은 터미널 말머리)는 전부 삭제됨.
+     각 섹션은 .section-title 로 바로 시작한다. */
 .section-title{
-  font-size:clamp(32px,5vw,56px);
+  font-size:clamp(32px,5vw,52px);
   font-weight:800;letter-spacing:-1.5px;line-height:1.1;
-  color:var(--title);margin-bottom:48px;
+  color:var(--text);margin-bottom:44px;
 }
-
-/* Reveal animation */
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease, transform .8s ease}
+/* 스크롤 등장 애니메이션 */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease, transform .8s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
 
-/* About */
-.about-grid{
-  display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:center;
+/* 공용 칩 (Skills · Education 과목)
+   ※ 칩은 클릭되지 않는 <span> 이므로 hover 효과를 일부러 두지 않는다.
+     테두리·배경은 칩의 기본 모양이고, 마우스를 올려도 아무 변화가 없어야 한다. */
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:12.5px;font-weight:500;
+  color:var(--text);
+  padding:6px 11px;
+  background:rgba(230,237,243,.04);
+  border:1px solid var(--line);border-radius:7px;
 }
+/* 칩 안의 기술 로고 (icons/*.svg) — 크기는 여기서만 조절 */
+.chip-icon{
+  width:16px;height:16px;display:block;flex-shrink:0;
+  /* 어두운 배경에서 로고가 너무 튀지 않도록 살짝 눌러둔다 */
+  opacity:.85;
+}
+
+/* ─────────────────────────────── About */
+.about-grid{
+  display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:center;
+}
+/* 사진 + 이름/직함을 묶는 왼쪽 칼럼 — 사진 크기는 이 max-width 로 조절 */
+.about-card{max-width:260px;margin:0 auto;text-align:center}
+/* 정원형 프레임 — aspect-ratio:1/1 + border-radius:50% (둘 다 있어야 완전한 원) */
 .about-img{
-  position:relative;border-radius:28px;overflow:hidden;
+  position:relative;border-radius:50%;overflow:hidden;
+  border:1px solid var(--line);
   box-shadow:var(--shadow);aspect-ratio:1/1;
 }
-.about-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
-.about-img:hover img{transform:scale(1.05)}
-.about-text{font-size:22px;line-height:1.7;color:var(--text)}
-.about-text strong{color:var(--title);font-weight:700}
+/* 원형에 맞춰 세로가 잘릴 때 위쪽(머리)을 기준으로 남긴다 — 두 번째 값을 키우면 아래쪽으로 내려간다 */
+/* ※ 사진은 링크가 아니므로 hover 확대 효과를 두지 않는다 */
+.about-img img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  display:block;
+}
+/* 사진 아래 이름 · 직함 */
+.about-name{
+  font-size:28px;font-weight:800;letter-spacing:-.5px;line-height:1.2;
+  color:var(--text);margin-top:24px;
+}
+.about-role{
+  font-family:var(--mono);
+  font-size:13px;font-weight:500;letter-spacing:1.5px;
+  color:var(--accent);margin-top:9px;
+}
+/* 소개 문단 — 본문과 같은 고정폭이지만 도입부라 한 단계 크게 */
+.about-text{
+  font-family:var(--mono);
+  font-size:17px;line-height:1.9;letter-spacing:-.2px;
+  color:var(--text);
+}
+.about-text strong{color:var(--accent);font-weight:700}
 
-/* Stats */
-.stats{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:24px;margin-top:48px;
+/* ─────────────────────────────── Skills (ABOUT 소개 문단 아래에 들어감) */
+.skills-grid{display:flex;flex-direction:column;gap:0;margin-top:36px}
+/* 행 높이는 이 padding 이 거의 다 결정한다 (글자 크기는 그대로 두고 여백만 조절할 것) */
+.skill-group{
+  display:grid;grid-template-columns:160px 1fr;gap:24px;align-items:start;
+  padding:13px 0;
+  border-top:1px solid var(--line);
 }
-.stat{
-  background:var(--card);border-radius:20px;padding:28px;
-  border:1px solid var(--line);
-  transition:transform .3s ease, box-shadow .3s ease;
+.skill-group:last-child{border-bottom:1px solid var(--line)}
+.skill-label{
+  font-family:var(--mono);
+  font-size:12px;font-weight:700;letter-spacing:1.5px;
+  color:var(--muted);padding-top:7px;
 }
-.stat:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
-.stat-num{
-  font-size:42px;font-weight:800;color:var(--title);
-  letter-spacing:-1px;line-height:1;
-}
-.stat-label{color:var(--sub);font-size:13px;margin-top:8px;font-weight:600;letter-spacing:1px}
 
-/* Education */
-.edu-card{
-  display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:center;
-  background:var(--card);border-radius:28px;padding:48px;
-  border:1px solid var(--line);
-}
-.edu-card h3{font-size:32px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-.8px}
-.edu-card .meta{color:var(--sub);font-size:14px;font-weight:600;letter-spacing:1px;margin-bottom:20px}
-.edu-card p{color:#555;font-size:15px;line-height:1.7}
-.edu-img{border-radius:20px;overflow:hidden;aspect-ratio:4/3;box-shadow:var(--shadow)}
-.edu-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
-.edu-img:hover img{transform:scale(1.06)}
+/* ─────────────────────────────── Experience (아코디언)
+   기본은 .exp-head(회사 · 직함 · 기간) 한 줄만 보이고, 누르면 .exp-panel 이 펼쳐진다.
+   펼침은 grid-template-rows 0fr → 1fr 트릭 — 내용 높이를 JS 로 재지 않아도 부드럽게 열린다. */
+.timeline{position:relative;border-top:1px solid var(--line)}
+.exp{border-bottom:1px solid var(--line)}
 
-/* Experience timeline */
-.timeline{position:relative;padding-left:0}
-.exp{
-  display:grid;grid-template-columns:1fr 1.2fr;gap:48px;
-  margin-bottom:80px;align-items:center;
+/* 버튼을 감싸는 제목 요소 — 글자 스타일은 안쪽 .exp-name 이 담당한다 */
+.exp-title{margin:0;font:inherit}
+.exp-head{
+  width:100%;display:flex;align-items:center;gap:20px;
+  /* 세로 여백으로만 행 높이를 조절한다 — 글자 크기는 건드리지 않음.
+     아래 .exp-logo 의 36px 이 행 높이의 하한선이라 여백을 더 줄여도 효과가 없다 */
+  padding:16px 6px;
+  background:transparent;border:0;color:inherit;font:inherit;
+  text-align:left;cursor:pointer;
+  transition:background .25s ease;
 }
-.exp.reverse{grid-template-columns:1.2fr 1fr}
+.exp-head:hover{background:rgba(88,166,255,.04)}
+/* 회사 로고 — 워드마크(Samsung, 6.5:1)와 세로형(Hanwha, 1.5:1)의 비율이 크게 달라
+   고정 폭 슬롯 + object-fit:contain 으로 맞춘다. 폭을 고정해야 네 줄의
+   글자 시작 위치가 세로로 정렬된다.
+   ※ object-position 은 center — left 로 두면 슬롯을 꽉 채우는 Samsung 과 달리
+     폭이 절반뿐인 Hanwha 가 왼쪽으로 치우쳐 보인다.
+   로고 파일 자체는 icons/ 에 다크 배경용으로 색을 고쳐 넣어 두었다 (원본은 검정이라 묻힘) */
+.exp-logo{
+  flex-shrink:0;
+  width:96px;height:36px;
+  object-fit:contain;object-position:center;
+  opacity:.88;transition:opacity .25s ease;
+}
+.exp-head:hover .exp-logo{opacity:1}
+.exp-head-text{display:block;flex:1;min-width:0}
+/* 글꼴은 위쪽 "큰 제목" 목록에서 --sans 로 지정됨 */
+.exp-name{
+  display:block;
+  font-size:22px;font-weight:800;letter-spacing:-.6px;line-height:1.3;
+  color:var(--text);
+}
+/* 펼침 화살표 — 접힘 ∨ / 펼침 ∧ (테두리 두 변을 회전시켜 그림) */
+.exp-chevron{
+  flex-shrink:0;width:10px;height:10px;
+  border-right:2px solid var(--muted);
+  border-bottom:2px solid var(--muted);
+  transform:rotate(45deg);margin-bottom:5px;
+  transition:transform .35s ease, border-color .25s ease;
+}
+.exp-head:hover .exp-chevron{border-color:var(--accent)}
+.exp.open .exp-chevron{transform:rotate(-135deg);margin-bottom:-5px;border-color:var(--accent)}
+
+.exp-panel{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .45s ease;
+}
+.exp.open .exp-panel{grid-template-rows:1fr}
+/* 접혀 있는 동안 안쪽 링크가 Tab 순서·스크린리더에 남지 않도록 visibility 로 감춘다.
+   visibility 는 전환 중에는 계속 visible 로 유지되므로 닫힘 애니메이션도 정상으로 보인다. */
+.exp-body{
+  overflow:hidden;min-height:0;
+  visibility:hidden;opacity:0;
+  transition:visibility .45s ease, opacity .35s ease;
+}
+.exp.open .exp-body{visibility:visible;opacity:1}
+/* 펼친 내용 = 기존 2단 레이아웃. .reverse 면 이미지가 우측으로 간다 */
+.exp-grid{
+  display:grid;grid-template-columns:1fr 1.2fr;gap:44px;align-items:center;
+  padding:4px 6px 32px;
+}
+.exp.reverse .exp-grid{grid-template-columns:1.2fr 1fr}
 .exp-img{
-  border-radius:24px;overflow:hidden;
+  border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--line);
   box-shadow:var(--shadow);aspect-ratio:4/3;
   position:relative;
 }
-.exp-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
-.exp-img:hover img{transform:scale(1.06)}
+.exp-img img{width:100%;height:100%;object-fit:cover;display:block}
 .exp-img::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(0,102,204,0) 0%,rgba(0,102,204,.1) 100%);
+  background:linear-gradient(160deg,rgba(11,15,20,0) 40%,rgba(11,15,20,.55) 100%);
   pointer-events:none;
 }
-.exp-content .role{
-  color:var(--title);font-size:13px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;
+.exp .role{
+  font-family:var(--mono);
+  display:block;
+  color:var(--accent);font-size:12px;font-weight:700;
+  letter-spacing:1.2px;margin-bottom:10px;
 }
-.exp-content h3{font-size:28px;font-weight:800;letter-spacing:-.8px;margin-bottom:6px;color:var(--text)}
-.exp-content .date{color:var(--sub);font-size:13px;font-weight:600;margin-bottom:20px;letter-spacing:1px}
-.exp-content ul{list-style:none;padding:0}
-.exp-content li{
-  padding:10px 0;color:#444;font-size:15px;line-height:1.7;
+.exp .date{
+  font-family:var(--mono);
+  color:var(--muted);font-size:12.5px;font-weight:500;margin-top:9px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.exp-detail ul{list-style:none;padding:0}
+.exp-detail li{
+  padding:7px 0;color:#B6C2CF;font-size:13.5px;line-height:1.7;
   border-bottom:1px solid var(--line);
   display:flex;gap:12px;
 }
-.exp-content li::before{
-  content:'';display:block;width:6px;height:6px;border-radius:50%;
-  background:var(--title);margin-top:10px;flex-shrink:0;
+/* margin-top 은 첫 줄 높이의 절반 − 점 반지름 — font-size/line-height 를 바꾸면 같이 조정.
+   지금 값: 13.5 × 1.7 ÷ 2 − 2.5 ≈ 9 */
+.exp-detail li::before{
+  content:'';display:block;width:5px;height:5px;border-radius:50%;
+  background:var(--accent);margin-top:9px;flex-shrink:0;
 }
-.exp-content li:last-child{border-bottom:none}
+.exp-detail li:last-child{border-bottom:none}
 .highlight{
-  margin-top:20px;padding:14px 18px;
-  background:linear-gradient(135deg,rgba(0,102,204,.08),rgba(0,102,204,.02));
-  border-left:3px solid var(--title);border-radius:8px;
-  font-size:14px;color:var(--text);font-weight:600;
+  margin-top:18px;padding:13px 16px;
+  background:rgba(88,166,255,.07);
+  border-left:2px solid var(--accent);border-radius:0 8px 8px 0;
+  /* JetBrains Mono 는 400·500·700 만 불러오므로 600 대신 500 을 쓴다 */
+  font-size:12.5px;line-height:1.7;color:var(--text);font-weight:500;
 }
+.highlight a{font-family:var(--mono);font-size:13px;text-decoration:none}
+.highlight a:hover{text-decoration:underline}
 
-/* RAG accuracy bar */
-.acc-bar{margin-top:20px;background:var(--card);padding:18px;border-radius:14px;border:1px solid var(--line)}
-.acc-row{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px}
-.acc-track{height:8px;background:#e8e8e8;border-radius:4px;overflow:hidden;margin-bottom:14px}
-.acc-fill{height:100%;background:linear-gradient(90deg,#7ab8ff,#0066cc);border-radius:4px;width:0;transition:width 1.5s ease}
+/* RAG 정확도 막대 */
+.acc-bar{
+  margin-top:18px;background:var(--bg-elev);
+  padding:16px;border-radius:var(--radius);border:1px solid var(--line);
+}
+.acc-row{
+  display:flex;justify-content:space-between;
+  font-family:var(--mono);
+  font-size:12px;font-weight:500;color:var(--text);margin-bottom:7px;
+}
+.acc-track{height:6px;background:#21262D;border-radius:3px;overflow:hidden;margin-bottom:14px}
+.acc-track:last-child{margin-bottom:0}
+.acc-fill{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));border-radius:3px;width:0;transition:width 1.5s ease}
 
-/* Publications */
+/* ─────────────────────────────── Publications */
+/* ※ 카드 자체는 클릭되지 않는다 (안쪽 .pub-link 만 링크) — 그래서 카드에는
+     hover 로 떠오르거나 테두리 색이 바뀌는 효과를 두지 않는다 */
 .pub-card{
-  background:var(--card);border-radius:24px;padding:36px;
+  background:var(--bg-elev);border-radius:var(--radius);padding:32px;
   border:1px solid var(--line);
-  transition:transform .3s ease, box-shadow .3s ease;
 }
-.pub-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.pub-card .meta{color:var(--sub);font-size:13px;font-weight:600;letter-spacing:1px;margin-bottom:8px}
-.pub-card h3{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-.4px;line-height:1.4}
-.pub-card a{color:var(--title);font-size:14px;font-weight:600;text-decoration:none}
-.pub-card a:hover{text-decoration:underline}
-.pub-card p{margin-top:16px;color:#444;font-size:15px;line-height:1.7}
-.pub-card p strong{color:var(--title)}
+.pub-card .meta{
+  font-family:var(--mono);
+  color:var(--muted);font-size:12px;font-weight:500;letter-spacing:.8px;margin-bottom:10px;
+}
+.pub-card h3{font-size:21px;font-weight:800;color:var(--text);margin-bottom:14px;letter-spacing:-.4px;line-height:1.45}
+.pub-link{
+  display:inline-block;
+  font-family:var(--mono);font-size:12.5px;font-weight:500;
+  color:var(--accent);text-decoration:none;
+  padding:7px 13px;border:1px solid rgba(88,166,255,.35);border-radius:8px;
+  transition:background .25s ease, border-color .25s ease;
+}
+.pub-link:hover{background:rgba(88,166,255,.1);border-color:var(--accent)}
+.pub-card p{margin-top:18px;color:#B6C2CF;font-size:13.5px;line-height:1.85}
+.pub-card p strong{color:var(--accent)}
+.pub-card p em{color:var(--text);font-style:normal;border-bottom:1px dashed var(--muted)}
 
-/* Awards & Certs */
-.two-col{display:grid;grid-template-columns:1fr 1.4fr;gap:32px}
+/* ─────────────────────────────── Education */
+.edu-card{
+  display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:center;
+  background:var(--bg-elev);border-radius:var(--radius);padding:40px;
+  border:1px solid var(--line);
+}
+/* 교표 + 학교명·학위를 한 줄로 묶는 머리 부분.
+   가로형 워드마크를 쓸 때는 글자가 겹쳐 보여 제목 "위"에 뒀지만,
+   원형 교표는 폭이 좁아 제목 "옆"에 두는 편이 자연스럽다. */
+.edu-head{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+/* ※ icons/hanyang-emblem.png 는 100×100 원본 — 58px 까지가 선명한 한계.
+     더 키우려면 고해상도 파일로 교체할 것 (SVG 아님) */
+.edu-logo{
+  flex-shrink:0;
+  width:58px;height:58px;
+  object-fit:contain;
+  opacity:.95;
+}
+.edu-card h3{font-size:28px;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-.8px}
+/* Experience 의 .date 와 같은 구성 — 텍스트 옆에 배지가 붙을 수 있도록 flex */
+.edu-card .meta{
+  font-family:var(--mono);
+  color:var(--muted);font-size:13px;font-weight:500;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+/* 우등 졸업 표시 — 알약(테두리+배경) 모양이었으나 사용자 요청으로 글자만 남김.
+   inline-flex 인 이유: 이모지와 글자의 세로 중심을 맞추고 gap 으로 간격을 주기 위함
+   (그냥 텍스트로 두면 이모지가 baseline 기준이라 살짝 내려앉는다) */
+.badge-honor{
+  display:inline-flex;align-items:center;gap:5px;
+  color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.5px;
+  white-space:nowrap;
+}
+/* 이모지는 letter-spacing 이 뒤에 붙어 간격이 벌어지므로 0 으로 되돌린다 */
+.badge-emoji{font-size:12px;letter-spacing:0}
+.edu-img{
+  border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;
+  border:1px solid var(--line);box-shadow:var(--shadow);
+}
+.edu-img img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ─────────────────────────────── Awards & Certifications */
+/* 왼쪽 칼럼(수상 위 · 자격증 아래) + 오른쪽 사진.
+   사진 칸이 왼쪽 칼럼 높이를 따라가도록 align-items 는 기본값(stretch)으로 둔다 —
+   여기에 align-items:start 를 넣으면 사진이 위에만 붙고 아래가 비어 보인다. */
+.award-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:24px}
+.award-col{display:flex;flex-direction:column;gap:24px}
 .award-card, .cert-card{
-  background:var(--card);border-radius:24px;padding:32px;
+  background:var(--bg-elev);border-radius:var(--radius);padding:28px;
   border:1px solid var(--line);
 }
+/* ※ 수상 카드도 클릭 대상이 아니므로 hover 효과 없음 */
 .award-card{
-  background:linear-gradient(135deg,#0066cc,#3a8eff);
-  color:#fff;border:none;
-  padding:0;overflow:hidden;
-  display:flex;flex-direction:column;
-  transition:transform .3s ease;
+  background:linear-gradient(150deg,#132A45,#0D1B2A);
+  border:1px solid rgba(88,166,255,.3);
 }
-.award-card:hover{transform:translateY(-6px) rotate(-1deg)}
-.award-card .award-photo{aspect-ratio:4/3;overflow:hidden}
-.award-card .award-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
-.award-card:hover .award-photo img{transform:scale(1.06)}
-.award-card .award-body{padding:24px 28px}
-.award-card .label{font-size:12px;font-weight:700;letter-spacing:2px;opacity:.85;margin-bottom:12px}
-.award-card h3{font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.3;margin-bottom:8px}
-.award-card .date{font-size:13px;opacity:.85}
+/* 사진 — 왼쪽 칼럼 높이에 맞춰 채운다.
+   ※ img 를 position:absolute 로 띄우는 게 핵심이다. 원본이 1200×1600 세로 사진이라
+     그냥 두면 사진 자신의 높이가 행 높이를 결정해 버려서, 왼쪽 자격증 카드 아래에
+     빈 공간이 크게 남는다. absolute 로 빼면 행 높이는 왼쪽 칼럼이 정하고
+     사진은 그 높이를 채우기만 한다. */
+.award-photo{
+  position:relative;overflow:hidden;
+  border-radius:var(--radius);
+  border:1px solid var(--line);box-shadow:var(--shadow);
+  min-height:280px;
+}
+.award-photo img{
+  position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+/* 두 카드의 머리 라벨 (AWARD / CERTIFICATIONS) — 모양을 똑같이 맞춰서
+   "같은 층위의 다른 묶음"으로 읽히게 한다. 라벨이 없으면 자격증 카드는
+   제목 없이 표만 있는 상태가 되어 수상 카드와 한 덩어리처럼 보인다. */
+.award-card .label, .cert-card .label{
+  font-family:var(--mono);
+  font-size:11px;font-weight:700;letter-spacing:1.5px;
+  margin-bottom:12px;
+}
+/* 색으로 두 블록을 갈라놓는다 — 수상은 파랑(파란 그라데이션 카드와 한 세트),
+   자격증은 흰색. 자격증 라벨을 --muted 로 두면 바로 아래 표의 머리줄과
+   같은 회색·같은 크기가 되어 둘 중 무엇이 제목인지 알 수 없게 된다. */
+.award-card .label{color:var(--accent)}
+.cert-card .label{color:var(--text);margin-bottom:4px}
+/* ※ .cert-card .label 에 border-bottom 을 주지 말 것 — 아래 th 의 밑줄과
+     가로선이 두 줄로 겹쳐 보인다. 간격은 th 의 위쪽 padding(14px)이 만든다 */
+.award-card h3{font-size:22px;font-weight:800;letter-spacing:-.4px;line-height:1.35;margin-bottom:8px;color:var(--text)}
+.award-card .date{font-family:var(--mono);font-size:12px;color:var(--muted)}
 
-.cert-table{width:100%;border-collapse:collapse}
+.cert-table{width:100%;border-collapse:collapse;font-family:var(--mono)}
 .cert-table th, .cert-table td{
-  text-align:left;padding:14px 8px;font-size:14px;
+  text-align:left;padding:14px 8px;font-size:13px;
   border-bottom:1px solid var(--line);
 }
-.cert-table th{color:var(--sub);font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:12px}
+/* 머리줄은 위의 CERTIFICATIONS 라벨보다 한 단계 약하게 (500 · 좁은 자간) —
+   같은 굵기로 두면 라벨과 구별되지 않고 제목이 두 줄인 것처럼 보인다 */
+.cert-table th{color:var(--muted);font-weight:500;letter-spacing:.5px;font-size:11px}
+.cert-table td{color:#B6C2CF}
 .cert-table td:first-child{font-weight:700;color:var(--text)}
-.cert-table td:nth-child(2){color:var(--title);font-weight:600}
+.cert-table td:nth-child(2){color:var(--accent-2)}
 .cert-table tr:last-child td{border-bottom:none}
 
-/* Contact */
+/* ─────────────────────────────── Contact */
 .contact{
-  text-align:center;padding:120px 24px;
-  background:linear-gradient(180deg,transparent 0%,#f4f9ff 100%);
+  text-align:center;padding:110px 24px 120px;
+  background:linear-gradient(180deg,transparent 0%,#0E1620 100%);
+  max-width:none;
 }
-.contact h2{font-size:clamp(40px,6vw,72px);font-weight:800;letter-spacing:-2px;color:var(--text);margin-bottom:16px}
-.contact h2 .accent{color:var(--title)}
-.contact p{color:var(--sub);font-size:16px;margin-bottom:48px}
-.contact-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:20px;max-width:900px;margin:0 auto;
+.contact h2{font-size:clamp(38px,6vw,66px);font-weight:800;letter-spacing:-2px;color:var(--text);margin-bottom:14px}
+.contact h2 .accent{color:var(--accent)}
+.contact p{color:var(--muted);font-size:13.5px;margin-bottom:44px}
+/* 연락처 목록 — 클릭되지 않는 텍스트. 카드·테두리·hover 효과 전부 없앰.
+   가운데 정렬이면서 세 칸(아이콘·라벨·값)은 세로로 줄이 맞아야 하므로,
+   목록 자체를 글자 폭(max-content)만큼만 잡아서 margin:auto 로 가운데 보낸다.
+   → 각 줄을 따로 가운데 정렬하면 값의 시작 위치가 들쭉날쭉해진다. */
+.contact-list{
+  display:grid;grid-template-columns:auto auto auto auto;
+  align-items:center;gap:12px 14px;
+  width:max-content;max-width:100%;
+  margin:0 auto;text-align:left;
 }
-.contact-card{
-  background:#fff;border:1px solid var(--line);
-  padding:24px;border-radius:20px;
-  text-decoration:none;color:var(--text);
-  transition:transform .3s ease, box-shadow .3s ease, border-color .3s;
-  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+/* display:contents = 이 <div> 는 상자를 만들지 않고 자식 네 개를 위 그리드에 직접 넘긴다.
+   덕분에 HTML 에서는 한 줄씩 묶어 두면서도 세로 줄맞춤이 유지된다.
+   ⚠ 대신 자식 수가 4개가 아닌 줄이 하나라도 있으면 그 아래가 전부 옆으로 밀린다 */
+.contact-row{display:contents}
+.contact-icon{width:18px;height:18px;display:block}
+/* 아이콘 색 — SVG 안이 fill="currentColor" 라서 여기 color 만 바꾸면 된다.
+   기술 스택 칩과 달리 연락처는 각자 다른 색을 준다(사용자 요청).
+   GitHub 은 원래 브랜드가 흑백이라 흰색이 정색이다. */
+.i-mail{color:#F0883E}      /* 주황 */
+.i-phone{color:#D2A8FF}     /* 보라 */
+.i-github{color:#E6EDF3}    /* 흰색 — GitHub 브랜드색 */
+.i-linkedin{color:#70B5F9}  /* LinkedIn 파랑 (다크 배경용 밝은 톤) */
+.contact-row .label{
+  font-family:var(--mono);
+  font-size:11px;color:var(--muted);font-weight:500;letter-spacing:1.2px;
 }
-.contact-card:hover{
-  transform:translateY(-6px);
-  box-shadow:var(--shadow);
-  border-color:var(--title);
+.contact-row .value{
+  font-family:var(--mono);font-size:14px;font-weight:500;
+  color:var(--text);word-break:break-all;
 }
-.contact-card .label{font-size:12px;color:var(--sub);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
-.contact-card .value{font-size:16px;font-weight:600}
+/* GITHUB 줄만 실제 링크다. 끝의 ↗ 는 ::after 라서 그리드 칸 수에 영향을 주지 않는다 */
+a.value-link{color:var(--text);text-decoration:none;transition:color .25s ease}
+a.value-link::after{content:' ↗';color:var(--muted);font-size:12px}
+a.value-link:hover{color:var(--accent);text-decoration:underline}
+a.value-link:hover::after{color:var(--accent)}
+/* 링크가 아닌 줄의 오른쪽 빈 칸 — 자리만 차지한다 (위 ⚠ 주석 참고) */
+.action-none{display:block;width:0}
+
+/* 복사 버튼 — 테두리 없는 아이콘 버튼. 누르면 .copied 가 붙어 체크로 바뀐다(script.js) */
+.copy-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;padding:0;
+  background:transparent;border:0;border-radius:6px;
+  color:var(--muted);cursor:pointer;
+  transition:color .25s ease, background .25s ease;
+}
+.copy-btn:hover{color:var(--accent);background:rgba(88,166,255,.10)}
+.copy-btn svg{width:15px;height:15px;display:block}
+.copy-btn .ic-check{display:none}
+.copy-btn.copied{color:var(--accent-2)}
+.copy-btn.copied .ic-copy{display:none}
+.copy-btn.copied .ic-check{display:block}
+
+/* 좁은 화면 — 라벨 칸을 빼고 아이콘 + 값 + 버튼 세 칸만 (라벨 역할은 아이콘이 대신) */
+@media (max-width:560px){
+  .contact-list{grid-template-columns:auto auto auto;gap:10px 12px}
+  .contact-row .label{display:none}
+  .contact-row .value{font-size:13px}
+}
 
 footer{
-  text-align:center;padding:40px 24px;
-  color:var(--sub);font-size:13px;
+  text-align:center;padding:36px 24px;
+  color:var(--muted);font-family:var(--mono);font-size:12px;
   border-top:1px solid var(--line);
 }
 
-/* Responsive */
+/* ─────────────────────────────── 반응형 */
 @media (max-width: 860px){
-  .nav-links{display:none}
-  .about-grid, .edu-card, .exp, .exp.reverse, .two-col{grid-template-columns:1fr;gap:32px}
-  .stats{grid-template-columns:1fr}
+  .nav-inner{padding:12px 20px}
+  .nav-toggle{display:flex}
+  .nav-links{
+    display:none;
+    position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;gap:0;
+    padding:8px 20px 16px;
+    background:rgba(11,15,20,.97);
+    backdrop-filter:saturate(140%) blur(14px);
+    -webkit-backdrop-filter:saturate(140%) blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-links.open{display:flex}
+  .nav-links li{border-bottom:1px solid var(--line)}
+  .nav-links li:last-child{border-bottom:none}
+  .nav-links a{display:block;padding:14px 4px;font-size:14px}
+  .nav-links a::after{display:none}
+
+  /* 고정폭은 좁은 화면에서 줄이 빨리 넘어가므로 도입부 문단을 한 단계 더 줄인다 */
+  .about-text{font-size:15px;line-height:1.85}
+  .about-grid, .edu-card, .exp-grid, .exp.reverse .exp-grid, .award-grid{grid-template-columns:1fr;gap:28px}
+  /* 한 칸으로 접히면 사진이 세로로 너무 길어지므로 높이를 고정한다 */
+  .award-photo{min-height:0;aspect-ratio:4/3}
+  .exp-head{padding:20px 4px;gap:14px}
+  .exp-logo{width:66px;height:28px}
+  .exp-name{font-size:19px}
+  .skill-group{grid-template-columns:1fr;gap:12px}
+  .skill-label{padding-top:0}
   section{padding:80px 20px}
-  .edu-card{padding:28px}
+  .edu-card{padding:26px}
+}
+
+/* 인쇄·PDF 저장 시에는 접힌 경력도 모두 펼쳐서 나오게 한다 (이력서로 뽑는 경우) */
+@media print{
+  .exp-panel{grid-template-rows:1fr}
+  .exp-body{visibility:visible;opacity:1}
+  .exp-chevron{display:none}
+}
+
+/* 동작 줄이기 설정을 켠 사용자는 애니메이션 없이 최종 상태로 */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *, *::before, *::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .reveal{opacity:1;transform:none}
+  .toc{opacity:1;transform:translate(0,-50%)}
 }
